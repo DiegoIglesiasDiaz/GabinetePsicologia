@@ -2,7 +2,8 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using GabinetePsicologia.Shared
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Paciente")]
+
 @inject HttpClient Http
 
 <PageTitle>Weather forecast</PageTitle>
