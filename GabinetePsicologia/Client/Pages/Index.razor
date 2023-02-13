@@ -1,0 +1,22 @@
+﻿@page "/"
+@using GabinetePsicologia.Shared
+@inject HttpClient http
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+<RadzenButton Text="Hi"></RadzenButton>
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity;
+        if (user != null && user.IsAuthenticated)
+        {
+            var pacientes = await http.GetFromJsonAsync<List<Paciente>>("Paciente");
+        }
+    }
+}
