@@ -27,6 +27,25 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-floating">
+                <input asp-for="Input.Nombre" class="form-control" autocomplete="name" aria-required="true" />
+                <label asp-for="Input.Nombre"></label>
+                <span asp-validation-for="Input.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Apellido1" class="form-control" autocomplete="surname1" aria-required="true" />
+                <label asp-for="Input.Apellido1"></label>
+                <span asp-validation-for="Input.Apellido1" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Apellido2" class="form-control" autocomplete="surname2" aria-required="false" />
+                <label asp-for="Input.Apellido2"></label>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.NIF" class="form-control" autocomplete="nif" aria-required="true" />
+                <label asp-for="Input.NIF"></label>
+                <span asp-validation-for="Input.NIF" class="text-danger"></span>
+            </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>

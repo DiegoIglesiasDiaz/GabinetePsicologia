@@ -17,5 +17,6 @@ public abstract class Persona
     }
   
     public string NIF { get; set; }
+    public string ApplicationUserId { get;set; }
 
 }

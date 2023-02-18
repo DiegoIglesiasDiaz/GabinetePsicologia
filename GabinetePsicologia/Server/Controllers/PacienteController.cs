@@ -32,9 +32,18 @@ namespace GabinetePsicologia.Server.Controllers
             //        u=> u.LsPaciente).FirstOrDefaultAsync(
             //        u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
             var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            //await _userManager.AddToRoleAsync(user, "Paciente");
             if (user == null) return NotFound();
             return Ok(user.LsPaciente);
         }
+        [HttpPost]
+        public async Task<ActionResult> RegisterPaciente(Paciente paciente)
+        {
 
+            if(paciente == null) return BadRequest();
+            _context.Pacientes.Add(paciente);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }
