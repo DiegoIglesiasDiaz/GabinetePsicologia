@@ -27,7 +27,7 @@ using GabinetePsicologia.Server.Data;
 
 namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class RegisterPsicologoModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -35,14 +35,14 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
         private readonly PacienteController _pacienteController;
         private readonly ApplicationDbContext _context;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<RegisterPsicologoModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public RegisterPsicologoModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<RegisterPsicologoModel> logger,
             IEmailSender emailSender,
             ApplicationDbContext context
             )
