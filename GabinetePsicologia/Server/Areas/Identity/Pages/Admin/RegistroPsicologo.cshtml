@@ -1,15 +1,22 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Registro Psicologo";
+    var rol = User.IsInRole("Administrador");
+
 }
+
+@if (rol)
+{
+    
+
 
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>Crear un nuevo Psicólogo</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
@@ -83,4 +90,8 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+}
+@else{
+    <h1>No esta autorizado para registrar un nuevo psicólogo</h1>
 }
