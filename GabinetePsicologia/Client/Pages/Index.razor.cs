@@ -8,9 +8,9 @@ namespace GabinetePsicologia.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if (user != null && user.Identity.IsAuthenticated)
+            if (user != null && user.IsInRole("Administrador"))
             {
-                var pacientes = await http.GetFromJsonAsync<List<Paciente>>("Paciente");
+                
             }
 
         }
