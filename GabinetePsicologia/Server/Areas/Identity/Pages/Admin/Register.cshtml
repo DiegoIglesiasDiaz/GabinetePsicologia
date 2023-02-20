@@ -1,0 +1,85 @@
+﻿@page 
+@using GabinetePsicologia.Server.Areas.Identity.Pages.Admin
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registro Usuario";
+    if (ViewData["Message"] != null)
+    {
+        var message = ViewData["Message"] as string;
+    <script type="text/javascript">
+
+            window.onload = function () {
+                $('input').val('')
+                $('*[id*=radio]').prop("checked", false);
+                alert("@message");
+            };
+                
+    </script>
+    }
+
+}
+@if (User.IsInRole("Administrador"))
+{
+
+    <div class="row">
+        <div class="col-md-4">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h2>Crear un nuevo Usuario</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div>
+
+                    <p>Rol:</p>
+                    <input asp-for="Input.Rol" id="radioBttn_Admin" type="radio" value="Administrador" />Administrador
+                    <input asp-for="Input.Rol" id="radioBttn_Psicologo" type="radio" value="Psicologo" />Psicologo
+                    <input asp-for="Input.Rol" id="radioBttn_Paciente" type="radio" value="Paciente" />Paciente
+                    <span asp-validation-for="Input.Rol" class="text-danger"></span>
+                </div><br>
+                <div class="form-floating">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                    <label asp-for="Input.Email"></label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                    <label asp-for="Input.Password"></label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Nombre" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="Input.Nombre"></label>
+                    <span asp-validation-for="Input.Nombre" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Apellido1" class="form-control" autocomplete="surname1" aria-required="true" />
+                    <label asp-for="Input.Apellido1"></label>
+                    <span asp-validation-for="Input.Apellido1" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Apellido2" class="form-control" autocomplete="surname2" aria-required="false" />
+                    <label asp-for="Input.Apellido2"></label>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.NIF" class="form-control" autocomplete="nif" aria-required="true" />
+                    <label asp-for="Input.NIF"></label>
+                    <span asp-validation-for="Input.NIF" class="text-danger"></span>
+                </div>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrar</button>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
+else
+{
+    <h3>No estas autorizado para ver esta página</h3>
+}
+

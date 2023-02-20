@@ -20,13 +20,18 @@ namespace GabinetePsicologia.Server.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<ApplicationUser>().Navigation(e => e.LsAdmin).AutoInclude();
+            builder.Entity<ApplicationUser>().Navigation(e => e.LsPsicologo).AutoInclude();
             builder.Entity<ApplicationUser>().Navigation(e => e.LsPaciente).AutoInclude();
+
             //builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Paciente", NormalizedName = "Paciente", Id = Guid.NewGuid().ToString(), ConcurrencyStamp = Guid.NewGuid().ToString() });
             //builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "Admin", Id = Guid.NewGuid().ToString(), ConcurrencyStamp = Guid.NewGuid().ToString() });
             //builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Psicologo", NormalizedName = "Psicologo", Id = Guid.NewGuid().ToString(), ConcurrencyStamp = Guid.NewGuid().ToString() });
 
         }
         public DbSet<Paciente> Pacientes => Set<Paciente>();
+        public DbSet<Psicologo> Psicologos => Set<Psicologo>();
+        public DbSet<Administrador> Administradores => Set<Administrador>();
 
     }
 }
