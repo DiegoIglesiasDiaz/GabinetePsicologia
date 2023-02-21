@@ -3,14 +3,99 @@
 <RadzenNotification />
 <RadzenContextMenu />
 <RadzenTooltip />
-<div class="page">
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-        </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<RadzenLayout id="@(@NavigationManager.Uri.Equals(@NavigationManager.BaseUri) ? "Home" : Path.GetFileName(NavigationManager.Uri))">
+
+    <RadzenHeader>
+        <div class="headerDiv">
+            <RadzenImage Path="../img/logo.png" class="logo" @onclick="@(_ => NavigationManager.NavigateTo("./"))" />
+            <RadzenMenu>
+                <RadzenMenuItem Path="/Tratamientos">
+                    <Template>
+
+                        <span class="rz-navigation-item-text">TRATAMIENTOS</span>
+                    </Template>
+                </RadzenMenuItem>
+                <RadzenMenuItem Path="/Equipo">
+                    <Template>
+
+                        <span class="rz-navigation-item-text">EQUIPO</span>
+                    </Template>
+                </RadzenMenuItem>
+                <RadzenMenuItem Path="/QuienesSomos">
+                    <Template>
+
+                        <span class="rz-navigation-item-text">QUIENES SOMOS</span>
+                    </Template>
+                </RadzenMenuItem>
+                <RadzenMenuItem Path="/Blog">
+                    <Template>
+
+                        <span class="rz-navigation-item-text">BLOG</span>
+                    </Template>
+                </RadzenMenuItem>
+                <RadzenMenuItem Path="/Contacto">
+                    <Template>
+
+                        <span class="rz-navigation-item-text">CONTACTO</span>
+                    </Template>
+                </RadzenMenuItem>
+            </RadzenMenu>
+            <RadzenMenu class="accountMenu">
+                <AuthorizeView>
+                    <Authorized>
+                        <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@context?.User.Identity?.Name" Icon="account_circle">
+                            <RadzenMenuItem Text="Mis Datos" Path="/Identity/Pages/Account/Manage/Email" />
+                            <RadzenMenuItem Text="Cerrar sesión" Path="/Logout" />
+                        </RadzenMenuItem>
+                    </Authorized>
+                    <NotAuthorized>
+                        <RadzenMenuItem Path="/Identity/Account/Login">
+                            <Template>
+
+                                <span class="rz-navigation-item-text">LOGIN</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Path="/Identity/Account/Register">
+                            <Template>
+
+                                <span class="rz-navigation-item-text">REGISTER</span>
+                            </Template>
+                        </RadzenMenuItem>
+                    </NotAuthorized>
+                </AuthorizeView>
+
+            </RadzenMenu>
+        </div>
+    </RadzenHeader>
+
+    <RadzenBody>
+        <ChildContent>
+            <RadzenContentContainer Name="main">
+                <ErrorBoundary @ref="ErrorBoundary">
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                    <ErrorContent>
+                        @{
+                            OnError(context);
+                        }
+                    </ErrorContent>
+                </ErrorBoundary>
+            </RadzenContentContainer>
+        </ChildContent>
+    </RadzenBody>
+
+    <RadzenFooter>
+        <div>
+            <a href="/ContactUs" alt="" title="">Contactar</a>
+            <a href="/Documentation" alt="" title="">Documentaci&oacute;n</a>
+        </div>
+        <div>
+            <a href="/QuestionsAndAnswers" alt="" title="">FAQ</a>
+            <a href="/PoliciesAndPrivacy" alt="" title="">LEGAL</a>
+        </div>
+    </RadzenFooter>
+
+</RadzenLayout>
+

@@ -4,7 +4,11 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 
-<AuthorizeView>
+
+
+
+
+@*<AuthorizeView>
     <Authorized>
         <a href="authentication/profile">Hola, @context.User.Identity?.Name</a>
         <button class="nav-link btn btn-link" @onclick="BeginSignOut">Cerrar Sesión</button>
@@ -34,3 +38,4 @@
         Navigation.NavigateTo("authentication/logout");
     }
 }
+*@

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\GabinetePsicologia.Client.csproj" />
+	  <ProjectReference Include="..\Client\GabinetePsicologia.Client.csproj" />
     <ProjectReference Include="..\Shared\GabinetePsicologia.Shared.csproj" />
   </ItemGroup>
 
