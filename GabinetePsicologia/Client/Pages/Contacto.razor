@@ -1,0 +1,90 @@
+﻿@page "/Contacto"
+@using System.Net.Mail
+@using System.Net
+
+<style>
+    .form{
+        margin:10px;
+    }
+</style>
+
+<Page Title="Contacto">
+    <div style="display: flex; flex-wrap: wrap; margin-bottom: 40px;">
+        <div style="flex: 1; min-width: 300px; margin-right: 2rem;">
+            <h2>Información de Contacto</h2>
+            <p>Clínica de Psicología</p>
+            <p>Dirección: Av. Ejemplo 123</p>
+            <p>Teléfono: (123) 456-7890</p>
+            <p>Correo electrónico: info@clinicadepsicologia.com</p>
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+            <RadzenGoogleMap Latitude="40.4433381" Longitude="-3.6799185" Zoom="16">
+                <RadzenGoogleMapMarker Latitude="40.4433381" Longitude="-3.6799185"></RadzenGoogleMapMarker>
+            </RadzenGoogleMap>
+        </div>
+    </div>
+    <div>
+        <h2>Contáctanos</h2>
+        <RadzenForm Style="max-width: 400px;">
+            <RadzenRequiredValidator Component="name" Text="Nombre es requerido"></RadzenRequiredValidator>
+            <RadzenRequiredValidator Component="email" Text="Correo electrónico es requerido"></RadzenRequiredValidator>
+            <RadzenRequiredValidator Component="message" Text="Mensaje es requerido"></RadzenRequiredValidator>
+            <div class="row">
+                <div class="form">
+                    <RadzenLabel Component="name" Text="Nombre"></RadzenLabel>
+                    <RadzenTextBox @bind-Value="@name" Name="name"></RadzenTextBox>
+                </div>
+                <div class="form">
+                    <RadzenLabel Component="email" Text="Correo electrónico"></RadzenLabel>
+                    <RadzenTextBox @bind-Value="@email" Name="email"></RadzenTextBox>
+                </div>
+                <div class="form">
+                    <RadzenLabel Component="message" Text="Mensaje"></RadzenLabel>
+                    <RadzenTextArea @bind-Value="@message" Name="message"></RadzenTextArea>
+                </div>
+                <div class="form">
+                    <RadzenButton Text="Enviar" Click="@SendMessage"></RadzenButton>
+                </div>
+            </div>
+        </RadzenForm>
+    </div>
+</Page>
+
+@code {
+    string name;
+    string email;
+    string message;
+
+    void SendMessage()
+    {
+        // Configuración del servidor de correo
+        SmtpClient client = new SmtpClient("smtp.example.com", 587);
+        client.UseDefaultCredentials = false;
+        client.Credentials = new NetworkCredential("tu_correo@example.com", "tu_contraseña");
+        client.EnableSsl = true;
+
+        // Creación del mensaje de correo electrónico
+        MailMessage mailMessage = new MailMessage();
+        mailMessage.From = new MailAddress("tu_correo@example.com");
+        mailMessage.To.Add("destinatario@example.com");
+        mailMessage.Subject = "Nuevo mensaje de la clínica de psicología";
+        mailMessage.Body = "Nombre: " + name + "\n" +
+                           "Correo electrónico: " + email + "\n" +
+                           "Mensaje: " + message;
+
+        // Envío del correo electrónico
+        try
+        {
+            client.Send(mailMessage);
+            // Mensaje de éxito
+            //MessageBox.Show("El mensaje ha sido enviado con éxito");
+        }
+        catch (Exception ex)
+        {
+            // Mensaje de error
+            //MessageBox.Show("No se pudo enviar el mensaje. Error: " + ex.Message);
+        }
+    }
+
+}
+

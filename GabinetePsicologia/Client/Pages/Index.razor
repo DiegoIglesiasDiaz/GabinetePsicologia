@@ -4,9 +4,105 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Home</PageTitle>
+<h1>Bienvenido a @Title</h1>
 
-<h1>Hello, world!</h1>
-Welcome to your new app.
-<RadzenButton Text="Hi"></RadzenButton>
-<SurveyPrompt Title="How is Blazor working for you?" />
+<RadzenCard Style="width: 100%; margin-top: 1rem;">
+    <RadzenCardHeader>
+        <h3>Quienes Somos</h3>
+    </RadzenCardHeader>
+    <RadzenCardBody>
+        <p>
+            Somos un equipo de psicólogos con experiencia en diferentes áreas de la salud mental.
+            Ofrecemos una amplia gama de servicios para ayudar a nuestros pacientes a superar los desafíos que enfrentan en sus vidas.
+        </p>
+    </RadzenCardBody>
+    <RadzenCardActions>
+        <a href="/QuienesSomos" class="btn btn-primary">Conócenos</a>
+    </RadzenCardActions>
+</RadzenCard>
+
+<RadzenCard Style="width: 100%; margin-top: 1rem;">
+    <RadzenCardHeader>
+        <h3>Tratamientos</h3>
+    </RadzenCardHeader>
+    <RadzenCardBody>
+        <p>Ofrecemos una amplia variedad de tratamientos para trastornos como ansiedad, depresión, fobias, entre otros. Trabajamos con enfoques terapéuticos como la terapia cognitivo-conductual, la terapia de aceptación y compromiso, y la terapia interpersonal.</p>
+    </RadzenCardBody>
+    <RadzenCardActions>
+        <a href="/tratamientos" class="btn btn-primary">Más información</a>
+    </RadzenCardActions>
+</RadzenCard>
+
+<RadzenCard Style="width: 100%; margin-top: 1rem;">
+    <RadzenCardHeader>
+        <h3>Equipo</h3>
+    </RadzenCardHeader>
+    <RadzenCardBody>
+        <p>Nuestro equipo está conformado por profesionales altamente capacitados y especializados en diversas áreas de la psicología. Estamos comprometidos con el bienestar emocional de nuestros pacientes y trabajamos de manera colaborativa para brindar un enfoque integral en la atención de la salud mental.</p>
+    </RadzenCardBody>
+    <RadzenCardActions>
+        <a href="/equipo" class="btn btn-primary">Conoce a nuestro equipo</a>
+    </RadzenCardActions>
+</RadzenCard>
+
+<RadzenCard Style="width: 100%; margin-top: 1rem;">
+    <RadzenCardHeader>
+        <h3>Blog</h3>
+    </RadzenCardHeader>
+    <RadzenCardBody>
+        <p>En nuestro blog, encontrarás artículos y recursos sobre salud mental y bienestar emocional. Aquí podrás encontrar información y herramientas útiles para comprender y manejar tus emociones, relaciones y desafíos personales.</p>
+    </RadzenCardBody>
+    <RadzenCardActions>
+        <a href="/blog" class="btn btn-primary">Visita nuestro blog</a>
+    </RadzenCardActions>
+</RadzenCard>
+
+<RadzenCard Style="width: 100%; margin-top: 1rem;">
+    <RadzenCardHeader>
+        <h3>Contacto</h3>
+    </RadzenCardHeader>
+    <RadzenCardBody>
+        <p>Para solicitar una cita o realizar consultas, por favor contáctenos a través de nuestro formulario en línea o por teléfono.</p>
+    </RadzenCardBody>
+    <RadzenCardActions>
+        <a href="/Contacto" class="btn btn-primary">Contáctanos</a>
+    </RadzenCardActions>
+</RadzenCard>
+
+<footer>
+    <p></p>
+</footer>
+
+@code {
+    public string Title { get; set; } = "Clínica de Psicología";
+
+    protected override void OnInitialized()
+    {
+        Title = "Clínica de Psicología";
+    }
+}
+@*<html>
+<header class="head">
+    <h2 class="h2head">GABINETE DE PSICOLOGIA</h2>
+      <RadzenImage Path="https://b612consultoria.com.br/wp-content/uploads/sites/12/7-Coisas-que-Voc%C3%AA-deve-Saber-sobre-a-Psicologia-dos-Call-To-Action.jpg" Style="width: 30%;" />
+    <h2 class="h2head">TUS PSICÓLOGOS EN MADRID</h2>
+</header>
+<body class="bodyclass">
+    <div class="menu" style="margin-bottom: 200px;">
+        <RadzenMenu Click="OnParentClicked">
+            <RadzenMenuItem Text="SERVICIOS" Icon="home">
+                <RadzenMenuItem Text="Buttons" Path="buttons" Icon="account_circle"></RadzenMenuItem>
+                <RadzenMenuItem Text="Menu" Path="menu" Icon="line_weight"></RadzenMenuItem>
+                <RadzenMenuItem Click="OnChildClicked" Text="ChildClick" Icon="attach_file"></RadzenMenuItem>
+                <RadzenMenuItem Text="Dialog" Path="dialog" Icon="perm_media"></RadzenMenuItem>
+                <RadzenMenuItem Text="Notification" Path="notification" Icon="announcement"></RadzenMenuItem>
+            </RadzenMenuItem>
+            <RadzenMenuItem Text="QUIENES SOMOS" Path="/QuienesSomos" Icon="account_circle"></RadzenMenuItem>
+            <RadzenMenuItem Text="PRECIOS" Path="templateform" Icon="payment"></RadzenMenuItem>
+            <RadzenMenuItem Text="CONTACTO" Path="/Contacto" Icon="phone"></RadzenMenuItem>
+        </RadzenMenu>
+    </div>
+
+</body>
+</html>*@
 

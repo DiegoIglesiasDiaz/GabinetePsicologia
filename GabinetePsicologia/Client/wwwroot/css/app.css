@@ -2,6 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: khaki;
 }
 
 h1:focus {
@@ -62,3 +63,25 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.head{
+    display:flex;
+    flex-direction:row;
+    background-color:darkslategrey;
+    margin-bottom:20px;
+    color:white;
+    padding: 10px;
+}
+
+.menu{
+    display:flex;
+    align-items:center;
+    justify-content:center; 
+}
+
+.h2head {
+    margin: 20px;
+    text-align:center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
