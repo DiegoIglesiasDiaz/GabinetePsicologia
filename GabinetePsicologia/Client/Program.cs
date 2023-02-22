@@ -17,6 +17,7 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<UsuarioServices>();
+builder.Services.AddScoped<TrastornosServices>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddApiAuthorization();
 

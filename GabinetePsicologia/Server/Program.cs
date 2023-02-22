@@ -32,6 +32,10 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<UsuarioController>();
+builder.Services.AddScoped<TrastornoController>();
+builder.Services.AddScoped<PsicologoController>();
+builder.Services.AddScoped<AdministradorController>();
+builder.Services.AddScoped<PacienteController>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
