@@ -25,8 +25,19 @@ namespace GabinetePsicologia.Client.Services
             var trastornos = await _httpClient.GetFromJsonAsync<List<Trastorno>>("/Trastorno");
             return trastornos;
 
+        }
+        public async void BorrarTrastornos(IList<Trastorno> Trastornos)
+        {
+            await _httpClient.PostAsJsonAsync<IList<Trastorno>>("/Trastorno/Borrar", Trastornos);
+            
+        }
+
+        public async void EditarTrastornos(Trastorno Trastornos)
+        {
+            await _httpClient.PostAsJsonAsync<Trastorno>("/Trastorno/Editar", Trastornos);
 
         }
+
         public async void AñadirTrastorno(Trastorno Trastorno)
         {
             await _httpClient.PostAsJsonAsync<Trastorno>("/Trastorno",Trastorno);

@@ -37,12 +37,34 @@ namespace GabinetePsicologia.Server.Controllers
         {
             return Ok(_context.Trastornos.ToList());
         }
+
         [HttpPost]
         public IActionResult Register([FromBody] Trastorno trastorno)
         {
             _context.Trastornos.Add(trastorno);
             _context.SaveChanges();
             return Ok("Trastorno Añadido");
+        }
+
+        [HttpPost("Borrar")]
+
+        public IActionResult Borrar([FromBody] IList<Trastorno> trastornos)
+        {
+            foreach (var a in trastornos)
+            {
+                _context.Trastornos.Remove(a);
+            }
+            _context.SaveChanges();
+            return Ok("Trastornos Eliminados Correctamente");
+        }
+
+        [HttpPost("Editar")]
+
+        public IActionResult Editar([FromBody] Trastorno trastorno)
+        {
+            _context.Trastornos.Update(trastorno);
+            _context.SaveChanges();
+            return Ok("Trastorno editado Correctamente");
         }
 
     }
