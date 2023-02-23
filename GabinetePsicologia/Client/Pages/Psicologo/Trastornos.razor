@@ -6,7 +6,7 @@
 <RadzenButton Text="Añadir Trastorno" ButtonStyle="ButtonStyle.Primary" Click=@(args => { trastornoForm = new Trastorno();ShowInlineDialog(); }) Style="margin-left:auto;margin-right:0" />
 <RadzenButton Text="Borrar Trastorno" ButtonStyle="ButtonStyle.Primary" Click=@BorrarTrastorno Style="margin-left:auto;margin-right:0" />
 <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
-                AllowSorting="true" Data="@LsTrastornos" TItem="Trastorno" ColumnWidth="200px"
+                AllowSorting="true" Data="@LsTrastornos" TItem="Trastorno" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedTrastornos class="m-4">
     <Columns>
         <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">

@@ -10,7 +10,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddHttpClient("GabinetePsicologia.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("GabinetePsicologia.ServerAPI"));
 builder.Services.AddScoped<DialogService>();
@@ -18,6 +17,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<TrastornosServices>();
+builder.Services.AddScoped<PacientesServices>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddApiAuthorization();
 

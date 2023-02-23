@@ -28,13 +28,7 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Paciente>>> GetPacientes()
         {
-            //    var user = await _context.Users.Include(
-            //        u=> u.LsPaciente).FirstOrDefaultAsync(
-            //        u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            //await _userManager.AddToRoleAsync(user, "Paciente");
-            if (user == null) return NotFound();
-            return Ok(user.LsPaciente);
+            return Ok(_context.Pacientes.ToList());
         }
         [HttpPost]
         public async Task<ActionResult> RegisterPaciente(Paciente paciente)

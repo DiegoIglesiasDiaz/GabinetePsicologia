@@ -2,12 +2,17 @@
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 using Radzen;
+using GabinetePsicologia.Client.Pages.Psicologo;
+using GabinetePsicologia.Client.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace GabinetePsicologia.Client.Pages
 {
     public partial class Calendar
     {
         [Inject] private DialogService DialogService { get; set; }
+        [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        public bool isInRole = false;
         RadzenScheduler<Cita> scheduler;
 
         List<Cita> data = new List<Cita>()
@@ -20,7 +25,13 @@ namespace GabinetePsicologia.Client.Pages
         Id=Guid.NewGuid()
       },
     };
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            var User = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+        
 
+        }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
             // Highlight today in month view

@@ -42,7 +42,27 @@ namespace GabinetePsicologia.Server.Controllers
 
             return Ok("Logout Succesful");
         }
+        [HttpGet("Persona")]
+        public async Task<IActionResult> getPersonas()
+        {
+            List<Persona> ls = new List<Persona>();
+            List<Paciente> a = _context.Pacientes.ToList();
+            foreach (var p in a)
+            {
+                ls.Add(new Persona() { Apellido1=p.Apellido1,Apellido2=p.Apellido2,Nombre=p.Nombre,Email=p.Email,ApplicationUserId=p.ApplicationUserId,Id=p.Id,NIF=p.NIF});
+            }
+            List<Administrador> b = _context.Administradores.ToList();
+            foreach (var p in a)
+            {
+                ls.Add(new Persona() { Apellido1 = p.Apellido1, Apellido2 = p.Apellido2, Nombre = p.Nombre, Email = p.Email, ApplicationUserId = p.ApplicationUserId, Id = p.Id, NIF = p.NIF });
+            }
+            List<Psicologo> c = _context.Psicologos.ToList();
+            foreach (var p in a)
+            {
+                ls.Add(new Persona() { Apellido1 = p.Apellido1, Apellido2 = p.Apellido2, Nombre = p.Nombre, Email = p.Email, ApplicationUserId = p.ApplicationUserId, Id = p.Id, NIF = p.NIF });
+            }
+            return Ok(ls);
+        }
 
-       
     }
 }

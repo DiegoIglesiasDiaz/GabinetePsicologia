@@ -15,22 +15,27 @@ namespace GabinetePsicologia.Client.Pages.Psicologo
         IList<Trastorno> selectedTrastornos;
         RadzenDataGrid<Trastorno> grid;
         Trastorno trastornoForm = new Trastorno();
-        public bool isInRole = false;
+        public bool isInRole;
         [Inject] private TrastornosServices TrastornosServices { get; set; }
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider{ get; set; }
-    protected override async Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            var User = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if (User.IsInRole("Psicologo") || User.IsInRole("Administrador"))isInRole = true;
-            LsTrastornos = await TrastornosServices.getTrastornos();
+            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            if (user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
+            {
+                isInRole = true;
+                LsTrastornos = await TrastornosServices.getTrastornos();
+            }
+
+
 
         }
         private void GuardarTrastorno()
         {
-            if(trastornoForm.Id == Guid.Empty)
+            if (trastornoForm.Id == Guid.Empty)
                 TrastornosServices.AñadirTrastorno(trastornoForm);
             else
                 TrastornosServices.EditarTrastornos(trastornoForm);

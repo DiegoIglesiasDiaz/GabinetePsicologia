@@ -162,7 +162,7 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    await _pacienteController.RegisterPaciente(new Paciente { Apellido1=Input.Apellido1,NIF=Input.NIF, Apellido2=Input.Apellido2, Nombre=Input.Nombre, ApplicationUserId=user.Id});
+                    await _pacienteController.RegisterPaciente(new Paciente { Email = user.UserName, Apellido1 =Input.Apellido1,NIF=Input.NIF, Apellido2=Input.Apellido2, Nombre=Input.Nombre, ApplicationUserId=user.Id});
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,

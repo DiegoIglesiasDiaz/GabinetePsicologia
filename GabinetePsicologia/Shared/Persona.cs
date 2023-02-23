@@ -1,13 +1,13 @@
 ﻿
 namespace GabinetePsicologia.Shared;
 
-public abstract class Persona 
+public class Persona 
 {
     public Guid Id { get; set; }
     public string Nombre { get; set; }
     public string Apellido1 { get; set; }
     public string Apellido2 { get; set; }
-
+    public string Email { get; set; }
     public string FullName
     {
         get

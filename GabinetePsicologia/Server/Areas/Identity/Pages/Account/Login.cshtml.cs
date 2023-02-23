@@ -116,8 +116,8 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    //siempre se logearan como paciente
-                   // User.Claims.Append(new Claim(ClaimTypes.Role, "Paciente"));
+                    //siempre se logearan como Admin
+                    //User.Claims.Append(new Claim(ClaimTypes.Role, "Administrador"));
                     
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);

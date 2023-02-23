@@ -1,7 +1,8 @@
 ﻿@page "/Scheduler"
 @using GabinetePsicologia.Shared
 
-<h3>Citas</h3>
+
+    <h3>Citas</h3>
 <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita"
                  StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="2"
                  SlotRender=@OnSlotRender AppointmentRender=@OnAppointmentRender SlotSelect=@OnSlotSelect AppointmentSelect="OnAppointmentSelect">
@@ -10,3 +11,4 @@
     <RadzenMonthView />
     <RadzenYearView />
 </RadzenScheduler>
+

@@ -178,7 +178,7 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Admin
                 {
                     if (Input.Rol == "Psicologo")
                         _userManager.AddToRoleAsync(user, "Psicologo").Wait();
-                    if (Input.Rol == "Administrador")
+                    else if (Input.Rol == "Administrador")
                         _userManager.AddToRoleAsync(user, "Administrador").Wait();
                     else
                         _userManager.AddToRoleAsync(user, "Paciente").Wait();
@@ -188,11 +188,11 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Admin
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     if (Input.Rol == "Psicologo")
-                        await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1=Input.Apellido1,NIF=Input.NIF, Apellido2=Input.Apellido2, Nombre=Input.Nombre, ApplicationUserId=user.Id});
+                        await _psicologoController.RegisterPsicologo(new Psicologo {Email=user.UserName, Apellido1=Input.Apellido1,NIF=Input.NIF, Apellido2=Input.Apellido2, Nombre=Input.Nombre, ApplicationUserId=user.Id});
                     if (Input.Rol == "Administrador")
-                        await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = Input.Apellido1, NIF = Input.NIF, Apellido2 = Input.Apellido2, Nombre = Input.Nombre, ApplicationUserId = user.Id });
+                        await _administradorController.RegisterAdministrador(new Administrador { Email = user.UserName, Apellido1 = Input.Apellido1, NIF = Input.NIF, Apellido2 = Input.Apellido2, Nombre = Input.Nombre, ApplicationUserId = user.Id });
                     else
-                        await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = Input.Apellido1, NIF = Input.NIF, Apellido2 = Input.Apellido2, Nombre = Input.Nombre, ApplicationUserId = user.Id });
+                        await _pacienteController.RegisterPaciente(new Paciente { Email = user.UserName, Apellido1 = Input.Apellido1, NIF = Input.NIF, Apellido2 = Input.Apellido2, Nombre = Input.Nombre, ApplicationUserId = user.Id });
 
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
