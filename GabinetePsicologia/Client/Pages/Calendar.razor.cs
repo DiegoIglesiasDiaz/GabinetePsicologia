@@ -28,8 +28,11 @@ namespace GabinetePsicologia.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            var User = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-        
+            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            if (user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
+            {
+                isInRole = true;
+            }
 
         }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)

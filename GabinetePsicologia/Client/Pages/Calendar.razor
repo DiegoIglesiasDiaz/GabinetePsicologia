@@ -1,9 +1,10 @@
 ﻿@page "/Scheduler"
 @using GabinetePsicologia.Shared
 
-
+@if (isInRole)
+{
     <h3>Citas</h3>
-<RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita"
+    <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita"
                  StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="2"
                  SlotRender=@OnSlotRender AppointmentRender=@OnAppointmentRender SlotSelect=@OnSlotSelect AppointmentSelect="OnAppointmentSelect">
     <RadzenDayView />Dia
@@ -11,4 +12,6 @@
     <RadzenMonthView />
     <RadzenYearView />
 </RadzenScheduler>
-
+}else{
+    <p>No estas Autorizado para ver esta página.</p>
+}
