@@ -10,7 +10,7 @@ namespace GabinetePsicologia.Client.Pages.Psicologo
 {
     public partial class Trastornos
     {
-        bool allowRowSelectOnRowClick = true;
+        bool allowRowSelectOnRowClick = false;
         IEnumerable<Trastorno> LsTrastornos;
         IList<Trastorno> selectedTrastornos;
         RadzenDataGrid<Trastorno> grid;
@@ -30,12 +30,19 @@ namespace GabinetePsicologia.Client.Pages.Psicologo
         }
         private void GuardarTrastorno()
         {
-            TrastornosServices.AñadirTrastorno(trastornoForm);
+            if(trastornoForm.Id == Guid.Empty)
+                TrastornosServices.AñadirTrastorno(trastornoForm);
+            else
+                TrastornosServices.EditarTrastornos(trastornoForm);
             DialogService.Close();
-            NavigationManager.NavigateTo("/Psicologo/Trastornos",true);
-
-
+            grid.Reload();
         }
-        
+        private void BorrarTrastorno()
+        {
+            TrastornosServices.BorrarTrastornos(selectedTrastornos);
+            DialogService.Close();
+            grid.Reload();
+        }
+
     }
 }
