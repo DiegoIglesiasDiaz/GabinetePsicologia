@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
-    <PackageReference Include="Radzen.Blazor" Version="4.7.0" />
+    <PackageReference Include="Radzen.Blazor" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
