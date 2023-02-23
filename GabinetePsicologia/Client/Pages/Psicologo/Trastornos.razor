@@ -1,6 +1,7 @@
 ﻿@page "/Psicologo/Trastornos"
 @using GabinetePsicologia.Shared
-@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@if(isInRole){
 <h3>Trastornos</h3>
 <RadzenButton Text="Añadir Trastorno" ButtonStyle="ButtonStyle.Primary" Click=@ShowInlineDialog Style="margin-left:auto;margin-right:0"/>
 <RadzenDataGrid @ref="grid" AllowRowSelectOnRowClick="@allowRowSelectOnRowClick" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
@@ -24,7 +25,9 @@
 
     </Columns>
 </RadzenDataGrid>
-
+}else{
+    <p>No estas Autorizado para ver esta página.</p>
+}
 @code {
     async Task ShowInlineDialog()
     {

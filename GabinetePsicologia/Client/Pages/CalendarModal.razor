@@ -1,0 +1,73 @@
+﻿@inject DialogService DialogService
+@using GabinetePsicologia.Shared
+
+<RadzenTemplateForm TItem="Cita" Data="@cita" Submit=@OnSubmit>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Text" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="@cita.Nombre" Name="Nombre" />
+            <RadzenRequiredValidator Text="*Nombre Requrido" Component="Nombre" />
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Start" />
+        </div>
+        <div class="col">
+            <RadzenDatePicker @bind-Value="@cita.FecInicio" Name="FecInicio" ShowTime="true" />
+            <RadzenRequiredValidator Text="*Fecha Inicio Requrido" Component="FecInicio" />
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="End" />
+        </div>
+        <div class="col">
+            <RadzenDatePicker Name="FecFin" @bind-Value="@cita.FecFin" ShowTime="true" />
+            <RadzenRequiredValidator Component="FecFin" Text="*Fecha Fin Requrido" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col">
+            @if (cita.Id != Guid.Empty)
+            {
+                <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary" Text="Borrar" />
+                <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
+            }
+            else
+
+            {
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Guardar" />
+            }
+
+
+        </div>
+    </div>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter]
+    public Cita Appointment { get; set; }
+
+    Cita cita = new Cita();
+    protected override void OnParametersSet()
+    {
+        cita = Appointment;
+    }
+
+    void Guardar()
+    {
+
+        DialogService.Close(new Cita());
+    }
+
+    void OnSubmit(Cita model)
+    {
+        if (Appointment.Id == Guid.Empty)
+            model.Id = Guid.NewGuid();
+        DialogService.Close(model);
+    }
+}
