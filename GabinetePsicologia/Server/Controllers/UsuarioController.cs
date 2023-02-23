@@ -2,6 +2,7 @@
 using GabinetePsicologia.Server.Data.Migrations;
 using GabinetePsicologia.Server.Models;
 using GabinetePsicologia.Shared;
+using MessagePack;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
@@ -45,23 +46,79 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpGet("Persona")]
         public async Task<IActionResult> getPersonas()
         {
-            List<Persona> ls = new List<Persona>();
-            List<Paciente> a = _context.Pacientes.ToList();
-            foreach (var p in a)
+            List<PersonaDto> LsPersonas = new List<PersonaDto>();
+            List<Paciente> Pacientes = _context.Pacientes.ToList();
+            List<Psicologo> Psicologos = _context.Psicologos.ToList();
+            List<Administrador> Administradores = _context.Administradores.ToList();
+            List<ApplicationUser> allUser = _context.Users.ToList();
+
+            foreach(var user in allUser)
             {
-                ls.Add(new Persona() { Apellido1=p.Apellido1,Apellido2=p.Apellido2,Nombre=p.Nombre,Email=p.Email,ApplicationUserId=p.ApplicationUserId,Id=p.Id,NIF=p.NIF});
+                PersonaDto pers = new PersonaDto();
+                if (Pacientes.Where(x=> x.ApplicationUserId == user.Id).Any())
+                {
+                    Paciente? p = Pacientes.FirstOrDefault(x => x.ApplicationUserId == user.Id);
+                    if (p != null)
+                    {
+                        pers.Rol = "Paciente";
+                        pers.Apellido1 = p.Apellido1;
+                        pers.Apellido2 = p.Apellido2;
+                        pers.Nombre = p.Nombre;
+                        pers.Email = user.Email;
+                        pers.Telefono = user.PhoneNumber;
+                        pers.ApplicationUserId = p.ApplicationUserId;
+                        pers.Id = p.Id;
+                        pers.NIF = p.NIF;
+                    }
+                }
+                if(Psicologos.Where(x=>x.ApplicationUserId == user.Id).Any())
+                {
+                    if(pers != null && pers.Id != Guid.Empty)
+                        pers.Rol += " ,Psicologo";
+                    if(pers.Id == Guid.Empty)
+                    {
+                        Psicologo? p = Psicologos.FirstOrDefault(x => x.ApplicationUserId == user.Id);
+                        if (p != null)
+                        {
+                            pers.Rol = "Psicologo";
+                            pers.Apellido1 = p.Apellido1;
+                            pers.Apellido2 = p.Apellido2;
+                            pers.Nombre = p.Nombre;
+                            pers.Email = user.Email;
+                            pers.Telefono = user.PhoneNumber;
+                            pers.ApplicationUserId = p.ApplicationUserId;
+                            pers.Id = p.Id;
+                            pers.NIF = p.NIF;
+                        }
+                    }
+                  
+                }
+                if (Administradores.Where(x => x.ApplicationUserId == user.Id).Any())
+                {
+                    if (pers != null && pers.Id != Guid.Empty)
+                        pers.Rol += " ,Administrador";
+                    if (pers.Id == Guid.Empty)
+                    {
+                        Administrador? a = Administradores.FirstOrDefault(x => x.ApplicationUserId == user.Id);
+                        if (a != null)
+                        {
+                            pers.Rol = "Administrador";
+                            pers.Apellido1 = a.Apellido1;
+                            pers.Apellido2 = a.Apellido2;
+                            pers.Nombre = a.Nombre;
+                            pers.Email = user.Email;
+                            pers.Telefono = user.PhoneNumber;
+                            pers.ApplicationUserId = a.ApplicationUserId;
+                            pers.Id = a.Id;
+                            pers.NIF = a.NIF;
+                        }
+                    }
+
+                }
+                if (pers != null && pers.Id != Guid.Empty)
+                    LsPersonas.Add(pers);
             }
-            List<Administrador> b = _context.Administradores.ToList();
-            foreach (var p in a)
-            {
-                ls.Add(new Persona() { Apellido1 = p.Apellido1, Apellido2 = p.Apellido2, Nombre = p.Nombre, Email = p.Email, ApplicationUserId = p.ApplicationUserId, Id = p.Id, NIF = p.NIF });
-            }
-            List<Psicologo> c = _context.Psicologos.ToList();
-            foreach (var p in a)
-            {
-                ls.Add(new Persona() { Apellido1 = p.Apellido1, Apellido2 = p.Apellido2, Nombre = p.Nombre, Email = p.Email, ApplicationUserId = p.ApplicationUserId, Id = p.Id, NIF = p.NIF });
-            }
-            return Ok(ls);
+            return Ok(LsPersonas);
         }
 
     }

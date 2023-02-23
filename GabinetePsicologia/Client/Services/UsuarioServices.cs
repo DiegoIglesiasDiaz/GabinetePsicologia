@@ -25,9 +25,9 @@ namespace GabinetePsicologia.Client.Services
         //    List<Usuarios> a = await _httpClient.GetFromJsonAsync<List<Usuarios>>("/Usuario");
         //    return a;
         //}
-        public async Task<List<Persona>> getPersonas()
+        public async Task<List<PersonaDto>> getPersonas()
         {
-            List<Persona> a = await _httpClient.GetFromJsonAsync<List<Persona>>("/Usuario/Persona");
+            List<PersonaDto> a = await _httpClient.GetFromJsonAsync<List<PersonaDto>>("/Usuario/Persona");
             return a;
 
         }

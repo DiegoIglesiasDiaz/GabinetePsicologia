@@ -7,14 +7,18 @@
 @if (isInRole)
 {
     <h3>Usuarios</h3>
-    <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" Click=@(args => { PersonaForm = new Persona();ShowInlineDialog(); }) Style="margin-left:auto;margin-right:0" />
+    @if(isAdmin){
+    <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(); }) Style="margin-left:auto;margin-right:0" />
     <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" Click=@BorrarPersona Style="margin-left:auto;margin-right:0" />
+    }
     <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
-                AllowSorting="true" Data="@LsUsuarios" TItem="Persona" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
+                AllowSorting="true" Data="@LsUsuarios" TItem="PersonaDto" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedUsuarios class="m-4">
         <Columns>
-            <RadzenDataGridColumn TItem="Persona" Width="60px" Sortable="false" Filterable="false">
-                <HeaderTemplate>
+            @if (isAdmin)
+            {
+                <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
+                    <HeaderTemplate>
                     <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedUsuarios != null && LsUsuarios.Count().Equals(selectedUsuarios.Count()))"
                                 Change="@(args => selectedUsuarios = args ? LsUsuarios.ToList() : null)" />
                 </HeaderTemplate>
@@ -23,18 +27,21 @@
                                 TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data); }}) />
                 </Template>
             </RadzenDataGridColumn>
-
-            <RadzenDataGridColumn TItem="Persona" Property="Nombre" Title="Nombre" />
-            <RadzenDataGridColumn TItem="Persona" Property="Apellido1" Title="Apellido1" />
-            <RadzenDataGridColumn TItem="Persona" Property="Apellido2" Title="Apellido2" />
-            <RadzenDataGridColumn TItem="Persona" Property="Email" Title="Email" />
-            <RadzenDataGridColumn TItem="Persona" Property="NIF" Title="NIF" />
-            <RadzenDataGridColumn TItem="Persona" Width="60px" Sortable="false" Filterable="false">
+            }
+             <RadzenDataGridColumn TItem="PersonaDto" Property="Rol" Title="Rol" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="Nombre" Title="Nombre" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="FullName" Title="Apellidos" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="NIF" Title="NIF" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="Email" Title="Email" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
+            @if (isAdmin)
+            {
+            <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
                 <Template Context="data">
                     <RadzenButton Text="Editar" Click=@(args => { PersonaForm = data;ShowInlineDialog(); }) ButtonStyle="ButtonStyle.Secondary" />
                 </Template>
             </RadzenDataGridColumn>
-
+            }
 
         </Columns>
     </RadzenDataGrid>
@@ -43,14 +50,14 @@ else
 {
     <p>No estas Autorizado para ver esta página.</p>
 }
-@code {
+@{
     async Task ShowInlineDialog()
     {
     //    string titulo = "";
     //    if (PersonaForm.Id == Guid.Empty)
-    //        titulo = "Añadir Persona";
+    //        titulo = "Añadir PersonaDto";
     //    else
-    //        titulo = "Editar Persona";
+    //        titulo = "Editar PersonaDto";
 
 
     //    var result = await DialogService.OpenAsync(titulo, ds =>
@@ -86,8 +93,6 @@ else
 
 
     }
-}
-
-@code {
 
 }
+

@@ -10,11 +10,13 @@ namespace GabinetePsicologia.Client.Pages
     public partial class Usuarios
     {
         bool allowRowSelectOnRowClick = false;
-        IEnumerable<Persona> LsUsuarios;
-        IList<Persona> selectedUsuarios;
-        RadzenDataGrid<Persona> grid;
-        Persona PersonaForm = new Persona();
+        IEnumerable<PersonaDto> LsUsuarios;
+        IList<PersonaDto> selectedUsuarios;
+        RadzenDataGrid<PersonaDto> grid;
+        PersonaDto PersonaForm = new PersonaDto();
         public bool isInRole;
+        public bool isAdmin;
+        public bool isPiscologo;
         [Inject] private UsuarioServices UsuarioServices { get; set; }
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
@@ -25,6 +27,10 @@ namespace GabinetePsicologia.Client.Pages
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
             {
+                if(user.IsInRole("Psicologo"))
+                    isPiscologo = true;
+                if (user.IsInRole("Administrador"))
+                    isAdmin = true;
                 isInRole = true;
                 LsUsuarios = await UsuarioServices.getPersonas();
             }
