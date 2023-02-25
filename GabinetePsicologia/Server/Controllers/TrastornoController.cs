@@ -48,10 +48,11 @@ namespace GabinetePsicologia.Server.Controllers
 
         [HttpPost("Borrar")]
 
-        public IActionResult Borrar([FromBody] IList<Trastorno> trastornos)
+        public IActionResult Borrar([FromBody]IList<Trastorno> trastornos)
         {
             foreach (var a in trastornos)
             {
+             if(_context.Trastornos.Where(x=> x.Id!=Guid.Empty && x.Id == a.Id).Any())
                 _context.Trastornos.Remove(a);
             }
             _context.SaveChanges();

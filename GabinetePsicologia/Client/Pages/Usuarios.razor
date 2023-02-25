@@ -36,8 +36,8 @@
             <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
             @if (isAdmin)
             {
-            <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
-                <Template Context="data">
+            <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false" >
+                <Template  Context="data">
                     <RadzenButton Text="Editar" Click=@(args => { PersonaForm = data;ShowInlineDialog(); }) ButtonStyle="ButtonStyle.Secondary" />
                 </Template>
             </RadzenDataGridColumn>
