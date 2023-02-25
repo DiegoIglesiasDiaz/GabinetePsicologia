@@ -17,6 +17,7 @@ namespace GabinetePsicologia.Client.Pages
         public bool isInRole;
         public bool isAdmin;
         public bool isPiscologo;
+        IEnumerable<int> values = new int[] { 1 };
         [Inject] private UsuarioServices UsuarioServices { get; set; }
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
@@ -47,6 +48,7 @@ namespace GabinetePsicologia.Client.Pages
             //    TrastornosServices.EditarTrastornos(trastornoForm);
             //DialogService.Close();
             //grid.Reload();
+            
         }
         private void BorrarPersona()
         {

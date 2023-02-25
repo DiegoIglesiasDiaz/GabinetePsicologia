@@ -26,6 +26,10 @@ namespace GabinetePsicologia.Client.Services
             return paciente;
 
         }
-      
+        public async void RegisterPaciente(Paciente paciente)
+        {
+            await _httpClient.PostAsJsonAsync<Paciente>("/Paciente", paciente);
+        }
+
     }
 }
