@@ -1,4 +1,5 @@
-﻿using GabinetePsicologia.Server.Areas.Identity.Pages.Admin;
+﻿using GabinetePsicologia.Client.Pages.Psicologo;
+using GabinetePsicologia.Server.Areas.Identity.Pages.Admin;
 using GabinetePsicologia.Server.Data;
 using GabinetePsicologia.Server.Data.Migrations;
 using GabinetePsicologia.Server.Models;
@@ -140,6 +141,7 @@ namespace GabinetePsicologia.Server.Controllers
             var emailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             await _userManager.ConfirmEmailAsync(user, emailConfirmationCode);
             await _userStore.SetUserNameAsync(user, data.Email, CancellationToken.None);
+            await _userManager.SetPhoneNumberAsync(user, data.Telefono);
             await _emailStore.SetEmailAsync(user, data.Email, CancellationToken.None);
             var result = await _userManager.CreateAsync(user, data.Contraseña);
 
@@ -164,7 +166,27 @@ namespace GabinetePsicologia.Server.Controllers
 
                 return Ok("Usuario Creado");
             }
-            return BadRequest();
+            return BadRequest("Correo Ya existe");
+        }
+        [HttpPost("Borrar")]
+        public async Task<IActionResult> Borrar([FromBody] IList<PersonaDto> data)
+        {
+            foreach (var user in data)
+            {
+                if (_context.Users.Where(x => x.Id == user.ApplicationUserId).Any())
+                {
+                    var remove = _context.Users.FirstOrDefault(x => x.Id == user.ApplicationUserId);
+                    _context.Users.Remove(remove);
+                }
+                else if(user.ApplicationUserId == "" && _context.Users.Where(x => x.UserName == user.Email).Any())
+                {
+                    var remove = _context.Users.FirstOrDefault(x => x.UserName == user.Email);
+                    _context.Users.Remove(remove);
+                }
+
+            }
+            _context.SaveChanges();
+            return Ok("Usuarios Eliminados Correctamente");
         }
     }
 }

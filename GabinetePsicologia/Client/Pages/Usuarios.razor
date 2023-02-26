@@ -54,67 +54,124 @@ else
 @{
     async Task ShowInlineDialog(PersonaDto data)
     {
+        values = new int[] { };
         PersonaForm = new PersonaDto();
         string titulo = "";
-        if (PersonaForm.Id == Guid.Empty)
+        isEdit = false;
+        if (data.Id == Guid.Empty)
             titulo = "Añadir Usuario";
         else
+        {
+           
             titulo = "Editar Usuario";
+            PersonaForm.NIF = data.NIF;
+            PersonaForm.Email = data.Email;
+            PersonaForm.isPaciente = false;
+            PersonaForm.isPsicologo = false;
+            PersonaForm.isAdmin = false;
+            PersonaForm.Telefono = data.Telefono;
+            PersonaForm.Id = data.Id;
+            PersonaForm.ApplicationUserId = data.ApplicationUserId;
+            PersonaForm.Nombre = data.Nombre;
+            PersonaForm.Apellido1 = data.Apellido1;
+            PersonaForm.Apellido2 = data.Apellido2;
+            isEdit = true;
+            if (data.Rol.Contains("Paciente"))
+            {
+                PersonaForm.isPaciente = true;
+                values = values.Append(1);
+
+            }
+
+            if (data.Rol.Contains("Psicologo"))
+            {
+                PersonaForm.isPsicologo = true;
+                values = values.Append(2);
+            }
+
+            if (data.Rol.Contains("Administrador"))
+            {
+                PersonaForm.isAdmin = true;
+                values = values.Append(3);
+            }
+
+        }
+
 
 
         var result = await DialogService.OpenAsync(titulo, ds =>
     @<div>
         <div class="row">
             <div class="col">
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Rol</RadzenText>
-                    <RadzenCheckBoxList @bind-Value="values" TValue="int">
-                        <Items>
-                            <RadzenCheckBoxListItem Text="Paciente" Value="1" />
-                            <RadzenCheckBoxListItem Text="Psicologo" Value="2" />
-                            <RadzenCheckBoxListItem Text="Administrador" Value="3" />
-                        </Items>
-                    </RadzenCheckBoxList>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo</RadzenText>
-                    <RadzenTextBox @bind-Value=PersonaForm.Email Name="name" class="w-100" />
-                    <RadzenRequiredValidator Component="name" Text="*Correo requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Contraseña Provisional</RadzenText>
-                    <RadzenTextArea @bind-Value=PersonaForm.Contraseña Name="Contraseña" class="w-100" />
-                    <RadzenRequiredValidator Component="Contraseña" Text="*Contraseña requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
-                    <RadzenTextBox @bind-Value=PersonaForm.Nombre Name="name" class="w-100" />
-                    <RadzenRequiredValidator Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 1</RadzenText>
-                    <RadzenTextBox @bind-Value=PersonaForm.Apellido1 Name="Apellido1" class="w-100" />
-                    <RadzenRequiredValidator Component="Apellido1" Text="*Apellido1 requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 2</RadzenText>
-                    <RadzenTextArea @bind-Value=PersonaForm.Apellido2 Name="Apellido2" class="w-100" />
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">NIF</RadzenText>
-                    <RadzenTextBox @bind-Value=PersonaForm.NIF Name="NIF" class="w-100" />
-                    <RadzenRequiredValidator Component="NIF" Text="*NIF requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Telefono</RadzenText>
-                    <RadzenTextBox @bind-Value=PersonaForm.Telefono Name="Telefono" class="w-100" />
-                    <RadzenRequiredValidator Component="Telefono" Text="*Telefono requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <br><br>
-                <div style="display:flex;align-items:center;justify-content:center">
-                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                    <RadzenButton style="margin:10px" Text="Guardar" Click="GuardarPersona" class="me-1" />
-                </div>
+                <RadzenTemplateForm Data="@PersonaForm" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
+                    <RadzenSteps NextText="Siguiente" PreviousText="Volver">
+                        <Steps>
+                            <RadzenStepsItem Text="Datos Usuario">
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Rol</RadzenText>
+                                    <RadzenCheckBoxList Name="Rol" @bind-Value="values" TValue="int">
+                                        <Items>
+                                            <RadzenCheckBoxListItem Text="Paciente" Value="1" />
+                                            <RadzenCheckBoxListItem Text="Psicologo" Value="2" />
+                                            <RadzenCheckBoxListItem Text="Administrador" Value="3" />
+                                        </Items>
+                                    </RadzenCheckBoxList>
+                                    <RadzenRequiredValidator Popup=true Style="position:relative" Component="Rol" Text="*Rol requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.Email Name="name" class="w-100" />
+                                    <RadzenEmailValidator Popup=true Style="position:relative" Component="name" Text="*Eso no es un Correo valido"></RadzenEmailValidator>
+                                    <RadzenRequiredValidator Popup=true Style="position:relative" Component="name" Text="*Correo requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                @if (!isEdit)
+                            {
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña Provisional</RadzenText>
+                                    <RadzenPassword @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
+                                    <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
+                                    <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+
+                                </RadzenCard>
+                            }
+                            </RadzenStepsItem>
+                            <RadzenStepsItem Text="Datos Personales">
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.Nombre Name="name" class="w-100" />
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 1</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.Apellido1 Name="Apellido1" class="w-100" />
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="Apellido1" Text="*Apellido1 requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 2</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.Apellido2 Name="Apellido2" class="w-100" />
+                                </RadzenCard>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">NIF</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.NIF Name="NIF" class="w-100" />
+                                    <RadzenRegexValidator Component="NIF" Popup=true Text="*NIF no válido" Pattern="^[0-9]{8,8}[A-Za-z]$" Style="position:relative" />
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="NIF" Text="*NIF requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Telefono</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.Telefono Name="Telefono" class="w-100" />
+                                    <RadzenRegexValidator Component="Telefono" Popup=true Text="*Telefono no válido" Pattern="^\d{9}$" Style="position:relative" />
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="Telefono" Text="*Telefono requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                <br><br>
+                                <div style="display:flex;align-items:center;justify-content:center">
+                                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
+                                    <RadzenButton style="margin:10px" Text="Guardar" ButtonType="ButtonType.Submit" class="me-1" />
+                                </div>
+                            </RadzenStepsItem>
+                        </Steps>
+                    </RadzenSteps>
+
+                </RadzenTemplateForm>
 
             </div>
         </div>

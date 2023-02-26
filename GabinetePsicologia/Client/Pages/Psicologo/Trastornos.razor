@@ -61,17 +61,17 @@
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
                     <RadzenTextBox @bind-Value=formTrastorno.Nombre Name="name" class="w-100" />
-                    <RadzenRequiredValidator Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
                 </RadzenCard>
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Tipo</RadzenText>
                     <RadzenTextBox @bind-Value=formTrastorno.Tipo Name="Tipo" class="w-100" />
-                    <RadzenRequiredValidator Component="Tipo" Text="*Nombre requerido"></RadzenRequiredValidator>
+                    <RadzenRequiredValidator style ="position:relative" Popup=true Component ="Tipo" Text="*Nombre requerido"></RadzenRequiredValidator>
                 </RadzenCard>
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Síntomas</RadzenText>
                     <RadzenTextArea @bind-Value=formTrastorno.Sintomas Name="Sintomas" class="w-100" />
-                    <RadzenRequiredValidator Component="Sintomas" Text="*Nombre requerido"></RadzenRequiredValidator>
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component ="Sintomas" Text="*Nombre requerido"></RadzenRequiredValidator>
                 </RadzenCard>
 
                 <br><br>

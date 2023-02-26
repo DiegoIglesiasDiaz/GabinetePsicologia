@@ -1,6 +1,8 @@
 ﻿using GabinetePsicologia.Client.Pages;
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
+using Radzen;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Claims;
@@ -19,6 +21,12 @@ namespace GabinetePsicologia.Client.Services
             _navigationManager = navigationManager;
 
         }
+        public async Task<bool> RegisterPaciente(PersonaDto data)
+        {
+           var result =  await _httpClient.PostAsJsonAsync("/Usuario", data);
+            return result.IsSuccessStatusCode;
+           
+        }
 
         //public async Task<List<Usuarios>> getUsuarios()
         //{
@@ -36,6 +44,11 @@ namespace GabinetePsicologia.Client.Services
             var a = await _httpClient.GetStringAsync("/Usuario/Logout");
             _navigationManager.NavigateTo("/", true);
 
+
+        }
+        public async void BorrarUsuarios(IList<PersonaDto> persona)
+        {
+            await _httpClient.PostAsJsonAsync("/Usuario/Borrar", persona);
 
         }
     }
