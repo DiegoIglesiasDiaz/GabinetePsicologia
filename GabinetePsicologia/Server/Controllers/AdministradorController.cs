@@ -44,6 +44,8 @@ namespace GabinetePsicologia.Server.Controllers
 
             if(admin == null) return BadRequest();
             _context.Administradores.Add(admin);
+            var user = _context.Users.FirstOrDefault(x => x.Id == admin.ApplicationUserId);
+            await _userManager.AddToRoleAsync(user, "Administrador");
             _context.SaveChanges();
             return Ok();
         }

@@ -21,13 +21,18 @@ namespace GabinetePsicologia.Client.Services
             _navigationManager = navigationManager;
 
         }
-        public async Task<bool> RegisterPaciente(PersonaDto data)
+        public async Task<bool> RegisterPersona(PersonaDto data)
         {
            var result =  await _httpClient.PostAsJsonAsync("/Usuario", data);
             return result.IsSuccessStatusCode;
            
         }
+        public async void EditarPaciente(PersonaDto data)
+        {
+            await _httpClient.PostAsJsonAsync("/Usuario/Editar", data);
+          
 
+        }
         //public async Task<List<Usuarios>> getUsuarios()
         //{
         //    List<Usuarios> a = await _httpClient.GetFromJsonAsync<List<Usuarios>>("/Usuario");
@@ -50,6 +55,12 @@ namespace GabinetePsicologia.Client.Services
         {
             await _httpClient.PostAsJsonAsync("/Usuario/Borrar", persona);
 
+        }
+        public async Task<bool> CambiarCorreo( string correoAntiguo, string newCorreo)
+        {
+            string[] correos = new string[]{ correoAntiguo,newCorreo};
+            var result = await _httpClient.PostAsJsonAsync("/Usuario/Borrar", correos);
+            return result.IsSuccessStatusCode;
         }
     }
 }

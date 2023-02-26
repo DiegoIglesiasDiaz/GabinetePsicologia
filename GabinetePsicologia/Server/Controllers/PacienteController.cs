@@ -36,6 +36,8 @@ namespace GabinetePsicologia.Server.Controllers
 
             if(paciente == null) return BadRequest();
             _context.Pacientes.Add(paciente);
+            var user = _context.Users.FirstOrDefault(x => x.Id == paciente.ApplicationUserId);
+            await _userManager.AddToRoleAsync(user, "Paciente");
             _context.SaveChanges();
             return Ok();
         }

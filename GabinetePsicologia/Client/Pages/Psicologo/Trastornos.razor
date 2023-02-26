@@ -10,7 +10,7 @@
                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedTrastornos class="m-4">
     <Columns>
         <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">
-            <HeaderTemplate>
+            <HeaderTemplate >
                 <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedTrastornos != null && LsTrastornos.Count().Equals(selectedTrastornos.Count()))"
                                 Change="@(args => selectedTrastornos = args ? LsTrastornos.ToList() : null)" />
             </HeaderTemplate>

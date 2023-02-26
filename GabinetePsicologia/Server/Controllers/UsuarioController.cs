@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq.Dynamic.Core;
 using System.Security.Claims;
 using System.Text;
 using Paciente = GabinetePsicologia.Shared.Paciente;
@@ -148,12 +149,7 @@ namespace GabinetePsicologia.Server.Controllers
 
             if (result.Succeeded)
             {
-                if (data.isPsicologo)
-                    _userManager.AddToRoleAsync(user, "Psicologo").Wait();
-                if (data.isAdmin)
-                    _userManager.AddToRoleAsync(user, "Administrador").Wait();
-                if (data.isPaciente)
-                    _userManager.AddToRoleAsync(user, "Paciente").Wait();
+
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -178,7 +174,7 @@ namespace GabinetePsicologia.Server.Controllers
                     var remove = _context.Users.FirstOrDefault(x => x.Id == user.ApplicationUserId);
                     _context.Users.Remove(remove);
                 }
-                else if(user.ApplicationUserId == "" && _context.Users.Where(x => x.UserName == user.Email).Any())
+                else if (user.ApplicationUserId == "" && _context.Users.Where(x => x.UserName == user.Email).Any())
                 {
                     var remove = _context.Users.FirstOrDefault(x => x.UserName == user.Email);
                     _context.Users.Remove(remove);
@@ -187,6 +183,95 @@ namespace GabinetePsicologia.Server.Controllers
             }
             _context.SaveChanges();
             return Ok("Usuarios Eliminados Correctamente");
+        }
+        [HttpPost("Editar")]
+        public async Task<IActionResult> Editar([FromBody] PersonaDto data)
+        {
+            var User = _context.Users.FirstOrDefault(x => x.UserName == data.Email);
+            if (User == null) return BadRequest();
+            //var token = await _userManager.GenerateChangePhoneNumberTokenAsync(User,data.Telefono);
+            //await _userManager.ChangePhoneNumberAsync(User, data.Telefono, token);
+            await _userManager.SetPhoneNumberAsync(User, data.Telefono);
+            if (data.isPaciente)
+            {
+                if (_context.Pacientes.Where(x => x.ApplicationUserId == User.Id).Any())
+                {
+                    var paciente = _context.Pacientes.FirstOrDefault(x => x.ApplicationUserId == User.Id);
+                    paciente.Nombre = data.Nombre;
+                    paciente.Apellido1 = data.Apellido1;
+                    paciente.Apellido2 = data.Apellido2;
+                    paciente.NIF = data.NIF;
+                    await _userManager.AddToRoleAsync(User, "Paciente");
+                }
+                else { await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id }); }
+
+
+            }
+            else if (_context.Pacientes.Where(x => x.ApplicationUserId == User.Id).Any())
+            {
+                var remove = _context.Pacientes.FirstOrDefault(x => x.ApplicationUserId == User.Id);
+                _context.Pacientes.Remove(remove);
+                await _userManager.RemoveFromRoleAsync(User, "Paciente");
+            }
+            if (data.isPsicologo)
+            {
+                if (_context.Psicologos.Where(x => x.ApplicationUserId == User.Id).Any())
+                {
+                    var pscilogo = _context.Psicologos.FirstOrDefault(x => x.ApplicationUserId == User.Id);
+                    pscilogo.Nombre = data.Nombre;
+                    pscilogo.Apellido1 = data.Apellido1;
+                    pscilogo.Apellido2 = data.Apellido2;
+                    pscilogo.NIF = data.NIF;
+                    await _userManager.AddToRoleAsync(User, "Psicologo");
+                }
+                else { await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id }); }
+
+
+            }
+            else if (_context.Psicologos.Where(x => x.ApplicationUserId == User.Id).Any())
+            {
+                var remove = _context.Psicologos.FirstOrDefault(x => x.ApplicationUserId == User.Id);
+                _context.Psicologos.Remove(remove);
+                await _userManager.RemoveFromRoleAsync(User, "Psicologo");
+            }
+            if (data.isAdmin)
+            {
+                if (_context.Administradores.Where(x => x.ApplicationUserId == User.Id).Any())
+                {
+                    var Admin = _context.Administradores.FirstOrDefault(x => x.ApplicationUserId == User.Id);
+                    Admin.Nombre = data.Nombre;
+                    Admin.Apellido1 = data.Apellido1;
+                    Admin.Apellido2 = data.Apellido2;
+                    Admin.NIF = data.NIF;
+                    await _userManager.AddToRoleAsync(User, "Administrador");
+
+                }
+                else
+                {
+                    await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id });
+
+                }
+               ;
+
+            }
+            else if (_context.Administradores.Where(x => x.ApplicationUserId == User.Id).Any())
+            {
+                var remove = _context.Administradores.FirstOrDefault(x => x.ApplicationUserId == User.Id);
+                _context.Administradores.Remove(remove);
+                await _userManager.RemoveFromRoleAsync(User, "Administrador");
+            }
+
+            _context.SaveChanges();
+            return Ok("Usuarios Eliminados Correctamente");
+        }
+        [HttpPost("CambiarCorreo")]
+        public async Task<IActionResult> CambiarCorreo([FromBody] string[] correos)
+        {
+            if (_context.Users.Where(x => x.UserName == correos[1]).Any()) return BadRequest("Este Email ya existe");
+            var user = _context.Users.FirstOrDefault(x => x.UserName == correos[0]);
+            await _userManager.SetUserNameAsync(user, correos[1]);
+            await _userManager.SetEmailAsync(user, correos[1]);
+            return Ok("Correo Actualizado");
         }
     }
 }
