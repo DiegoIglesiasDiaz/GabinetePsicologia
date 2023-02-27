@@ -59,7 +59,7 @@ namespace GabinetePsicologia.Client.Services
         public async Task<bool> CambiarCorreo( string correoAntiguo, string newCorreo)
         {
             string[] correos = new string[]{ correoAntiguo,newCorreo};
-            var result = await _httpClient.PostAsJsonAsync("/Usuario/Borrar", correos);
+            var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarCorreo", correos);
             return result.IsSuccessStatusCode;
         }
     }

@@ -42,8 +42,7 @@ namespace GabinetePsicologia.Client.Pages
                 LsUsuarios = await UsuarioServices.getPersonas();
             }
             LoginUser = user.Identity.Name;
-
-
+        
         }
         private async void GuardarPersona(PersonaDto data)
         {
@@ -105,6 +104,16 @@ namespace GabinetePsicologia.Client.Pages
         }
         private void BorrarPersona()
         {
+            if (selectedUsuarios != null)
+            {
+
+
+                var remove = selectedUsuarios.FirstOrDefault(x => x.Email == LoginUser);
+                if (remove != null)
+                    selectedUsuarios.Remove(remove);
+            }
+            else { selectedUsuarios = new List<PersonaDto>(); }
+
             if (selectedUsuarios == null || selectedUsuarios.Count == 0)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "", "No has seleccionado ningún Usuario.");
@@ -117,33 +126,46 @@ namespace GabinetePsicologia.Client.Pages
 
             }
             NotificationService.Notify(NotificationSeverity.Success, "Ok", "Borrado correctamente.");
-            selectedUsuarios.Clear();
+            selectedUsuarios = new List<PersonaDto>();
             grid.Reload();
             DialogService.Close();
            
         }
         private async void CambiarCorreo(string correoAntiguo)
         {
-            if(correoAntiguo == NewCorreo)
+           
+            if (correoAntiguo == NewCorreo)
             {
-                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Correo cambiado correctamente.");
-            
-                DialogService.Close();
+                NotificationService.Notify(NotificationSeverity.Warning, "", "Has introducido el mismo correo que ya tienes.");
+
+                return;
+            }
+            if (!(NewCorreo.Contains('@') && NewCorreo.Contains('.')))
+            {
+                NotificationService.Notify(NotificationSeverity.Warning, "", "No has Introducido un correo válido.");
+
+                return;
             }
             if (await UsuarioServices.CambiarCorreo(correoAntiguo, NewCorreo))
             {
                 NotificationService.Notify(NotificationSeverity.Success, "Ok", "Correo cambiado correctamente.");
-
+                var edit = LsUsuarios.FirstOrDefault(x => x.Email == correoAntiguo);
+                if (edit != null)
+                {
+                    LsUsuarios.Remove(edit);
+                    edit.Email = NewCorreo;
+                    LsUsuarios.Add(edit);
+                    await grid.Reload();
+                }
+                  
             }
             else
             {
-                NotificationService.Notify(NotificationSeverity.Error, "Error", "Este Correo ya existe.");
+                NotificationService.Notify(NotificationSeverity.Warning, "", "Este Correo ya existe.");
+                return;
             }
 
-            if (selectedUsuarios != null)
-                selectedUsuarios.Clear();
-
-            grid.Reload();
+            await grid.Reload();
             DialogService.Close();
         }
     }
