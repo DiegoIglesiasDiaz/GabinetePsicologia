@@ -19,16 +19,16 @@ namespace GabinetePsicologia.Client.Services
         public UsuarioServices(HttpClient httpClient, NavigationManager navigationManager, IHttpClientFactory ClientFactory)
         {
             _ClientFactory = ClientFactory;
-            _httpClient = _ClientFactory.CreateClient("private"); 
+            _httpClient = _ClientFactory.CreateClient("private");
             _navigationManager = navigationManager;
             _httpClientAnonymous = _ClientFactory.CreateClient("public");
         }
         public async Task<bool> RegisterPersona(PersonaDto data)
         {
-           
-           var result =  await _httpClient.PostAsJsonAsync("/Usuario", data);
+
+            var result = await _httpClient.PostAsJsonAsync("/Usuario", data);
             return result.IsSuccessStatusCode;
-           
+
         }
         public async Task<bool> RegisterPersonaAnonymous(PersonaDto data)
         {
@@ -40,7 +40,7 @@ namespace GabinetePsicologia.Client.Services
         public async void EditarPaciente(PersonaDto data)
         {
             await _httpClient.PostAsJsonAsync("/Usuario/Editar", data);
-          
+
 
         }
         //public async Task<List<Usuarios>> getUsuarios()
@@ -66,19 +66,24 @@ namespace GabinetePsicologia.Client.Services
             await _httpClient.PostAsJsonAsync("/Usuario/Borrar", persona);
 
         }
-        public async Task<bool> CambiarCorreo( string correoAntiguo, string newCorreo)
+        public async Task<bool> CambiarCorreo(string correoAntiguo, string newCorreo)
         {
-            string[] correos = new string[]{ correoAntiguo,newCorreo};
+            string[] correos = new string[] { correoAntiguo, newCorreo };
             var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarCorreo", correos);
             return result.IsSuccessStatusCode;
         }
 
         public async Task<bool> Login(LoginDto usuario)
         {
-           
+
             var result = await _httpClientAnonymous.PostAsJsonAsync("/Usuario/Login", usuario);
-            //var result = await _httpClient.PostAsJsonAsync("/Usuario/Login", usuario);
             return result.IsSuccessStatusCode;
+        }
+        public async Task<bool> CambiarContraseña(string passwd,string correo)
+        {
+           string[] data = new string[] { passwd, correo };
+           var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarContraseña", data);
+           return result.IsSuccessStatusCode;
         }
     }
 }

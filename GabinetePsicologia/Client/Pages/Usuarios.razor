@@ -12,11 +12,11 @@
         <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); }) Style="margin-left:auto;margin-right:0" />
         <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" Click=@BorrarPersona Style="margin-left:auto;margin-right:0" />
         <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" Click=@CambiarCorreoModal Style="margin-left:auto;margin-right:0" />
-        <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" Style="margin-left:auto;margin-right:0" />
+        <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" Click=@CambiarContraseñaModal Style="margin-left:auto;margin-right:0" />
 
     }
     <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
-                AllowSorting="true" Data="@LsUsuarios" TItem="PersonaDto" ColumnWidth="200px" AllowColumnPicking="false" AllowPickAllColumns="false" AllowRowSelectOnRowClick=allowRowSelectOnRowClick 
+                AllowSorting="true" Data="@LsUsuarios" TItem="PersonaDto" ColumnWidth="200px" AllowColumnPicking="false" AllowPickAllColumns="false" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
                 SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedUsuarios class="m-4" Context="cntxt">
         <Columns>
             @if (isAdmin)
@@ -28,7 +28,7 @@
                     </HeaderTemplate>
                     <Template Context="data">
                         <RadzenCheckBox TriState="false" Value="@(selectedUsuarios != null && selectedUsuarios.Contains(data))"
-                                TValue="bool"  Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data);}}) Visible=!data.Email.Equals(LoginUser) />
+                                TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data);}}) Visible=!data.Email.Equals(LoginUser) />
                     </Template>
                 </RadzenDataGridColumn>
             }
@@ -42,7 +42,7 @@
             {
                 <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
                     <Template Context="data">
-                        
+
                         <RadzenButton Text="Editar" Click=@(args => {ShowInlineDialog(data); }) ButtonStyle="ButtonStyle.Secondary" Visible=!data.Email.Equals(LoginUser) />
 
                     </Template>
@@ -198,8 +198,8 @@ else
 
             </div>
         </div>
-                </div>
-    );
+    </div>
+            );
 
 
     }
@@ -215,35 +215,84 @@ else
                 selectedUsuarios.Remove(remove);
         }
         else { selectedUsuarios = new List<PersonaDto>(); }
-        if (selectedUsuarios.Count == null){
+        if (selectedUsuarios.Count == null || selectedUsuarios.Count == 0)
+        {
             NotificationService.Notify(NotificationSeverity.Warning, "", "Ningún Usuario seleccionado.");
             return;
         }
-         if (selectedUsuarios.Count != 1){
+        if (selectedUsuarios.Count != 1)
+        {
             NotificationService.Notify(NotificationSeverity.Warning, "", "Debes de seleccionar solo un Usuario.");
             return;
         }
         string CorreoAntiguo = selectedUsuarios.FirstOrDefault().Email;
+        selectedUsuarios = new List<PersonaDto>();
         var result = await DialogService.OpenAsync("Cambiar Correo", ds =>
     @<div>
         <div class="row">
             <div class="col">
-               
+
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Actual</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Subtitle1" TagName="TagName.H2">@CorreoAntiguo</RadzenText>
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Nuevo</RadzenText>
+                    <RadzenTextBox @bind-Value=NewCorreo Name="CorreoNuevo" class="w-100" />
+                    <RadzenEmailValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Eso no es un Correo valido"></RadzenEmailValidator>
+                    <RadzenRequiredValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Correo requerido"></RadzenRequiredValidator>
+                </RadzenCard>
+                <br><br>
+                <div style="display:flex;align-items:center;justify-content:center">
+                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
+                    <RadzenButton style="margin:10px" Text="Guardar" class="me-1" Click="() => CambiarCorreo(CorreoAntiguo)" />
+                </div>
+            </div>
+        </div>
+    </div>
+            );
+    }
+    async Task CambiarContraseñaModal()
+    {
+
+        if (selectedUsuarios != null)
+        {
+
+
+            var remove = selectedUsuarios.FirstOrDefault(x => x.Email == LoginUser);
+            if (remove != null)
+                selectedUsuarios.Remove(remove);
+        }
+        else { selectedUsuarios = new List<PersonaDto>(); }
+        if (selectedUsuarios.Count == null || selectedUsuarios.Count == 0)
+        {
+            NotificationService.Notify(NotificationSeverity.Warning, "", "Ningún Usuario seleccionado.");
+            return;
+        }
+        if (selectedUsuarios.Count != 1)
+        {
+            NotificationService.Notify(NotificationSeverity.Warning, "", "Debes de seleccionar solo un Usuario.");
+            return;
+        }
+        string passwd = "";
+        var result = await DialogService.OpenAsync("Cambiar Correo", ds =>
+    @<div>
+        <div class="row">
+            <div class="col">
+                <RadzenTemplateForm Data="@passwd" TItem="string" method="post" Submit="@((args) => { CambiarContraseña(passwd); })">
                     <RadzenCard>
-                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Actual</RadzenText>
-                        <RadzenText TextStyle="TextStyle.Subtitle1" TagName="TagName.H2">@CorreoAntiguo</RadzenText>
-                    </RadzenCard>
-                    <RadzenCard>
-                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Nuevo</RadzenText>
-                        <RadzenTextBox @bind-Value=NewCorreo Name="CorreoNuevo" class="w-100" />
-                        <RadzenEmailValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Eso no es un Correo valido"></RadzenEmailValidator>
-                        <RadzenRequiredValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Correo requerido"></RadzenRequiredValidator>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nueva Contraseña</RadzenText>
+                        <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" />
+                        <RadzenRequiredValidator Component="passwd" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
+                        <RadzenRegexValidator Component="passwd" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+
                     </RadzenCard>
                     <br><br>
                     <div style="display:flex;align-items:center;justify-content:center">
                         <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                    <RadzenButton style="margin:10px" Text="Guardar" class="me-1" Click="() => CambiarCorreo(CorreoAntiguo)" />
+                        <RadzenButton style="margin:10px" Text="Guardar" class="me-1" ButtonType="ButtonType.Submit" />
                     </div>
+                </RadzenTemplateForm>
             </div>
         </div>
     </div>

@@ -6,7 +6,11 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: #e8fbf9;
 }
-
+.login {
+    /*background: url("../img/fondo3.jpg") no-repeat center center fixed;*/
+    align-items: center;
+    justify-content: center;
+}
 h1:focus {
     outline: none;
 }
