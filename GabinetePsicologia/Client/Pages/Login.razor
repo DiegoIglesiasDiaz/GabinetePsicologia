@@ -1,0 +1,17 @@
+﻿@page "/Login"
+<div class="col-12 d-flex p-3" style="align-items:center; justify-content:center">
+    <RadzenCard class="d-flex m-5 p-0 rz-border-radius-6 rz-shadow-10" Style="width: 40%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
+        <RadzenCard class="rz-shadow-0 rz-border-radius-0 p-5" style="flex: 1 14rem;">
+            <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="mb-4">
+                Iniciar Sesión
+            </RadzenText>
+            <RadzenTemplateForm Data=@("SimpleLogin") >
+                <RadzenLogin AutoComplete="true" AllowRegister="false" AllowResetPassword="false" AllowRememberMe="true" Login=@(args => OnLoginAsync(args, "Simple login")) />
+            </RadzenTemplateForm>
+        </RadzenCard>
+    </RadzenCard>
+</div>
+
+@code {
+    
+}

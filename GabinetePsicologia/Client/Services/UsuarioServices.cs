@@ -2,6 +2,7 @@
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using Radzen;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -13,19 +14,28 @@ namespace GabinetePsicologia.Client.Services
     {
         private readonly HttpClient _httpClient;
         private readonly NavigationManager _navigationManager;
-
-
-        public UsuarioServices(HttpClient httpClient, NavigationManager navigationManager)
+        private readonly IHttpClientFactory _ClientFactory;
+        private readonly HttpClient _httpClientAnonymous;
+        public UsuarioServices(HttpClient httpClient, NavigationManager navigationManager, IHttpClientFactory ClientFactory)
         {
-            _httpClient = httpClient;
+            _ClientFactory = ClientFactory;
+            _httpClient = _ClientFactory.CreateClient("private"); 
             _navigationManager = navigationManager;
-
+            _httpClientAnonymous = _ClientFactory.CreateClient("public");
         }
         public async Task<bool> RegisterPersona(PersonaDto data)
         {
+           
            var result =  await _httpClient.PostAsJsonAsync("/Usuario", data);
             return result.IsSuccessStatusCode;
            
+        }
+        public async Task<bool> RegisterPersonaAnonymous(PersonaDto data)
+        {
+
+            var result = await _httpClientAnonymous.PostAsJsonAsync("/Usuario", data);
+            return result.IsSuccessStatusCode;
+
         }
         public async void EditarPaciente(PersonaDto data)
         {
@@ -60,6 +70,14 @@ namespace GabinetePsicologia.Client.Services
         {
             string[] correos = new string[]{ correoAntiguo,newCorreo};
             var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarCorreo", correos);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> Login(LoginDto usuario)
+        {
+           
+            var result = await _httpClientAnonymous.PostAsJsonAsync("/Usuario/Login", usuario);
+            //var result = await _httpClient.PostAsJsonAsync("/Usuario/Login", usuario);
             return result.IsSuccessStatusCode;
         }
     }

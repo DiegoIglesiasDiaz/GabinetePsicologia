@@ -17,7 +17,8 @@ a, .btn-link {
 .headerDiv {
     display:flex;
     flex-wrap:wrap;
-    width:100%
+    width:100%;
+
 }
 .btn-primary {
     color: #fff;

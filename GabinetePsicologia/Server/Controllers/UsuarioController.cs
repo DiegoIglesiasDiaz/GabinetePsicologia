@@ -5,6 +5,7 @@ using GabinetePsicologia.Server.Data.Migrations;
 using GabinetePsicologia.Server.Models;
 using GabinetePsicologia.Shared;
 using MessagePack;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,7 @@ namespace GabinetePsicologia.Server.Controllers
 {
 
     [Authorize]
+    
     [Route("[controller]")]
     [ApiController]
 
@@ -50,7 +52,7 @@ namespace GabinetePsicologia.Server.Controllers
             _pacienteController = new PacienteController(_context, userManager);
             _psicologoController = new PsicologoController(_context, userManager);
         }
-
+       
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
@@ -58,6 +60,7 @@ namespace GabinetePsicologia.Server.Controllers
 
             return Ok("Logout Succesful");
         }
+        
         [HttpGet("Persona")]
         public async Task<IActionResult> getPersonas()
         {
@@ -135,6 +138,7 @@ namespace GabinetePsicologia.Server.Controllers
             }
             return Ok(LsPersonas);
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> register(PersonaDto data)
         {
@@ -164,6 +168,7 @@ namespace GabinetePsicologia.Server.Controllers
             }
             return BadRequest("Correo Ya existe");
         }
+       
         [HttpPost("Borrar")]
         public async Task<IActionResult> Borrar([FromBody] IList<PersonaDto> data)
         {
@@ -184,6 +189,7 @@ namespace GabinetePsicologia.Server.Controllers
             _context.SaveChanges();
             return Ok("Usuarios Eliminados Correctamente");
         }
+       
         [HttpPost("Editar")]
         public async Task<IActionResult> Editar([FromBody] PersonaDto data)
         {
@@ -272,6 +278,40 @@ namespace GabinetePsicologia.Server.Controllers
             await _userManager.SetUserNameAsync(user, correos[1]);
             await _userManager.SetEmailAsync(user, correos[1]);
             return Ok("Correo Actualizado");
+        }
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public async Task<IActionResult> OnPostAsync([FromBody] LoginDto usuario)
+        {
+         IList<AuthenticationScheme> ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return Ok("Usuario Logueado");
+                }
+                //if (result.RequiresTwoFactor)
+                //{
+                //    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                //}
+                //if (result.IsLockedOut)
+                //{
+                //    _logger.LogWarning("Cuenta de usuario bloqueada.");
+                //    return RedirectToPage("./Lockout");
+                //}
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Datos incorrectos.");
+                    return BadRequest("Datos incorrectos.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return BadRequest("Datos incorrectos.");
         }
     }
 }

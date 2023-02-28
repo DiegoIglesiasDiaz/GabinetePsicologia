@@ -9,14 +9,16 @@ namespace GabinetePsicologia.Client.Services
     public class PacientesServices
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _ClientFactory;
         private readonly NavigationManager _navigationManager;
 
 
-        public PacientesServices( HttpClient httpClient, NavigationManager navigationManager)
+        public PacientesServices( HttpClient httpClient, NavigationManager navigationManager, IHttpClientFactory clientFactory)
         {
-            _httpClient = httpClient;
+            _ClientFactory = clientFactory;
+            _httpClient = _ClientFactory.CreateClient("private");
             _navigationManager = navigationManager;
-         
+            _ClientFactory = clientFactory;
         }
 
 

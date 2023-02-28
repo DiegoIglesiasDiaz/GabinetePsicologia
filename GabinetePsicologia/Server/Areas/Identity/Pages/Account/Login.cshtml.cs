@@ -82,7 +82,7 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Recuerdame")]
             public bool RememberMe { get; set; }
         }
 
@@ -119,7 +119,7 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
                     //siempre se logearan como Admin
                     //User.Claims.Append(new Claim(ClaimTypes.Role, "Administrador"));
                     
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Usuario conectado");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -128,12 +128,12 @@ namespace GabinetePsicologia.Server.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Cuenta de usuario bloqueada.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Datos incorrectos.");
                     return Page();
                 }
             }

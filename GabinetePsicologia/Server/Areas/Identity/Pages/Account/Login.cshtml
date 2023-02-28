@@ -4,14 +4,11 @@
 @{
     ViewData["Title"] = "Iniciar Sesión";
 }
-
-<h1>@ViewData["Title"]</h1>
+<body class="body">
+<h1 style="text-align:center">@ViewData["Title"]</h1>
 <div class="row">
-    <div class="col-md-4">
-        <section>
+        
             <form id="account" method="post">
-                <h2>Use una cuenta local para iniciar sesión.</h2>
-                <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -46,11 +43,11 @@
                     </p>
                 </div>
             </form>
-        </section>
-    </div>
+       
+   
     
 </div>
-
+</body>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
