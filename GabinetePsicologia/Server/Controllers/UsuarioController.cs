@@ -25,7 +25,6 @@ namespace GabinetePsicologia.Server.Controllers
 {
 
     [Authorize]
-    
     [Route("[controller]")]
     [ApiController]
 
@@ -52,7 +51,7 @@ namespace GabinetePsicologia.Server.Controllers
             _pacienteController = new PacienteController(_context, userManager);
             _psicologoController = new PsicologoController(_context, userManager);
         }
-       
+
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
@@ -60,7 +59,7 @@ namespace GabinetePsicologia.Server.Controllers
 
             return Ok("Logout Succesful");
         }
-        
+
         [HttpGet("Persona")]
         public async Task<IActionResult> getPersonas()
         {
@@ -168,7 +167,7 @@ namespace GabinetePsicologia.Server.Controllers
             }
             return BadRequest("Correo Ya existe");
         }
-       
+
         [HttpPost("Borrar")]
         public async Task<IActionResult> Borrar([FromBody] IList<PersonaDto> data)
         {
@@ -189,7 +188,7 @@ namespace GabinetePsicologia.Server.Controllers
             _context.SaveChanges();
             return Ok("Usuarios Eliminados Correctamente");
         }
-       
+
         [HttpPost("Editar")]
         public async Task<IActionResult> Editar([FromBody] PersonaDto data)
         {
@@ -283,7 +282,7 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> OnPostAsync([FromBody] LoginDto usuario)
         {
-         IList<AuthenticationScheme> ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            IList<AuthenticationScheme> ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
@@ -312,6 +311,17 @@ namespace GabinetePsicologia.Server.Controllers
 
             // If we got this far, something failed, redisplay form
             return BadRequest("Datos incorrectos.");
+        }
+        [HttpPost("CambiarContraseña")]
+        public async Task<IActionResult> CambiarContraseña([FromBody] string[] data)
+        {
+            string passwd = data[0];
+            string correo = data[1];
+            var user = _context.Users.FirstOrDefault(x => x.UserName == correo);
+            if (user == null) return BadRequest("Usuario no encontrado");
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            await _userManager.ResetPasswordAsync(user, token, passwd);
+            return Ok("Contraseña Cambiada");
         }
     }
 }

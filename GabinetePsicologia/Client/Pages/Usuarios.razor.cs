@@ -133,7 +133,7 @@ namespace GabinetePsicologia.Client.Pages
         }
         private async void CambiarCorreo(string correoAntiguo)
         {
-           
+            selectedUsuarios = new List<PersonaDto>();
             if (correoAntiguo == NewCorreo)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "", "Has introducido el mismo correo que ya tienes.");
@@ -166,6 +166,21 @@ namespace GabinetePsicologia.Client.Pages
             }
 
             await grid.Reload();
+            DialogService.Close();
+        }
+        private async void CambiarContraseña(string passwd)
+        {
+            string email = selectedUsuarios.First().Email;
+            selectedUsuarios = new List<PersonaDto>();
+            if (await UsuarioServices.CambiarContraseña(passwd, email))
+           {
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Contraseña cambiado correctamente.");
+
+           }
+           else
+           {
+                NotificationService.Notify(NotificationSeverity.Warning, "Error", "No se ha podido cambiar la contraseña.");
+           }
             DialogService.Close();
         }
     }

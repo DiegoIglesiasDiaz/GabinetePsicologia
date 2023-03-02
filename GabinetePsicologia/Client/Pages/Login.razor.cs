@@ -24,8 +24,9 @@ namespace GabinetePsicologia.Client.Pages
                 _notificationService.Notify(NotificationSeverity.Error, "Incorrecto", "Usuario o contraseña incorrectos.");
         }
 
-        void OnRegister(string name)
+        void OnRegister()
         {
+            _navigationManager.NavigateTo("/Register", true);
         }
 
         void OnResetPassword(string value, string name)
