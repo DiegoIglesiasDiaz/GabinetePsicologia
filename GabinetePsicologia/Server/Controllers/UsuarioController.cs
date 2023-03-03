@@ -86,6 +86,8 @@ namespace GabinetePsicologia.Server.Controllers
                         pers.ApplicationUserId = p.ApplicationUserId;
                         pers.Id = p.Id;
                         pers.NIF = p.NIF;
+                        pers.Direccion = p.Direccion;
+                        pers.FecNacim = p.FecNacim;
                     }
                 }
                 if (Psicologos.Where(x => x.ApplicationUserId == user.Id).Any())
@@ -106,6 +108,8 @@ namespace GabinetePsicologia.Server.Controllers
                             pers.ApplicationUserId = p.ApplicationUserId;
                             pers.Id = p.Id;
                             pers.NIF = p.NIF;
+                            pers.Direccion = p.Direccion;
+                            pers.FecNacim = p.FecNacim;
                         }
                     }
 
@@ -128,6 +132,8 @@ namespace GabinetePsicologia.Server.Controllers
                             pers.ApplicationUserId = a.ApplicationUserId;
                             pers.Id = a.Id;
                             pers.NIF = a.NIF;
+                            pers.Direccion = a.Direccion;
+                            pers.FecNacim = a.FecNacim;
                         }
                     }
 
@@ -157,11 +163,11 @@ namespace GabinetePsicologia.Server.Controllers
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 if (data.isPsicologo)
-                    await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id });
+                    await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id , FecNacim = data.FecNacim, Direccion = data.Direccion});
                 if (data.isAdmin)
-                    await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id });
+                    await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id, FecNacim = data.FecNacim, Direccion = data.Direccion });
                 if (data.isPaciente)
-                    await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id });
+                    await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id, FecNacim = data.FecNacim, Direccion = data.Direccion });
 
                 return Ok("Usuario Creado");
             }
@@ -208,7 +214,7 @@ namespace GabinetePsicologia.Server.Controllers
                     paciente.NIF = data.NIF;
                     await _userManager.AddToRoleAsync(User, "Paciente");
                 }
-                else { await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id }); }
+                else { await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id, FecNacim = data.FecNacim, Direccion = data.Direccion }); }
 
 
             }
@@ -229,7 +235,7 @@ namespace GabinetePsicologia.Server.Controllers
                     pscilogo.NIF = data.NIF;
                     await _userManager.AddToRoleAsync(User, "Psicologo");
                 }
-                else { await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id }); }
+                else { await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id, FecNacim = data.FecNacim, Direccion = data.Direccion }); }
 
 
             }
@@ -253,7 +259,7 @@ namespace GabinetePsicologia.Server.Controllers
                 }
                 else
                 {
-                    await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id });
+                    await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id, FecNacim = data.FecNacim, Direccion = data.Direccion });
 
                 }
                ;

@@ -38,6 +38,8 @@
             <RadzenDataGridColumn TItem="PersonaDto" Property="NIF" Title="NIF" />
             <RadzenDataGridColumn TItem="PersonaDto" Property="Email" Title="Email" />
             <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="FecNacim" Title="Fecha de Nacimiento" FormatString="{0:d}" Width="160px" />
+            <RadzenDataGridColumn TItem="PersonaDto" Property="Direccion" Title="Direccion" />
             @if (isAdmin)
             {
                 <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
@@ -114,7 +116,7 @@ else
                         <Steps>
                             @if (!isEdit)
                         {
-                            <RadzenStepsItem Text="Datos Usuario">
+                            <RadzenStepsItem Text="Creación Usuario">
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Rol</RadzenText>
                                     <RadzenCheckBoxList Name="Rol" @bind-Value="values" TValue="int">
@@ -143,7 +145,7 @@ else
 
                             </RadzenStepsItem>
                         }
-                            <RadzenStepsItem Text="Datos Personales">
+                            <RadzenStepsItem Text="Nombre y Apellidos">
                                 @if (isEdit)
                             {
                                 <RadzenCard>
@@ -172,6 +174,8 @@ else
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 2</RadzenText>
                                     <RadzenTextBox @bind-Value=PersonaForm.Apellido2 Name="Apellido2" class="w-100" />
                                 </RadzenCard>
+                            </RadzenStepsItem>
+                            <RadzenStepsItem Text="Datos Usuario">
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">NIF</RadzenText>
                                     <RadzenTextBox @bind-Value=PersonaForm.NIF Name="NIF" class="w-100" />
@@ -184,7 +188,16 @@ else
                                     <RadzenRegexValidator Component="Telefono" Popup=true Text="*Telefono no válido" Pattern="^\d{9}$" Style="position:relative" />
                                     <RadzenRequiredValidator Style="position:relative" Popup=true Component="Telefono" Text="*Telefono requerido"></RadzenRequiredValidator>
                                 </RadzenCard>
-                                <br><br>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Fecha Nacimiento</RadzenText>
+                                    <RadzenDatePicker InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=PersonaForm.FecNacim ShowTime="false" Name="FecNacim" class="w-100" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimient requerido"></RadzenRequiredValidator>
+                                </RadzenCard>
+                                <RadzenCard>
+                                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Direccion</RadzenText>
+                                    <RadzenTextBox @bind-Value=PersonaForm.Direccion Name="Direccion" class="w-100" />
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="Telefono" Text="*Direccion requerido"></RadzenRequiredValidator>
+                                </RadzenCard><br><br>
                                 <div style="display:flex;align-items:center;justify-content:center">
                                     <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
                                     <RadzenButton style="margin:10px" Text="Guardar" ButtonType="ButtonType.Submit" class="me-1" />
@@ -199,7 +212,7 @@ else
             </div>
         </div>
     </div>
-            );
+    );
 
 
     }
@@ -247,10 +260,12 @@ else
                     <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
                     <RadzenButton style="margin:10px" Text="Guardar" class="me-1" Click="() => CambiarCorreo(CorreoAntiguo)" />
                 </div>
+
+
             </div>
         </div>
     </div>
-            );
+    );
     }
     async Task CambiarContraseñaModal()
     {

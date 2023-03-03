@@ -1,32 +1,42 @@
 ﻿body {
-    $color_1: #f5fcfc;
+    $prim-color: #1543f6;
     $color_2: #fff;
-    $color_3: red;
+    $color_3: white;
     $color_4: white;
     $font-family_1: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     $font-family_2: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    $background-color_1: #e8fbf9;
+    $background-prim-color: #e8fbf9;
     $background-color_2: #1b6ec2;
     $background-color_3: darkslategrey;
     $background-color_4: #f7f7f7;
-    $border-color_1: #1861ac;
+    $border-prim-color: #1861ac;
 
     @import "open-iconic/font/css/open-iconic-bootstrap.min.css";
-
-
+    /* :root {
+        --primary: #{$prim-color} !important;
+        --rz-primary: #{$prim-color} !important;
+        --rz-primary-lighter: var(--rz-base-100);
+        --rz-grid-header-color: #{$prim-color};
+        --rz-dialog-title-color: #{$prim-color};
+        --rz-paginator-numeric-button-selected-background-color: var(--rz-base-100);
+        --rz-footer-background-color: #{$prim-color};
+        --rz-footer-color: #ffffff;
+        --rz-dialog-title-padding: 1rem 1.25rem;
+        --rz-steps-number-selected-background: #{$prim-color};
+    }*/
 
     html {
         font-family: $font-family_1;
-        background-color: $background-color_1;
+        background-color: $background-prim-color;
     }
 
     body {
         font-family: $font-family_1;
-        background-color: $background-color_1;
+        background-color: $background-prim-color;
     }
 
     .rz-button {
-        background-color: red;
+       
     }
 
     .login {
@@ -41,11 +51,11 @@
     }
 
     a {
-        color: $color_1;
+        color: $prim-color;
     }
 
     .btn-link {
-        color: $color_1;
+        color: $prim-color;
     }
 
     .headerDiv {
@@ -57,7 +67,7 @@
     .btn-primary {
         color: $color_2;
         background-color: $background-color_2;
-        border-color: $border-color_1;
+        border-color: $border-prim-color;
     }
 
     .accountMenu {

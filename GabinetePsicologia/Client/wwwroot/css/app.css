@@ -1,5 +1,17 @@
 ﻿body {
   @import "open-iconic/font/css/open-iconic-bootstrap.min.css";
+  /* :root {
+      --primary: #1543f6 !important;
+      --rz-primary: #1543f6 !important;
+      --rz-primary-lighter: var(--rz-base-100);
+      --rz-grid-header-color: #1543f6;
+      --rz-dialog-title-color: #1543f6;
+      --rz-paginator-numeric-button-selected-background-color: var(--rz-base-100);
+      --rz-footer-background-color: #1543f6;
+      --rz-footer-color: #ffffff;
+      --rz-dialog-title-padding: 1rem 1.25rem;
+      --rz-steps-number-selected-background: #1543f6;
+  }*/
 }
 body html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -9,9 +21,6 @@ body body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #e8fbf9;
 }
-body .rz-button {
-  background-color: red;
-}
 body .login {
   align-items: center;
   justify-content: center;
@@ -20,10 +29,10 @@ body h1:focus {
   outline: none;
 }
 body a {
-  color: #f5fcfc;
+  color: #1543f6;
 }
 body .btn-link {
-  color: #f5fcfc;
+  color: #1543f6;
 }
 body .headerDiv {
   display: flex;
@@ -53,7 +62,7 @@ body .invalid {
   outline: 1px solid red;
 }
 body .validation-message {
-  color: red;
+  color: white;
 }
 body #blazor-error-ui {
   background: lightyellow;
