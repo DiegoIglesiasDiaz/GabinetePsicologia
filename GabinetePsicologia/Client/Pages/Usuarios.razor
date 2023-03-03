@@ -66,8 +66,10 @@ else
         PersonaForm = new PersonaDto();
         string titulo = "";
         isEdit = false;
-        if (data.Id == Guid.Empty)
-            titulo = "Añadir Usuario";
+        if (data.Id == Guid.Empty){
+             titulo = "Añadir Usuario";
+            PersonaForm.FecNacim = DateTime.Today;
+        }  
         else
         {
 
@@ -83,6 +85,8 @@ else
             PersonaForm.Nombre = data.Nombre;
             PersonaForm.Apellido1 = data.Apellido1;
             PersonaForm.Apellido2 = data.Apellido2;
+            PersonaForm.FecNacim = data.FecNacim;
+            PersonaForm.Direccion = data.Direccion;
             isEdit = true;
             if (data.Rol.Contains("Paciente"))
             {

@@ -16,7 +16,7 @@ namespace GabinetePsicologia.Client.Pages
         IList<PersonaDto> selectedUsuarios;
         string NewCorreo;
         RadzenDataGrid<PersonaDto> grid;
-        PersonaDto PersonaForm = new PersonaDto() { FecNacim=DateTime.Today};
+        PersonaDto PersonaForm = new PersonaDto() ;
         public bool isInRole;
         public bool isAdmin;
         public bool isPiscologo;
