@@ -12,5 +12,7 @@ namespace GabinetePsicologia.Shared
         public DateTime FecInicio { get; set; }
         public DateTime FecFin { get; set; }
         public string Nombre { get; set; }
+        public Guid PacienteId { get; set; }
+        public Guid PsicologoId { get; set; }
     }
 }

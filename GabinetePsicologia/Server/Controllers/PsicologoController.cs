@@ -26,15 +26,12 @@ namespace GabinetePsicologia.Server.Controllers
             _userManager = userManager;
         }
         [HttpGet]
-        public async Task<ActionResult<List<Paciente>>> GetPsicologos()
+        public async Task<ActionResult<List<Psicologo>>> GetPsicologos()
         {
             //    var user = await _context.Users.Include(
             //        u=> u.LsPaciente).FirstOrDefaultAsync(
             //        u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            //await _userManager.AddToRoleAsync(user, "Paciente");
-            if (user == null) return NotFound();
-            return Ok(user.LsPsicologo);
+            return _context.Psicologos.ToList();
         }
         [HttpPost]
         public async Task<ActionResult> RegisterPsicologo(Psicologo psicologo)

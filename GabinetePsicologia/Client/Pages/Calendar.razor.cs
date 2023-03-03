@@ -2,18 +2,21 @@
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 using Radzen;
-using GabinetePsicologia.Client.Pages.Psicologo;
-using GabinetePsicologia.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
+using GabinetePsicologia.Client.Services;
 
 namespace GabinetePsicologia.Client.Pages
 {
     public partial class Calendar
     {
         [Inject] private DialogService DialogService { get; set; }
+        [Inject] private NotificationService NotificationService { get; set; }
+        [Inject] private PsicologoServices PsicologoServices { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         public bool isInRole = false;
         RadzenScheduler<Cita> scheduler;
+        GabinetePsicologia.Shared.Psicologo SelectedPsciologo ;
+        List<GabinetePsicologia.Shared.Psicologo> lsPsicologos = new List<GabinetePsicologia.Shared.Psicologo>();
 
         List<Cita> data = new List<Cita>()
     {
@@ -33,7 +36,7 @@ namespace GabinetePsicologia.Client.Pages
             {
                 isInRole = true;
             }
-
+            lsPsicologos = await PsicologoServices.getPsicologos();
         }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
@@ -53,14 +56,14 @@ namespace GabinetePsicologia.Client.Pages
         {
 
             Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.End };
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Add Appointment", new Dictionary<string, object> { { "Appointment", citaArgs } });
+            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "psicologo", SelectedPsciologo } });
 
             if (Cita != null)
             {
 
                 data.Add(Cita);
                 await scheduler.Reload();
-                DialogService.Alert("Cita Añadida Correctamente", "Cita");
+                NotificationService.Notify(NotificationSeverity.Success,"Ok","Cita Añadida Correctamente");
 
             }
 
@@ -77,7 +80,7 @@ namespace GabinetePsicologia.Client.Pages
         async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Cita> args)
         {
 
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Edit Appointment", new Dictionary<string, object> { { "Appointment", args.Data } });
+            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data } });
             if (Cita != null && Cita.Id != Guid.Empty)
             {
                 data.Remove(Cita);

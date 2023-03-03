@@ -4,14 +4,19 @@
 @if (isInRole)
 {
     <h3>Citas</h3>
+    <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" Data=@lsPsicologos @bind-bind-SelectedItem=SelectedPsciologo
+                TextProperty="Nombre" ValueProperty="Nombre" AllowClear=true Placeholder="Selecciona un Psicologo"/>
+    <br /><br />
     <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita"
-                 StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="2"
+                 StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="2" TodayText="Hoy"
                  SlotRender=@OnSlotRender AppointmentRender=@OnAppointmentRender SlotSelect=@OnSlotSelect AppointmentSelect="OnAppointmentSelect">
-    <RadzenDayView />Dia
-    <RadzenWeekView />
-    <RadzenMonthView />
-    <RadzenYearView />
-</RadzenScheduler>
-}else{
+        <RadzenDayView Text="Dia" />
+        <RadzenWeekView Text="Semana" />
+        <RadzenMonthView Text="Mes" />
+        <RadzenYearView Text="Año" />
+    </RadzenScheduler>
+}
+else
+{
     <p>No estas Autorizado para ver esta página.</p>
 }

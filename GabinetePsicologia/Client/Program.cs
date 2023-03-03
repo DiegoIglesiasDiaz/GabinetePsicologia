@@ -17,6 +17,7 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<UsuarioServices>();
+builder.Services.AddScoped<PsicologoServices>();
 builder.Services.AddScoped<TrastornosServices>();
 builder.Services.AddScoped<PacientesServices>();
 builder.Services.AddScoped<ContextMenuService>();
