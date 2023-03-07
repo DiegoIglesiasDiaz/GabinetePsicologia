@@ -1,14 +1,19 @@
 ﻿@inject DialogService DialogService
 @using GabinetePsicologia.Shared
+@if (cita.Id != Guid.Empty)
+{
+    <div style="display:flex;align-items:center;justify-content:right">
+        <RadzenButton Click="Borrar" ButtonStyle="ButtonStyle.Danger" Text="Borrar" />
+    </div>
+}
+<RadzenTemplateForm TItem="Cita" Data="@cita">
 
-<RadzenTemplateForm TItem="Cita" Data="@cita" Submit=@OnSubmit>
-
-     <div class="row" style="margin-bottom: 16px">
+    <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Pscilogo" />
+            <RadzenLabel Text="Psicologo" />
         </div>
         <div class="col">
-            <RadzenLabel Text=@psicologo.FullName /> 
+            <RadzenLabel Text=@Psicologo.FullName />
         </div>
     </div>
     <div class="row" style="margin-bottom: 16px">
@@ -16,8 +21,8 @@
             <RadzenLabel Text="Paciente" />
         </div>
         <div class="col">
-            <RadzenDropDown Data=@lsPacientes TValue="Paciente" @bind-bind-SelectedItem=selecetedPaciente  AllowClear=true Placeholder="Selecciona un Paciente" />
-            <RadzenRequiredValidator Text="*Paciente Requrido" Component="Paciente" />
+            <RadzenDropDown Data=@lsPacientes TValue="Paciente" Name="Pacientes" AllowClear=true Placeholder="Selecciona un Paciente" Change="Change" TextProperty="FullName" ValueProperty="Id" />
+            <RadzenRequiredValidator Text="*Paciente Requrido" Component="Pacientes" />
         </div>
     </div>
 
@@ -41,23 +46,13 @@
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        <div class="col">
-            @if (cita.Id != Guid.Empty)
-            {
-                <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary" Text="Borrar" />
+        <div style="display:flex;align-items:center;justify-content:center;gap:10%">
+                <RadzenButton Click="DialogService.Close" ButtonStyle="ButtonStyle.Primary" Text="Cancelar" />
                 <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
-            }
-            else
-
-            {
-                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Guardar" />
-            }
-
-
         </div>
     </div>
 </RadzenTemplateForm>
 
 @code {
-   
+
 }

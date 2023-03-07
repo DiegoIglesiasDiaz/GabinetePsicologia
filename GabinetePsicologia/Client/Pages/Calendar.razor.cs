@@ -9,6 +9,7 @@ namespace GabinetePsicologia.Client.Pages
 {
     public partial class Calendar
     {
+        string value = "psicologo";
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }
         [Inject] private PsicologoServices PsicologoServices { get; set; }
@@ -18,16 +19,8 @@ namespace GabinetePsicologia.Client.Pages
         GabinetePsicologia.Shared.Psicologo SelectedPsciologo ;
         List<GabinetePsicologia.Shared.Psicologo> lsPsicologos = new List<GabinetePsicologia.Shared.Psicologo>();
 
-        List<Cita> data = new List<Cita>()
-    {
-      new Cita
-      {
-        FecInicio = DateTime.Today,
-        FecFin = DateTime.Today.AddDays(1),
-        Nombre = "Birthday",
-        Id=Guid.NewGuid()
-      },
-    };
+        List<Cita> data = new List<Cita>();
+    
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -54,9 +47,13 @@ namespace GabinetePsicologia.Client.Pages
         }
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
-
+            if(SelectedPsciologo == null)
+            {
+                NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
+                return;
+            }
             Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.End };
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "psicologo", SelectedPsciologo } });
+            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo } });
 
             if (Cita != null)
             {
@@ -72,23 +69,41 @@ namespace GabinetePsicologia.Client.Pages
         {
             // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
 
-            if (args.Data.Nombre == "Birthday")
-            {
-                args.Attributes["style"] = "background: red";
-            }
+            //if (args.Data.Nombre == "Birthday")
+            //{
+            //    args.Attributes["style"] = "background: red";
+            //}
         }
         async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Cita> args)
         {
-
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data } });
-            if (Cita != null && Cita.Id != Guid.Empty)
+            Cita Cita = args.Data;
+            Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId); 
+            Cita = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } });
+            if (Cita == null) return;
+            if (Cita.Id != Guid.Empty)
             {
-                data.Remove(Cita);
-                DialogService.Alert("Cita Borrado Correctamente", "Borrar");
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Editada correctamente");
+             
             }
-            else if (Cita != null) DialogService.Alert("Cita Editada Correctamente", "Editar");
+            else
+            {
+                data.Remove(args.Data);
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Borrada correctamente");
+               
+
+            }
+           
 
             await scheduler.Reload();
+        }
+        private void change(object args)
+        {
+            SelectedPsciologo = null;
+            if (args != null)
+            {
+                Guid Id = Guid.Parse(args.ToString());
+                SelectedPsciologo = lsPsicologos.FirstOrDefault(x => x.Id == Id);
+            }
         }
     }
 }

@@ -4,8 +4,9 @@
 @if (isInRole)
 {
     <h3>Citas</h3>
-    <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" Data=@lsPsicologos @bind-bind-SelectedItem=SelectedPsciologo
-                TextProperty="Nombre" ValueProperty="Nombre" AllowClear=true Placeholder="Selecciona un Psicologo"/>
+   @* <RadzenDropDown @bind-Value=@value Data=@lsPsicologos TextProperty="Nombre" ValueProperty="Nombre" />*@
+    <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" Data=@lsPsicologos 
+                TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Psicologo" Change="@change" />
     <br /><br />
     <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita"
                  StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="2" TodayText="Hoy"

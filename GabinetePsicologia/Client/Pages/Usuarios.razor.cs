@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 using Radzen;
-using GabinetePsicologia.Client.Pages.Psicologo;
+
 
 namespace GabinetePsicologia.Client.Pages
 {

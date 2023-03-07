@@ -15,6 +15,7 @@ public abstract class Persona
         {
             return Apellido1 + " " + Apellido2;
         }
+
     }
   
     public string NIF { get; set; }

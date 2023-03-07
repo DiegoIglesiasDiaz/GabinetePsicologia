@@ -1,6 +1,7 @@
 ﻿using GabinetePsicologia.Client.Services;
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
+using Radzen;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -9,12 +10,14 @@ namespace GabinetePsicologia.Client.Pages
         [Parameter]
         public Cita Appointment { get; set; }
         [Parameter]
-        public GabinetePsicologia.Shared.Psicologo psicologo { get; set; }
+        public GabinetePsicologia.Shared.Psicologo Psicologo { get; set; }
 
         Cita cita = new Cita();
         [Inject] private PacientesServices PacientesServices { get; set; }
+        [Inject] private NotificationService NotificationService { get; set; }
         [Inject] private PsicologoServices PsicologoServices { get; set; }
-        Paciente selecetedPaciente;
+        Paciente selectedPaciente;
+        string selectNamePersona;
         List<Paciente> lsPacientes;
         protected override async Task OnInitializedAsync()
         {
@@ -24,20 +27,39 @@ namespace GabinetePsicologia.Client.Pages
        
         protected override void OnParametersSet()
         {
+          
             cita = Appointment;
+            selectedPaciente = lsPacientes.FirstOrDefault(x=> x.Id == cita.PacienteId);
+            //if (selectedPaciente != null)
+            //    selectNamePersona = "paciente";
+
         }
 
         void Guardar()
         {
-            cita.Nombre = selecetedPaciente.Nombre;
-            DialogService.Close(new Cita());
+            if(selectedPaciente == null)
+            {
+                NotificationService.Notify(NotificationSeverity.Warning, "Paciente Vacio", "debe de seleccionar un paciente");
+                return;
+            }
+            cita.Nombre = selectedPaciente.FullName;
+            cita.PacienteId = selectedPaciente.Id;
+            cita.PsicologoId = Psicologo.Id;
+            cita.Id = Guid.NewGuid();
+            DialogService.Close(cita);
         }
-
-        void OnSubmit(Cita model)
+        void Change(object args)
         {
-            if (Appointment.Id == Guid.Empty)
-                model.Id = Guid.NewGuid();
-            DialogService.Close(model);
+            selectedPaciente = null;
+            if (args != null)
+            {
+                Guid Id = Guid.Parse(args.ToString());
+                selectedPaciente = lsPacientes.FirstOrDefault(x => x.Id == Id);
+            }
+        }
+        void Borrar()
+        {
+            DialogService.Close(new Cita());
         }
     }
 
