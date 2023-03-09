@@ -20,10 +20,19 @@
         <div class="col-md-3">
             <RadzenLabel Text="Paciente" />
         </div>
-        <div class="col">
-            <RadzenDropDown Data=@lsPacientes TValue="Paciente" Name="Pacientes" AllowClear=true Placeholder="Selecciona un Paciente" Change="Change" TextProperty="FullName" ValueProperty="Id" />
-            <RadzenRequiredValidator Text="*Paciente Requrido" Component="Pacientes" />
-        </div>
+        @if (!isEdit)
+        {
+            <div class="col">
+                <RadzenDropDown Data=@lsPacientes TValue="Paciente" Name="Pacientes" AllowClear=true Placeholder="Selecciona un Paciente" Change="Change" TextProperty="FullName" ValueProperty="Id" />
+                <RadzenRequiredValidator Text="*Paciente Requrido" Component="Pacientes" />
+            </div>
+        }
+        else
+        {
+            <div class="col">
+                <RadzenLabel Text=@selectedPaciente.FullName />
+            </div>
+        }
     </div>
 
     <div class="row" style="margin-bottom: 16px">
@@ -47,8 +56,8 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div style="display:flex;align-items:center;justify-content:center;gap:10%">
-                <RadzenButton Click="DialogService.Close" ButtonStyle="ButtonStyle.Primary" Text="Cancelar" />
-                <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
+            <RadzenButton Click="DialogService.Close" ButtonStyle="ButtonStyle.Primary" Text="Cancelar" />
+            <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
         </div>
     </div>
 </RadzenTemplateForm>

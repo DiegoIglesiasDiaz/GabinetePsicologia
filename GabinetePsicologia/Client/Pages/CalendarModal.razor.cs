@@ -17,7 +17,7 @@ namespace GabinetePsicologia.Client.Pages
         [Inject] private NotificationService NotificationService { get; set; }
         [Inject] private PsicologoServices PsicologoServices { get; set; }
         Paciente selectedPaciente;
-        string selectNamePersona;
+        bool isEdit = false;
         List<Paciente> lsPacientes;
         protected override async Task OnInitializedAsync()
         {
@@ -30,8 +30,7 @@ namespace GabinetePsicologia.Client.Pages
           
             cita = Appointment;
             selectedPaciente = lsPacientes.FirstOrDefault(x=> x.Id == cita.PacienteId);
-            //if (selectedPaciente != null)
-            //    selectNamePersona = "paciente";
+            if (selectedPaciente != null) isEdit = true;
 
         }
 

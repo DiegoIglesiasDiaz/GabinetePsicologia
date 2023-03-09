@@ -1,12 +1,16 @@
-﻿@page "/Scheduler"
+﻿@page "/Calendario"
 @using GabinetePsicologia.Shared
 
 @if (isInRole)
 {
     <h3>Citas</h3>
    @* <RadzenDropDown @bind-Value=@value Data=@lsPsicologos TextProperty="Nombre" ValueProperty="Nombre" />*@
+   <div>
     <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" Data=@lsPsicologos 
                 TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Psicologo" Change="@change" />
+        <RadzenDropDown TValue="GabinetePsicologia.Shared.Paciente" Data=@lsPacientes
+                    TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Paciente" Change="@changePaciente" />
+    </div>
     <br /><br />
     <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita"
                  StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="2" TodayText="Hoy"

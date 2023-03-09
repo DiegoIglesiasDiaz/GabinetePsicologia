@@ -20,6 +20,7 @@ builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<PsicologoServices>();
 builder.Services.AddScoped<TrastornosServices>();
 builder.Services.AddScoped<PacientesServices>();
+builder.Services.AddScoped<CitasServices>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddApiAuthorization();
 

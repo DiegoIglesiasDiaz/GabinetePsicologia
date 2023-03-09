@@ -39,6 +39,7 @@ builder.Services.AddScoped<TrastornoController>();
 builder.Services.AddScoped<PsicologoController>();
 builder.Services.AddScoped<AdministradorController>();
 builder.Services.AddScoped<PacienteController>();
+builder.Services.AddScoped<CitaController>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

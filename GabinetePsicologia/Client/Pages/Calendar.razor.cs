@@ -11,16 +11,21 @@ namespace GabinetePsicologia.Client.Pages
     {
         string value = "psicologo";
         [Inject] private DialogService DialogService { get; set; }
+        [Inject] private CitasServices CitasServices { get; set; }
+        [Inject] private PacientesServices PacientesServices { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }
         [Inject] private PsicologoServices PsicologoServices { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         public bool isInRole = false;
         RadzenScheduler<Cita> scheduler;
-        GabinetePsicologia.Shared.Psicologo SelectedPsciologo ;
+        GabinetePsicologia.Shared.Psicologo SelectedPsciologo;
+        Paciente SelectedPaciente;
         List<GabinetePsicologia.Shared.Psicologo> lsPsicologos = new List<GabinetePsicologia.Shared.Psicologo>();
+        List<Paciente> lsPacientes = new List<Paciente>();
 
+        List<Cita> allList = new List<Cita>();
         List<Cita> data = new List<Cita>();
-    
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -30,6 +35,9 @@ namespace GabinetePsicologia.Client.Pages
                 isInRole = true;
             }
             lsPsicologos = await PsicologoServices.getPsicologos();
+            lsPacientes = await PacientesServices.getPacientes();
+            data = await CitasServices.GetCitas();
+            allList = await CitasServices.GetCitas();
         }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
@@ -47,20 +55,20 @@ namespace GabinetePsicologia.Client.Pages
         }
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
-            if(SelectedPsciologo == null)
+            if (SelectedPsciologo == null)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
                 return;
             }
-            Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.End };
+            Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
             Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo } });
 
             if (Cita != null)
             {
-
+                CitasServices.InsertCita(Cita);
                 data.Add(Cita);
                 await scheduler.Reload();
-                NotificationService.Notify(NotificationSeverity.Success,"Ok","Cita Añadida Correctamente");
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
 
             }
 
@@ -77,32 +85,78 @@ namespace GabinetePsicologia.Client.Pages
         async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Cita> args)
         {
             Cita Cita = args.Data;
-            Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId); 
+            Guid id = args.Data.Id;
+            Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId);
             Cita = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } });
             if (Cita == null) return;
             if (Cita.Id != Guid.Empty)
             {
+                Cita.Id = id;
+                CitasServices.ActualizarCita(Cita);
                 NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Editada correctamente");
-             
+
             }
             else
             {
+                CitasServices.EliminarCita(args.Data);
                 data.Remove(args.Data);
                 NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Borrada correctamente");
-               
+
 
             }
-           
+
 
             await scheduler.Reload();
         }
         private void change(object args)
         {
             SelectedPsciologo = null;
+            data = allList.ToList();
             if (args != null)
             {
                 Guid Id = Guid.Parse(args.ToString());
                 SelectedPsciologo = lsPsicologos.FirstOrDefault(x => x.Id == Id);
+                if(SelectedPaciente != null)
+                {
+                    data = data.Where(x => x.PsicologoId == Id && x.PacienteId == SelectedPaciente.Id).ToList();
+                }
+                else
+                {
+                    data = data.Where(x => x.PsicologoId == Id).ToList();
+                }
+               
+                scheduler.Reload();
+
+            }else if (SelectedPaciente != null)
+            {
+                data = data.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
+                scheduler.Reload();
+            }
+        }
+        private void changePaciente(object args)
+        {
+            SelectedPaciente = null;
+            data = allList.ToList();
+
+            if (args != null)
+            {
+                Guid Id = Guid.Parse(args.ToString());
+                SelectedPaciente = lsPacientes.FirstOrDefault(x => x.Id == Id);
+                if(SelectedPsciologo != null)
+                {
+                    data = data.Where(x => x.PacienteId == Id && x.PsicologoId == SelectedPsciologo.Id).ToList();
+                }
+                else
+                {
+                    data = data.Where(x => x.PacienteId == Id).ToList();
+                }
+  
+                scheduler.Reload();
+            }
+            else if (SelectedPsciologo != null)
+            {
+                data = data.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
+                scheduler.Reload();
             }
         }
     }
