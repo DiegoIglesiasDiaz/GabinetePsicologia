@@ -33,5 +33,10 @@ namespace GabinetePsicologia.Client.Services
             await _httpClient.PostAsJsonAsync<Paciente>("/Paciente", paciente);
         }
 
+        internal async Task<Paciente> GetPacienteByUsername(string username)
+        {
+            var paciente = await _httpClient.GetFromJsonAsync<Paciente>($"/Paciente/Username/{username}");
+            return paciente;
+        }
     }
 }

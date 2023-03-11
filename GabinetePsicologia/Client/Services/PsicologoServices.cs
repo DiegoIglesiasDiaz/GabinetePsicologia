@@ -24,8 +24,14 @@ namespace GabinetePsicologia.Client.Services
 
         public async Task<List<Psicologo>> getPsicologos()
         {
-            var paciente = await _httpClient.GetFromJsonAsync<List<Psicologo>>("/Psicologo");
-            return paciente;
+            var psicologo = await _httpClient.GetFromJsonAsync<List<Psicologo>>("/Psicologo");
+            return psicologo;
+
+        }
+        public async Task<Psicologo> GetPsicologoByUsername(string Username)
+        {
+            var psicologo = await _httpClient.GetFromJsonAsync<Psicologo>($"/Psicologo/Username/{Username}");
+            return psicologo;
 
         }
 

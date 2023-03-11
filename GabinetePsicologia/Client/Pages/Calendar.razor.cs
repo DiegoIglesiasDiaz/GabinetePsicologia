@@ -22,6 +22,10 @@ namespace GabinetePsicologia.Client.Pages
         Paciente SelectedPaciente;
         List<GabinetePsicologia.Shared.Psicologo> lsPsicologos = new List<GabinetePsicologia.Shared.Psicologo>();
         List<Paciente> lsPacientes = new List<Paciente>();
+        bool isPaciente = false;
+        bool isPsicologo = false;
+        bool isAdmin = false;
+
 
         List<Cita> allList = new List<Cita>();
         List<Cita> data = new List<Cita>();
@@ -30,31 +34,62 @@ namespace GabinetePsicologia.Client.Pages
         {
             await base.OnInitializedAsync();
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if (user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
+            if (user.IsInRole("Psicologo") || user.IsInRole("Administrador") || user.IsInRole("Paciente"))
             {
                 isInRole = true;
             }
+            else return;
             lsPsicologos = await PsicologoServices.getPsicologos();
             lsPacientes = await PacientesServices.getPacientes();
             data = await CitasServices.GetCitas();
             allList = await CitasServices.GetCitas();
+            if (user.IsInRole("Administrador")) isAdmin = true;
+            if (user.IsInRole("Psicologo"))
+            {
+                SelectedPsciologo = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
+                allList = allList.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
+                data = allList;
+                isPsicologo = true;
+                List<Paciente> LspacientePsicologo = new List<Paciente>();
+                foreach(var cita in allList)
+                {
+                    foreach(var paciente in lsPacientes)
+                    {
+                        if(paciente.Id == cita.PacienteId)
+                        {
+                            LspacientePsicologo.Add(paciente);
+                        }
+                    }
+                }
+                lsPacientes = LspacientePsicologo;
+            }
+            else if (user.IsInRole("Paciente"))
+            {
+                SelectedPaciente = await PacientesServices.GetPacienteByUsername(user.Identity.Name);
+                allList = allList.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
+                data = allList;
+                isPaciente = true;
+
+            }
+
         }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
-            // Highlight today in month view
-            if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
-            {
-                args.Attributes["style"] = "background: rgba(255,220,40,.2);";
-            }
+            //// Highlight today in month view
+            //if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
+            //{
+            //    args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+            //}
 
-            // Highlight working hours (9-18)
-            if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 8 && args.Start.Hour < 19)
-            {
-                args.Attributes["style"] = "background: rgba(255,220,40,.2);";
-            }
+            //// Highlight working hours (9-18)
+            //if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 8 && args.Start.Hour < 19)
+            //{
+            //    args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+            //}
         }
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
+            if (isPaciente || isPsicologo) return;
             if (SelectedPsciologo == null)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
@@ -116,7 +151,7 @@ namespace GabinetePsicologia.Client.Pages
             {
                 Guid Id = Guid.Parse(args.ToString());
                 SelectedPsciologo = lsPsicologos.FirstOrDefault(x => x.Id == Id);
-                if(SelectedPaciente != null)
+                if (SelectedPaciente != null)
                 {
                     data = data.Where(x => x.PsicologoId == Id && x.PacienteId == SelectedPaciente.Id).ToList();
                 }
@@ -124,10 +159,11 @@ namespace GabinetePsicologia.Client.Pages
                 {
                     data = data.Where(x => x.PsicologoId == Id).ToList();
                 }
-               
+
                 scheduler.Reload();
 
-            }else if (SelectedPaciente != null)
+            }
+            else if (SelectedPaciente != null)
             {
                 data = data.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
                 scheduler.Reload();
@@ -142,7 +178,7 @@ namespace GabinetePsicologia.Client.Pages
             {
                 Guid Id = Guid.Parse(args.ToString());
                 SelectedPaciente = lsPacientes.FirstOrDefault(x => x.Id == Id);
-                if(SelectedPsciologo != null)
+                if (SelectedPsciologo != null)
                 {
                     data = data.Where(x => x.PacienteId == Id && x.PsicologoId == SelectedPsciologo.Id).ToList();
                 }
@@ -150,7 +186,7 @@ namespace GabinetePsicologia.Client.Pages
                 {
                     data = data.Where(x => x.PacienteId == Id).ToList();
                 }
-  
+
                 scheduler.Reload();
             }
             else if (SelectedPsciologo != null)
