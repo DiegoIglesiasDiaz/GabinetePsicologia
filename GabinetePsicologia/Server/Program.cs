@@ -26,7 +26,12 @@ builder.Services.AddIdentityServer()
     });
 
 builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
+    .AddIdentityServerJwt()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = "488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com";
+        googleOptions.ClientSecret = "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";
+    });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -70,6 +75,7 @@ app.UseAuthorization();
 
 
 
+app.MapRazorPages();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
