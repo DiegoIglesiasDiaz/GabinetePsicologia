@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Radzen;
 using GabinetePsicologia.Server.Controllers;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,6 @@ builder.Services.AddAuthentication()
         googleOptions.ClientId = "488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com";
         googleOptions.ClientSecret = "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";
     });
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<DialogService>();
@@ -45,6 +45,18 @@ builder.Services.AddScoped<PsicologoController>();
 builder.Services.AddScoped<AdministradorController>();
 builder.Services.AddScoped<PacienteController>();
 builder.Services.AddScoped<CitaController>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy => { policy.AllowAnyOrigin(); });
+});
+
+builder.Services.AddLocalization();
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-ES");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-ES");
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -59,6 +71,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -66,11 +79,16 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseIdentityServer();
 app.UseAuthentication();
+
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
 app.UseAuthorization();
 
 

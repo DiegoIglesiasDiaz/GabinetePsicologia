@@ -24,4 +24,5 @@ builder.Services.AddScoped<CitasServices>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddApiAuthorization();
 
+
 await builder.Build().RunAsync();

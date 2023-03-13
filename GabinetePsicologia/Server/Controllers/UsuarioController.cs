@@ -8,6 +8,7 @@ using MessagePack;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -328,6 +329,16 @@ namespace GabinetePsicologia.Server.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             await _userManager.ResetPasswordAsync(user, token, passwd);
             return Ok("Contraseña Cambiada");
+        }
+        [AllowAnonymous]
+        [HttpGet("ExternalLogin/{provider}")]
+        public ChallengeResult ExternalLogin(string provider)
+        {
+            
+            string returnUrl = null;
+            //var redirectUrl = Url.Page("/LoginPages/Account/ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, "/Login");
+            return new ChallengeResult(provider, properties);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using GabinetePsicologia.Client.Pages;
 using GabinetePsicologia.Shared;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 using Radzen;
 using System;
 using System.Net;
@@ -16,6 +18,7 @@ namespace GabinetePsicologia.Client.Services
         private readonly NavigationManager _navigationManager;
         private readonly IHttpClientFactory _ClientFactory;
         private readonly HttpClient _httpClientAnonymous;
+        private readonly NavigationManager NavigationManager;
         public UsuarioServices(HttpClient httpClient, NavigationManager navigationManager, IHttpClientFactory ClientFactory)
         {
             _ClientFactory = ClientFactory;
@@ -84,6 +87,11 @@ namespace GabinetePsicologia.Client.Services
            string[] data = new string[] { passwd, correo };
            var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarContraseña", data);
            return result.IsSuccessStatusCode;
+        }
+        public  void ExternalLogin(string Provider)
+        {
+            var result = _httpClientAnonymous.GetFromJsonAsync<ChallengeResult>($"/Usuario/ExternalLogin/{Provider}");
+            //_navigationManager.NavigateTo("https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flocalhost%3A7112%2Fsignin-google&scope=openid%20profile%20email&state=CfDJ8CV2pE7oYEtHr3ZItb2JvpyHfkGINlphVScoxjYd0xsXpLKkgNoJzIC7z1-MDt8gUo1dI9kiZU5xvlfgGwlJoy9n1IH028DQkEztNDK8Tvk_BIpHCZlQc1QhhQ7JC0CO823Tfqv_IrkrKsqPRjzv-B86a0y_D1VBp-AjyMPMmUvYMhBgfDW90spberkT-_8NrjODy76x9dEEnAKTUlFMgzfwUH9xiRjxlEOS4OFmPifB60YzBcJHc-ev-aKR1AFQESvJGNE8mYQBKutv_DkZEpDqEcH7dHcco_HbrP7ZvNkq&service=lso&o2v=2&flowName=GeneralOAuthFlow", true);  
         }
     }
 }

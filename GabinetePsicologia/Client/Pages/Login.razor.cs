@@ -31,8 +31,13 @@ namespace GabinetePsicologia.Client.Pages
 
         void OnResetPassword(string value, string name)
         {
+
         }
 
-        
+        void Google()
+        {
+            UsuarioServices.ExternalLogin("Google");
+            
+        }
     }
 }
