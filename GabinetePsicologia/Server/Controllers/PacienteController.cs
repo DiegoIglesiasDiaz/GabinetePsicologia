@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Claims;
 using Paciente = GabinetePsicologia.Shared.Paciente;
 
@@ -40,6 +42,42 @@ namespace GabinetePsicologia.Server.Controllers
             await _userManager.AddToRoleAsync(user, "Paciente");
             _context.SaveChanges();
             return Ok();
+        }
+        [HttpGet("Username/{username}")]
+        public Paciente GetPsicologoByUsername( string username)
+        {
+            using (SqlConnection con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetPacienteByUserName", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@username", SqlDbType.VarChar).Value = username;
+                    con.Open();
+                    using (IDataReader reader = cmd.ExecuteReader())
+                    {
+                        Paciente paciente = new Paciente();
+                        while (reader.Read())
+                        {
+
+
+                            paciente.Id = (Guid)reader["Id"];
+                            paciente.Nombre = (string)reader["Nombre"];
+                            paciente.Apellido1 = (string)reader["Apellido1"];
+                            paciente.Apellido2 = (string)reader["Apellido2"];
+                            paciente.NIF = (string)reader["NIF"];
+                            paciente.Direccion = (string)reader["Direccion"];
+                            paciente.FecNacim = (DateTime)reader["FecNacim"];
+                            paciente.ApplicationUserId = (string)reader["ApplicationUserId"];
+
+                        }
+                        con.Close();
+                        return paciente;
+                    }
+
+                }
+
+
+            }
         }
     }
 }

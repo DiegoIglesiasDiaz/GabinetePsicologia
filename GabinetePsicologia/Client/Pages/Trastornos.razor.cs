@@ -6,7 +6,7 @@ using Radzen;
 using Radzen.Blazor;
 using System;
 
-namespace GabinetePsicologia.Client.Pages.Psicologo
+namespace GabinetePsicologia.Client.Pages
 {
     public partial class Trastornos
     {

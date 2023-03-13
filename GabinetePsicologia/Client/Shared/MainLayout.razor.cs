@@ -1,4 +1,4 @@
-﻿using GabinetePsicologia.Client.Pages.Psicologo;
+﻿
 using GabinetePsicologia.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;

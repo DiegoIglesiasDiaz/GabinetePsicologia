@@ -1,4 +1,4 @@
-﻿using GabinetePsicologia.Client.Pages.Psicologo;
+﻿
 using GabinetePsicologia.Server.Areas.Identity.Pages.Admin;
 using GabinetePsicologia.Server.Data;
 using GabinetePsicologia.Server.Data.Migrations;

@@ -1,19 +1,43 @@
 ﻿@inject DialogService DialogService
 @using GabinetePsicologia.Shared
+@if (cita.Id != Guid.Empty)
+{
+    <div style="display:flex;align-items:center;justify-content:right">
+        <RadzenButton Click="Borrar" ButtonStyle="ButtonStyle.Danger" Text="Borrar" />
+    </div>
+}
+<RadzenTemplateForm TItem="Cita" Data="@cita">
 
-<RadzenTemplateForm TItem="Cita" Data="@cita" Submit=@OnSubmit>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Text" />
+            <RadzenLabel Text="Psicologo" />
         </div>
         <div class="col">
-            <RadzenTextBox @bind-Value="@cita.Nombre" Name="Nombre" />
-            <RadzenRequiredValidator Text="*Nombre Requrido" Component="Nombre" />
+            <RadzenLabel Text=@Psicologo.FullName />
         </div>
     </div>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Start" />
+            <RadzenLabel Text="Paciente" />
+        </div>
+        @if (!isEdit)
+        {
+            <div class="col">
+                <RadzenDropDown Data=@lsPacientes TValue="Paciente" Name="Pacientes" AllowClear=true Placeholder="Selecciona un Paciente" Change="Change" TextProperty="FullName" ValueProperty="Id" />
+                <RadzenRequiredValidator Text="*Paciente Requrido" Component="Pacientes" />
+            </div>
+        }
+        else
+        {
+            <div class="col">
+                <RadzenLabel Text=@selectedPaciente.FullName />
+            </div>
+        }
+    </div>
+
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Fecha Inicio" />
         </div>
         <div class="col">
             <RadzenDatePicker @bind-Value="@cita.FecInicio" Name="FecInicio" ShowTime="true" />
@@ -22,7 +46,7 @@
     </div>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="End" />
+            <RadzenLabel Text="Fecha Fin" />
         </div>
         <div class="col">
             <RadzenDatePicker Name="FecFin" @bind-Value="@cita.FecFin" ShowTime="true" />
@@ -31,43 +55,13 @@
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        <div class="col">
-            @if (cita.Id != Guid.Empty)
-            {
-                <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Secondary" Text="Borrar" />
-                <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
-            }
-            else
-
-            {
-                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Text="Guardar" />
-            }
-
-
+        <div style="display:flex;align-items:center;justify-content:center;gap:10%">
+            <RadzenButton Click="DialogService.Close" ButtonStyle="ButtonStyle.Primary" Text="Cancelar" />
+            <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
         </div>
     </div>
 </RadzenTemplateForm>
 
 @code {
-    [Parameter]
-    public Cita Appointment { get; set; }
 
-    Cita cita = new Cita();
-    protected override void OnParametersSet()
-    {
-        cita = Appointment;
-    }
-
-    void Guardar()
-    {
-
-        DialogService.Close(new Cita());
-    }
-
-    void OnSubmit(Cita model)
-    {
-        if (Appointment.Id == Guid.Empty)
-            model.Id = Guid.NewGuid();
-        DialogService.Close(model);
-    }
 }

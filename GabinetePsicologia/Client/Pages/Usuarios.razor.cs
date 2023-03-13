@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 using Radzen;
-using GabinetePsicologia.Client.Pages.Psicologo;
+
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -16,7 +16,7 @@ namespace GabinetePsicologia.Client.Pages
         IList<PersonaDto> selectedUsuarios;
         string NewCorreo;
         RadzenDataGrid<PersonaDto> grid;
-        PersonaDto PersonaForm = new PersonaDto() { FecNacim=DateTime.Today};
+        PersonaDto PersonaForm = new PersonaDto() ;
         public bool isInRole;
         public bool isAdmin;
         public bool isPiscologo;
