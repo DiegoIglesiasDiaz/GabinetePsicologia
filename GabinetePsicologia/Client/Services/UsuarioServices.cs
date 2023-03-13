@@ -91,7 +91,7 @@ namespace GabinetePsicologia.Client.Services
         public  void ExternalLogin(string Provider)
         {
             var result = _httpClientAnonymous.GetFromJsonAsync<ChallengeResult>($"/Usuario/ExternalLogin/{Provider}");
-            //_navigationManager.NavigateTo("https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flocalhost%3A7112%2Fsignin-google&scope=openid%20profile%20email&state=CfDJ8CV2pE7oYEtHr3ZItb2JvpyHfkGINlphVScoxjYd0xsXpLKkgNoJzIC7z1-MDt8gUo1dI9kiZU5xvlfgGwlJoy9n1IH028DQkEztNDK8Tvk_BIpHCZlQc1QhhQ7JC0CO823Tfqv_IrkrKsqPRjzv-B86a0y_D1VBp-AjyMPMmUvYMhBgfDW90spberkT-_8NrjODy76x9dEEnAKTUlFMgzfwUH9xiRjxlEOS4OFmPifB60YzBcJHc-ev-aKR1AFQESvJGNE8mYQBKutv_DkZEpDqEcH7dHcco_HbrP7ZvNkq&service=lso&o2v=2&flowName=GeneralOAuthFlow", true);  
+            //_navigationManager.NavigateTo("https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flocalhost%3A7112%2Fsignin-google&scope=openid%20profile%20email&state=CfDJ8CV2pE7oYEtHr3ZItb2Jvpyt8k_0Wxy6qr4I1aRJuZePNV20-dW8a7Oj38pNsM7LUXf7Jk6dEEbQAfNJMUxPx6H7mfYAZL72tWErJ-pdlAnYiG8iHE53DKScFR92edoTHgkQ8U869mFDE7gaSDdqCzPjmfdbs5f_pARsP3bocgsXeiNeUZqjIIwb9m9NvSoR1PyEn3-Adbe_0Uv5AJ2GQ0c8H9U1R8jxtCJWw_Nluybbhcgl44U8UU-9M8UbsmhZiA", true);
         }
     }
 }
