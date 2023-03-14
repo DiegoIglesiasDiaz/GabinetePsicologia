@@ -25,7 +25,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace GabinetePsicologia.Server.Controllers
 {
 
-    
+
     [Route("[controller]")]
     [ApiController]
 
@@ -164,7 +164,7 @@ namespace GabinetePsicologia.Server.Controllers
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 if (data.isPsicologo)
-                    await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id , FecNacim = data.FecNacim, Direccion = data.Direccion});
+                    await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id, FecNacim = data.FecNacim, Direccion = data.Direccion });
                 if (data.isAdmin)
                     await _administradorController.RegisterAdministrador(new Administrador { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = user.Id, FecNacim = data.FecNacim, Direccion = data.Direccion });
                 if (data.isPaciente)
@@ -342,16 +342,85 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpGet("ExternalLogin/Success")]
         public async Task<IActionResult> ExternalSuccessLogin()
         {
+            string Email = "";
+            string Name = "";
+            string Apellido1 = "";
+            string Apellido2 = "";
+            string SurNames = ""; 
             var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                Email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.GivenName))
+                Name = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Surname))
+                SurNames = info.Principal.FindFirstValue(ClaimTypes.Surname);
+
+            var SurnamesSplit = splitSurames(SurNames);
+            Apellido1 = SurnamesSplit[0];
+            Apellido2 = SurnamesSplit[1];
+
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-            if (result.Succeeded)
+
+            if (!result.Succeeded)
             {
-                return LocalRedirect("/");
+
+                var user = Activator.CreateInstance<ApplicationUser>();
+
+                await _userStore.SetUserNameAsync(user, Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Email, CancellationToken.None);
+                var emailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                await _userManager.ConfirmEmailAsync(user, emailConfirmationCode);
+
+                var _result = await _userManager.CreateAsync(user);
+                if (_result.Succeeded)
+                {
+                    await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = Apellido1, NIF = "", Apellido2 = Apellido2, Nombre = Name, ApplicationUserId = user.Id, FecNacim = new DateTime(), Direccion = "dsad" });
+                    await _userManager.AddToRoleAsync(user, "Paciente");
+                    _result = await _userManager.AddLoginAsync(user, info);
+                    var resultLogin = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+                }
+            }
+            return LocalRedirect("/");
+        }
+        private string[] splitSurames(string Surnames)
+        {
+            string[] result = { "", "" };
+            var split = Surnames.Split(" ");
+            if (split.Length == 2)
+            {
+                result[0] = split[0];
+                result[1] = split[1];
             }
             else
+            if (split.Length == 1) result[0] = split[0];
+            else
             {
-                return LocalRedirect("/Register");
+                bool isAp1 = true;
+                foreach (var s in split)
+                {
+                    if (s == "") continue;
+                    if (isAp1)
+                    {
+                        if (s.Length <= 2)
+                        {
+                            result[0] += s;
+                        }
+                        else
+                        {
+                            result[0] += s;
+                            isAp1 = false;
+                        }
+                    }
+                    else
+                    {
+                        result[1] = s;
+                    }
+
+
+                }
             }
+            return result;
         }
     }
 }
