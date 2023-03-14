@@ -25,7 +25,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace GabinetePsicologia.Server.Controllers
 {
 
-    [Authorize]
+    
     [Route("[controller]")]
     [ApiController]
 
@@ -331,14 +331,27 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok("Contraseña Cambiada");
         }
         [AllowAnonymous]
-        [HttpGet("ExternalLogin/{provider}")]
-        public ChallengeResult ExternalLogin(string provider)
+        [HttpPost("ExternalLogin/{provider}")]
+        public IActionResult ExternalLogin(string provider)
         {
-            
-            string returnUrl = null;
-            //var redirectUrl = Url.Page("/LoginPages/Account/ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, "/Login");
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, "/Usuario/ExternalLogin/Success");
             return new ChallengeResult(provider, properties);
+
+        }
+        [AllowAnonymous]
+        [HttpGet("ExternalLogin/Success")]
+        public async Task<IActionResult> ExternalSuccessLogin()
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                return LocalRedirect("/");
+            }
+            else
+            {
+                return LocalRedirect("/Register");
+            }
         }
     }
 }

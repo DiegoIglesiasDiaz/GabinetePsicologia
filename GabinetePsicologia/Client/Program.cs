@@ -25,7 +25,6 @@ builder.Services.AddScoped<PacientesServices>();
 builder.Services.AddScoped<CitasServices>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddApiAuthorization();
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-ES");
-CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-ES");
+
 
 await builder.Build().RunAsync();

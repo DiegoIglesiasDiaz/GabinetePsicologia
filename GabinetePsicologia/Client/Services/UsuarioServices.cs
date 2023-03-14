@@ -90,6 +90,8 @@ namespace GabinetePsicologia.Client.Services
         }
         public  void ExternalLogin(string Provider)
         {
+
+
             var result = _httpClientAnonymous.GetFromJsonAsync<ChallengeResult>($"/Usuario/ExternalLogin/{Provider}");
             //_navigationManager.NavigateTo("https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flocalhost%3A7112%2Fsignin-google&scope=openid%20profile%20email&state=CfDJ8CV2pE7oYEtHr3ZItb2Jvpyt8k_0Wxy6qr4I1aRJuZePNV20-dW8a7Oj38pNsM7LUXf7Jk6dEEbQAfNJMUxPx6H7mfYAZL72tWErJ-pdlAnYiG8iHE53DKScFR92edoTHgkQ8U869mFDE7gaSDdqCzPjmfdbs5f_pARsP3bocgsXeiNeUZqjIIwb9m9NvSoR1PyEn3-Adbe_0Uv5AJ2GQ0c8H9U1R8jxtCJWw_Nluybbhcgl44U8UU-9M8UbsmhZiA", true);
         }

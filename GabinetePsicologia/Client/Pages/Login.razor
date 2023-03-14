@@ -25,9 +25,11 @@
     </div>
     <div class="col-12 d-flex p-3 login">
         <RadzenCard class="d-flex rz-border-radius-6 rz-shadow-10 justify-content-center" Style="width: 25%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
-            <RadzenLink>
-                <RadzenImage Path="/img/google.png" Style="height:50px;width:50px" Click="Google"></RadzenImage>
-            </RadzenLink>    
+                <RadzenTemplateForm Action="/Usuario/ExternalLogin/Google" Method="Post" TItem="string">
+                    <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Light">
+                        <RadzenImage Path="/img/google.png" Style="height:50px;width:50px" ></RadzenImage>
+                    </RadzenButton>
+                </RadzenTemplateForm>
         </RadzenCard>
     </div>
 </body>
