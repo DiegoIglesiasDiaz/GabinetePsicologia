@@ -1,9 +1,11 @@
 ﻿
 using GabinetePsicologia.Client.Services;
+using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
+using System;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -15,13 +17,27 @@ namespace GabinetePsicologia.Client.Shared
         [Inject] protected NotificationService NotificationService { get; set; }
         [Inject] protected NavigationManager NavigationManager { get; set; }
         [Inject] protected HttpClient _HttpClient { get; set; }
+        [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject] protected UsuarioServices UsuarioServices { get; set; }
+        string Name = "";
 
-      
         protected ErrorBoundary? ErrorBoundary;
 
         protected override void OnParametersSet()
         {
             ErrorBoundary?.Recover();
+            
+        }
+        protected override async Task OnInitializedAsync()
+        {
+            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            if (user != null && (user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
+            {
+                PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                Name = userDto.FullName;
+                
+            }
+
         }
         protected void OnError(Exception e)
         {

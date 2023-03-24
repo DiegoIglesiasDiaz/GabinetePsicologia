@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Drawing;
 using System.Linq.Dynamic.Core;
 using System.Security.Claims;
 using System.Text;
@@ -143,6 +144,73 @@ namespace GabinetePsicologia.Server.Controllers
                     LsPersonas.Add(pers);
             }
             return Ok(LsPersonas);
+        }
+        [HttpGet("Persona/{Username}")]
+        public async Task<IActionResult> getApplicationUserByUsername(string UserName)
+        {
+            ApplicationUser user = _context.Users.First(x => x.UserName.ToLower().Equals(UserName.ToLower()));
+            PersonaDto UserValue = new PersonaDto()
+            {
+                Contraseña = user.PasswordHash,
+                Email = UserName,
+                Id = Guid.Parse(user.Id)
+            };
+            if(await _userManager.IsInRoleAsync(user, "Administrador"))
+            {
+                Administrador? a = _context.Administradores.First(x=>x.ApplicationUserId == user.Id);
+                  
+                if (a != null)
+                {
+                    UserValue.Rol = "Administrador";
+                    UserValue.Apellido1 = a.Apellido1;
+                    UserValue.Apellido2 = a.Apellido2;
+                    UserValue.Nombre = a.Nombre;
+                    UserValue.Email = user.Email;
+                    UserValue.Telefono = user.PhoneNumber;
+                    UserValue.ApplicationUserId = a.ApplicationUserId;
+                    UserValue.NIF = a.NIF;
+                    UserValue.Direccion = a.Direccion;
+                    UserValue.FecNacim = a.FecNacim;
+                }
+            }
+            if (await _userManager.IsInRoleAsync(user, "Psicologo"))
+            {
+                Psicologo? a = _context.Psicologos.First(x => x.ApplicationUserId == user.Id);
+
+                if (a != null)
+                {
+                    UserValue.Rol = "Psicologo";
+                    UserValue.Apellido1 = a.Apellido1;
+                    UserValue.Apellido2 = a.Apellido2;
+                    UserValue.Nombre = a.Nombre;
+                    UserValue.Email = user.Email;
+                    UserValue.Telefono = user.PhoneNumber;
+                    UserValue.ApplicationUserId = a.ApplicationUserId;
+                    UserValue.NIF = a.NIF;
+                    UserValue.Direccion = a.Direccion;
+                    UserValue.FecNacim = a.FecNacim;
+                }
+            }
+            if (await _userManager.IsInRoleAsync(user, "Paciente"))
+            {
+                Paciente? a = _context.Pacientes.First(x => x.ApplicationUserId == user.Id);
+
+                if (a != null)
+                {
+                    UserValue.Rol = "Paciente";
+                    UserValue.Apellido1 = a.Apellido1;
+                    UserValue.Apellido2 = a.Apellido2;
+                    UserValue.Nombre = a.Nombre;
+                    UserValue.Email = user.Email;
+                    UserValue.Telefono = user.PhoneNumber;
+                    UserValue.ApplicationUserId = a.ApplicationUserId;
+                    UserValue.NIF = a.NIF;
+                    UserValue.Direccion = a.Direccion;
+                    UserValue.FecNacim = a.FecNacim;
+                }
+            }
+            return Ok(UserValue);
+           
         }
         [AllowAnonymous]
         [HttpPost]
