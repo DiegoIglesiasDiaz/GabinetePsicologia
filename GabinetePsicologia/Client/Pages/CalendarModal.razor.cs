@@ -25,11 +25,15 @@ namespace GabinetePsicologia.Client.Pages
             lsPacientes = await PacientesServices.getPacientes();
         }
        
-        protected override void OnParametersSet()
+        protected async override void OnParametersSet()
         {
           
             cita = Appointment;
-            selectedPaciente = lsPacientes.FirstOrDefault(x=> x.Id == cita.PacienteId);
+            if(lsPacientes == null)
+            
+                selectedPaciente = new Paciente();
+            else
+                selectedPaciente = lsPacientes.FirstOrDefault(x=> x.Id == cita.PacienteId);
             if (selectedPaciente != null) isEdit = true;
 
         }

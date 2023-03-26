@@ -4,6 +4,7 @@ using Radzen.Blazor;
 using Radzen;
 using Microsoft.AspNetCore.Components.Authorization;
 using GabinetePsicologia.Client.Services;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -50,18 +51,7 @@ namespace GabinetePsicologia.Client.Pages
                 allList = allList.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
                 data = allList;
                 isPsicologo = true;
-                List<Paciente> LspacientePsicologo = new List<Paciente>();
-                foreach(var cita in allList)
-                {
-                    foreach(var paciente in lsPacientes)
-                    {
-                        if(paciente.Id == cita.PacienteId)
-                        {
-                            LspacientePsicologo.Add(paciente);
-                        }
-                    }
-                }
-                lsPacientes = LspacientePsicologo;
+                
             }
             else if (user.IsInRole("Paciente"))
             {
@@ -89,7 +79,7 @@ namespace GabinetePsicologia.Client.Pages
         }
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
-            if (isPaciente || isPsicologo) return;
+            if (isPaciente && !isAdmin && !isPsicologo) return;
             if (SelectedPsciologo == null)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
@@ -100,11 +90,29 @@ namespace GabinetePsicologia.Client.Pages
 
             if (Cita != null)
             {
-                CitasServices.InsertCita(Cita);
-                data.Add(Cita);
-                await scheduler.Reload();
-                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
+                var lsCitas = await CitasServices.GetCitas();
 
+                if(lsCitas.Where(x=> x.PacienteId == Cita.PacienteId || x.PsicologoId == Cita.PsicologoId).Any()) 
+                {
+                    if (lsCitas.Where(x => Cita.FecInicio < x.FecInicio && Cita.FecFin < x.FecInicio).Any() || lsCitas.Where(x => Cita.FecInicio > x.FecFin && Cita.FecFin > x.FecFin).Any()) 
+                    {
+                        CitasServices.InsertCita(Cita);
+                        data.Add(Cita);
+                        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
+                    }
+                    else
+                    {
+                        NotificationService.Notify(NotificationSeverity.Error, "Error", "Ya tiene un Psicólogo o un Paciente Cita");
+                    }
+                }
+                else
+                {
+                    CitasServices.InsertCita(Cita);
+                    data.Add(Cita);
+                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
+                }
+                
+                await scheduler.Reload();
             }
 
         }
@@ -122,8 +130,9 @@ namespace GabinetePsicologia.Client.Pages
             Cita Cita = args.Data;
             Guid id = args.Data.Id;
             Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId);
-            Cita = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } });
-            if (Cita == null) return;
+            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } });
+            if (result == null || !(result is Cita)) return;
+            Cita = result;
             if (Cita.Id != Guid.Empty)
             {
                 Cita.Id = id;
