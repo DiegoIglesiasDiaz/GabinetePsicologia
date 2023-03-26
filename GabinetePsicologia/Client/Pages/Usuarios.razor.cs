@@ -46,6 +46,11 @@ namespace GabinetePsicologia.Client.Pages
         }
         private async void GuardarPersona(PersonaDto data)
         {
+            if (data.FecNacim < DateTime.Now.AddDays(-100) || data.FecNacim > DateTime.Now)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar una Fecha de Naciemiento válido");
+                return;
+            }
             data.Rol = "";
             data.isPaciente = false;
             data.isPsicologo = false;
@@ -93,8 +98,11 @@ namespace GabinetePsicologia.Client.Pages
 
                 }
                 else
+                {
                     NotificationService.Notify(NotificationSeverity.Error, "Error", "Este Correo Ya existe.");
-               
+                    return;
+                }
+
             }
             DialogService.Close();
 

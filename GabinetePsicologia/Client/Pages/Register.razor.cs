@@ -12,6 +12,7 @@ namespace GabinetePsicologia.Client.Pages
     public partial class Register
     {
         bool allowRowSelectOnRowClick = false;
+        protected string  RepiteContraseña;
         IList<PersonaDto> LsUsuarios;
         IList<PersonaDto> selectedUsuarios;
         RadzenDataGrid<PersonaDto> grid;
@@ -46,6 +47,11 @@ namespace GabinetePsicologia.Client.Pages
         }
         private async void GuardarPersona(PersonaDto data)
         {
+            if (data.FecNacim < DateTime.Now.AddDays(-100) || data.FecNacim > DateTime.Now)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar una Fecha de Naciemiento válido");
+                return;
+            }
             data.Rol = "";
             data.isPaciente = true;
             data.isPsicologo = false;

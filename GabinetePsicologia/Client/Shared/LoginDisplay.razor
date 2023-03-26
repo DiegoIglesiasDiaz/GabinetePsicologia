@@ -2,9 +2,18 @@
 
 <RadzenDialog/>
 <RadzenNotification/>
+<style>
+    .background{
+        background-image: url("../img/back.jpg");
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+</style>
 
-<div>
-    <RadzenButton Text="Volver" Click="Volver" Style="margin:70px;margin-bottom:10px !important"></RadzenButton>
+<div class="background">
+<RadzenButton Text="Volver" Click="Volver" Style="margin:70px;margin-bottom:10px !important"></RadzenButton>
     <ErrorBoundary @ref="ErrorBoundary" >
         <ChildContent>
             @Body

@@ -34,6 +34,10 @@ namespace GabinetePsicologia.Client.Services
             return psicologo;
 
         }
+        public async void UpdatePaciente(Psicologo psicologo)
+        {
+            await _httpClient.PostAsJsonAsync("/Psicologo/Update", psicologo);
+        }
 
     }
 }

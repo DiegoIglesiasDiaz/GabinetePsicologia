@@ -8,7 +8,7 @@
    <div>
        @if(isAdmin){
             <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" Data=@lsPsicologos
-                    TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Psicologo" Change="@change" />
+                    TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Psicólogo" Change="@change" />
        }
        @if(isPsicologo || isAdmin){
         <RadzenDropDown TValue="GabinetePsicologia.Shared.Paciente" Data=@lsPacientes

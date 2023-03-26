@@ -47,7 +47,16 @@ namespace GabinetePsicologia.Server.Controllers
             _context.SaveChanges();
             return Ok();
         }
-
+        [HttpPost("Update")]
+        public async Task<ActionResult> UpdatePaciente(Psicologo psicologo)
+        {
+            var removePsicologo = _context.Psicologos.First(x => x.ApplicationUserId == psicologo.ApplicationUserId);
+            _context.Psicologos.Remove(removePsicologo);
+            _context.SaveChanges();
+            _context.Psicologos.Add(psicologo);
+            _context.SaveChanges();
+            return Ok();
+        }
         [HttpGet("Username/{username}")]
         public Psicologo GetPsicologoByUsername( string username)
         {

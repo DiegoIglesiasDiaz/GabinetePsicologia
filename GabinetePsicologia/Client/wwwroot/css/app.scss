@@ -1,29 +1,39 @@
-﻿body {
-    $prim-color: #1543f6;
-    $color_2: #fff;
-    $color_3: white;
-    $color_4: white;
-    $font-family_1: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    $font-family_2: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    $background-prim-color: #e8fbf9;
-    $background-color_2: #1b6ec2;
-    $background-color_3: darkslategrey;
-    $background-color_4: #f7f7f7;
-    $border-prim-color: #1861ac;
+﻿//azul
+$prim-color: #1543f6;
+$prim-color-light: #6583fa;
+$prim-color-lighter: #a3b4f8;
+$prim-color-dark: #11277d;
+$prim-color-darker: #071446;
+
+/*$sec-color: #959aad;
+$sec-color-light: #b9bed1;
+$sec-color-lighter: #d2d9f1;
+$sec-color-dark: #62656d;
+$sec-color-darker: #444548;*/
+
+$color_2: white;
+$background-prim-color: #cbd4fa;
+
+$font-family_1: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family_2: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+:root {
+    --rz-primary: #1543f6 !important;
+    --rz-primary-light: #6583fa !important;
+    --rz-primary-lighter: #a3b4f8 !important;
+    --rz-primary-dark: #11277d !important;
+    --rz-primary-darker: #071446 !important;
+/*    --rz-secondary: #746f36 !important;
+    --rz-secondary-light: #b9bed1 !important;
+    --rz-secondary-lighter: #d2d9f1 !important;
+    --rz-secondary-dark: #62656d !important;
+    --rz-secondary-darker: #444548 !important;*/
+}
+body {
+
 
     @import "open-iconic/font/css/open-iconic-bootstrap.min.css";
-    /* :root {
-        --primary: #{$prim-color} !important;
-        --rz-primary: #{$prim-color} !important;
-        --rz-primary-lighter: var(--rz-base-100);
-        --rz-grid-header-color: #{$prim-color};
-        --rz-dialog-title-color: #{$prim-color};
-        --rz-paginator-numeric-button-selected-background-color: var(--rz-base-100);
-        --rz-footer-background-color: #{$prim-color};
-        --rz-footer-color: #ffffff;
-        --rz-dialog-title-padding: 1rem 1.25rem;
-        --rz-steps-number-selected-background: #{$prim-color};
-    }*/
+
+   
 
     html {
         font-family: $font-family_1;
@@ -36,7 +46,6 @@
     }
 
     .rz-button {
-       
     }
 
     .login {
@@ -66,8 +75,8 @@
 
     .btn-primary {
         color: $color_2;
-        background-color: $background-color_2;
-        border-color: $border-prim-color;
+        background-color: $prim-color;
+        border-color: $prim-color;
     }
 
     .accountMenu {
@@ -80,8 +89,8 @@
 
     .logo {
         margin: 12px;
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
     }
 
     .valid.modified {
@@ -95,7 +104,7 @@
     }
 
     .validation-message {
-        color: $color_3;
+        color: $color_2;
     }
 
     #blazor-error-ui {
@@ -120,7 +129,7 @@
     .blazor-error-boundary {
         background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
         padding: 1rem 1rem 1rem 3.7rem;
-        color: $color_4;
+        color: $color_2;
 
         &::after {
             content: "An error has occurred.";
@@ -130,9 +139,9 @@
     .head {
         display: flex;
         flex-direction: row;
-        background-color: $background-color_3;
+        background-color: $prim-color;
         margin-bottom: 20px;
-        color: $color_4;
+        color: $color_2;
         padding: 10px;
     }
 
@@ -163,7 +172,7 @@
     }
 
     .top-row {
-        background-color: $background-color_4;
+        background-color: $prim-color;
         border-bottom: 1px solid #d6d5d5;
         justify-content: flex-end;
         height: 3.5rem;

@@ -28,7 +28,7 @@ namespace GabinetePsicologia.Client.Services
         }
         public async Task<bool> RegisterPersona(PersonaDto data)
         {
-
+           
             var result = await _httpClient.PostAsJsonAsync("/Usuario", data);
             return result.IsSuccessStatusCode;
 
@@ -92,6 +92,12 @@ namespace GabinetePsicologia.Client.Services
         {
            string[] data = new string[] { passwd, correo };
            var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarContraseña", data);
+           return result.IsSuccessStatusCode;
+        } 
+        public async Task<bool> CambiarTelefono(string telefono,string correo)
+        {
+           string[] data = new string[] { telefono, correo };
+           var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarTelefono", data);
            return result.IsSuccessStatusCode;
         }
         public  void ExternalLogin(string Provider)

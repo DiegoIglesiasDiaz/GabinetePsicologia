@@ -1,39 +1,30 @@
 ﻿@page "/Login"
 @layout LoginDisplay
-<html>
-<head>
-    <style>
-        .body {
-            background-image: url(https://static.vecteezy.com/ti/vetor-gratis/t2/2921528-mental-saude-psicoterapia-sessao-conceito-dois-humanos-cabeca-silhueta-terapeuta-e-paciente-ilustracao-plana-ilustracao-para-psicologo-blog-midia-social-pos-gabinete-clinica-vetor.jpg);
-        }
-    </style>
-</head>
-<body class="body">
-    <div class="col-12 d-flex p-3 login">
-        <RadzenCard class="d-flex m-5 mb-0 p-0 rz-border-radius-6 rz-shadow-10" Style="width: 25%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
-            <RadzenCard class="rz-shadow-0 rz-border-radius-0 p-5" style="flex: 1 14rem;">
-                <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="mb-4">
-                    Iniciar Sesión
-                </RadzenText>
-                <RadzenTemplateForm Data=@("SimpleLogin")>
-                    <RadzenLogin RegisterMessageText="¿No tienes una Cuenta?" RegisterText="REGISTRATE" Register="OnRegister" AutoComplete="true" AllowRegister="true" AllowResetPassword="false" AllowRememberMe="true" UserText="Correo" RememberMeText="¿Recuerdame el Usuario?" Login=@(args => OnLoginAsync(args, "Simple login")) />
-                </RadzenTemplateForm>
-            </RadzenCard>
 
+<div class="col-12 d-flex p-3 login">
+    <RadzenCard class="d-flex m-5 mb-0 p-0 rz-border-radius-6 rz-shadow-10" Style="width: 25%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
+        <RadzenCard class="rz-shadow-0 rz-border-radius-0 p-5" style="flex: 1 14rem;">
+            <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="mb-4">
+                Iniciar Sesión
+            </RadzenText>
+            <RadzenTemplateForm Data=@("SimpleLogin")>
+                <RadzenLogin RegisterMessageText="¿No tienes una Cuenta?" RegisterText="REGISTRATE" Register="OnRegister" AutoComplete="true" AllowRegister="true" AllowResetPassword="false" AllowRememberMe="true" UserText="Correo" RememberMeText="¿Recuerdame el Usuario?" Login=@(args => OnLoginAsync(args, "Simple login")) />
+            </RadzenTemplateForm>
         </RadzenCard>
 
-    </div>
-    <div class="col-12 d-flex p-3 login">
-        <RadzenCard class="d-flex rz-border-radius-6 rz-shadow-10 justify-content-center" Style="width: 25%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
-                <RadzenTemplateForm Action="/Usuario/ExternalLogin/Google" Method="Post" TItem="string">
-                    <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Light">
-                        <RadzenImage Path="/img/google.png" Style="height:50px;width:50px" ></RadzenImage>
-                    </RadzenButton>
-                </RadzenTemplateForm>
-        </RadzenCard>
-    </div>
-</body>
-</html>
+    </RadzenCard>
+
+</div>
+<div class="col-12 d-flex p-3 login">
+    <RadzenCard class="d-flex rz-border-radius-6 rz-shadow-10 justify-content-center" Style="width: 25%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
+        <RadzenTemplateForm Action="/Usuario/ExternalLogin/Google" Method="Post" TItem="string">
+            <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Light">
+                <RadzenImage Path="/img/google.png" Style="height:50px;width:50px"></RadzenImage>
+            </RadzenButton>
+        </RadzenTemplateForm>
+    </RadzenCard>
+</div>
+
 @code {
 
 }

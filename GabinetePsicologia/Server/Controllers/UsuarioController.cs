@@ -220,9 +220,10 @@ namespace GabinetePsicologia.Server.Controllers
             var emailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             await _userManager.ConfirmEmailAsync(user, emailConfirmationCode);
             await _userStore.SetUserNameAsync(user, data.Email, CancellationToken.None);
-            await _userManager.SetPhoneNumberAsync(user, data.Telefono);
+            if(data.Telefono != null)
+                await _userManager.SetPhoneNumberAsync(user, data.Telefono);
             await _emailStore.SetEmailAsync(user, data.Email, CancellationToken.None);
-            var result = await _userManager.CreateAsync(user, data.Contraseña);
+            var result = await _userManager.CreateAsync(user,data.Contraseña);
 
 
             if (result.Succeeded)
@@ -396,6 +397,16 @@ namespace GabinetePsicologia.Server.Controllers
             if (user == null) return BadRequest("Usuario no encontrado");
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             await _userManager.ResetPasswordAsync(user, token, passwd);
+            return Ok("Contraseña Cambiada");
+        }
+        [HttpPost("CambiarTelefono")]
+        public async Task<IActionResult> CambiarTelefono([FromBody] string[] data)
+        {
+            string telefono = data[0];
+            string correo = data[1];
+            var user = _context.Users.FirstOrDefault(x => x.UserName == correo);
+            if (user == null) return BadRequest("Usuario no encontrado");
+            await _userManager.SetPhoneNumberAsync(user, telefono);
             return Ok("Contraseña Cambiada");
         }
         [AllowAnonymous]

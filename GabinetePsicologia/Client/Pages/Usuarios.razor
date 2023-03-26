@@ -141,7 +141,7 @@ else
 
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña Provisional</RadzenText>
-                                    <RadzenPassword @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
+                                    <RadzenTextBox @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
                                     <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
                                     <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
 

@@ -1,25 +1,31 @@
-﻿body {
+﻿/*$sec-color: #959aad;
+$sec-color-light: #b9bed1;
+$sec-color-lighter: #d2d9f1;
+$sec-color-dark: #62656d;
+$sec-color-darker: #444548;*/
+:root {
+  --rz-primary: #1543f6 !important;
+  --rz-primary-light: #6583fa !important;
+  --rz-primary-lighter: #a3b4f8 !important;
+  --rz-primary-dark: #11277d !important;
+  --rz-primary-darker: #071446 !important;
+  /*    --rz-secondary: #746f36 !important;
+      --rz-secondary-light: #b9bed1 !important;
+      --rz-secondary-lighter: #d2d9f1 !important;
+      --rz-secondary-dark: #62656d !important;
+      --rz-secondary-darker: #444548 !important;*/
+}
+
+body {
   @import "open-iconic/font/css/open-iconic-bootstrap.min.css";
-  /* :root {
-      --primary: #1543f6 !important;
-      --rz-primary: #1543f6 !important;
-      --rz-primary-lighter: var(--rz-base-100);
-      --rz-grid-header-color: #1543f6;
-      --rz-dialog-title-color: #1543f6;
-      --rz-paginator-numeric-button-selected-background-color: var(--rz-base-100);
-      --rz-footer-background-color: #1543f6;
-      --rz-footer-color: #ffffff;
-      --rz-dialog-title-padding: 1rem 1.25rem;
-      --rz-steps-number-selected-background: #1543f6;
-  }*/
 }
 body html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #e8fbf9;
+  background-color: #cbd4fa;
 }
 body body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #e8fbf9;
+  background-color: #cbd4fa;
 }
 body .login {
   align-items: center;
@@ -40,9 +46,9 @@ body .headerDiv {
   width: 100%;
 }
 body .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  color: white;
+  background-color: #1543f6;
+  border-color: #1543f6;
 }
 body .accountMenu {
   margin-left: auto !important;
@@ -52,8 +58,8 @@ body .content {
 }
 body .logo {
   margin: 12px;
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 }
 body .valid.modified:not([type=checkbox]) {
   outline: 1px solid #26b050;
@@ -92,7 +98,7 @@ body .blazor-error-boundary::after {
 body .head {
   display: flex;
   flex-direction: row;
-  background-color: darkslategrey;
+  background-color: #1543f6;
   margin-bottom: 20px;
   color: white;
   padding: 10px;
@@ -119,7 +125,7 @@ body .sidebar {
   background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 body .top-row {
-  background-color: #f7f7f7;
+  background-color: #1543f6;
   border-bottom: 1px solid #d6d5d5;
   justify-content: flex-end;
   height: 3.5rem;

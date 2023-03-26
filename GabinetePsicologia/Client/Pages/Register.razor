@@ -20,13 +20,18 @@
                             </RadzenCard>
 
                             <RadzenCard>
-                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña Provisional</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña</RadzenText>
                                 <RadzenPassword @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
                                 <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
                                 <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
 
                             </RadzenCard>
-
+                            <RadzenCard>
+                                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Repite la Contraseña</RadzenText>
+                                <RadzenPassword @bind-Value=RepiteContraseña AllowPasswordReveal=true Name="ReContraseña" class="w-100" />
+                                <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>
+                                <RadzenCompareValidator Visible=@(!string.IsNullOrEmpty(RepiteContraseña)) Value=@PersonaForm.Contraseña Component="ReContraseña" Text="Las Contraseñas no coinciden" Popup=true Style="position: relative" />
+                            </RadzenCard>
                         </RadzenStepsItem>
 
                         <RadzenStepsItem Text="Nombre y Apellidos">
@@ -83,7 +88,7 @@
                     ¿Ya tienes una cuenta?
                 </RadzenText>
                 <RadzenButton Text="Login" Style="margin-top:2em" class="rz-background-color-secondary-lighter rz-color-secondary w-auto" Click='@(args => { NavigationManager.NavigateTo("/login",true); })'></RadzenButton>
-           </div>
+            </div>
         </RadzenCard>
     </RadzenCard>
 </div>

@@ -9,6 +9,9 @@ namespace GabinetePsicologia.Client.Pages
     public partial class Index
     {
         [Inject] private UsuarioServices UsuarioServices { get; set; }
+        [Inject] private DialogService DialogService { get; set; }
+        [Inject] private NotificationService NotificationService { get; set; }
+       
         protected override async Task OnInitializedAsync()
         {
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
@@ -17,7 +20,9 @@ namespace GabinetePsicologia.Client.Pages
                 PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
                 if(userDto.Contraseña == null)
                 {
-                    //modal para completar información
+                    var result = await DialogService.OpenAsync<IndexModal>("Información Adicional", new Dictionary<string, object> { { "Persona", userDto }});
+                    if (result)
+                        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
                 }
             }
            

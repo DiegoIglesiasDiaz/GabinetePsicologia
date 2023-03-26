@@ -1,0 +1,85 @@
+﻿@inject DialogService DialogService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using GabinetePsicologia.Shared
+
+<style>
+    .rz-dialog-titlebar-close {
+        display: none;
+    }
+</style>
+<RadzenTemplateForm Data="@Persona" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
+    <RadzenSteps NextText="Siguiente" PreviousText="Volver">
+        <Steps>
+            <RadzenStepsItem Text="Creación Usuario">
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" TagName="TagName.H3">@Persona.Email</RadzenText>
+                </RadzenCard>
+
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña</RadzenText>
+                    <RadzenPassword @bind-Value=Persona.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
+                    <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
+                    <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+                </RadzenCard>
+
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Repite la Contraseña</RadzenText>
+                    <RadzenPassword @bind-Value=RepiteContraseña AllowPasswordReveal=true Name="ReContraseña" class="w-100" />
+                    <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>
+                    <RadzenCompareValidator Visible=@(!string.IsNullOrEmpty(RepiteContraseña)) Value=@Persona.Contraseña Component="ReContraseña" Text="Las Contraseñas no coinciden" Popup=true Style="position: relative" />
+                 </RadzenCard>
+            </RadzenStepsItem>
+
+            <RadzenStepsItem Text="Nombre y Apellidos">
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
+                    <RadzenTextBox @bind-Value=Persona.Nombre Name="name" class="w-100" />
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 1</RadzenText>
+                    <RadzenTextBox @bind-Value=Persona.Apellido1 Name="Apellido1" class="w-100" />
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="Apellido1" Text="*Apellido1 requerido"></RadzenRequiredValidator>
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Apellido 2</RadzenText>
+                    <RadzenTextBox @bind-Value=Persona.Apellido2 Name="Apellido2" class="w-100" />
+                </RadzenCard>
+            </RadzenStepsItem>
+            <RadzenStepsItem Text="Datos Usuario">
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">NIF</RadzenText>
+                    <RadzenTextBox @bind-Value=Persona.NIF Name="NIF" class="w-100" />
+                    <RadzenRegexValidator Component="NIF" Popup=true Text="*NIF no válido" Pattern="^[0-9]{8,8}[A-Za-z]$" Style="position:relative" />
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="NIF" Text="*NIF requerido"></RadzenRequiredValidator>
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Telefono</RadzenText>
+                    <RadzenTextBox @bind-Value=Persona.Telefono Name="Telefono" class="w-100" />
+                    <RadzenRegexValidator Component="Telefono" Popup=true Text="*Telefono no válido" Pattern="^\d{9}$" Style="position:relative" />
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="Telefono" Text="*Telefono requerido"></RadzenRequiredValidator>
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Fecha Nacimiento</RadzenText>
+                    <RadzenDatePicker InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=Persona.FecNacim ShowTime="false" Name="FecNacim" class="w-100" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimient requerido"></RadzenRequiredValidator>
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Direccion</RadzenText>
+                    <RadzenTextBox @bind-Value=Persona.Direccion Name="Direccion" class="w-100" />
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="Telefono" Text="*Direccion requerido"></RadzenRequiredValidator>
+                </RadzenCard><br><br>
+                <div style="display:flex;align-items:center;justify-content:center">
+
+                    <RadzenButton style="margin:10px" Text="Guardar" ButtonType="ButtonType.Submit" class="me-1" />
+                </div>
+
+            </RadzenStepsItem>
+        </Steps>
+    </RadzenSteps>
+
+</RadzenTemplateForm>
+@code {
+
+}
