@@ -51,7 +51,7 @@ namespace GabinetePsicologia.Client.Pages
                 allList = allList.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
                 data = allList;
                 isPsicologo = true;
-                
+
             }
             else if (user.IsInRole("Paciente"))
             {
@@ -90,28 +90,10 @@ namespace GabinetePsicologia.Client.Pages
 
             if (Cita != null)
             {
-                var lsCitas = await CitasServices.GetCitas();
 
-                if(lsCitas.Where(x=> x.PacienteId == Cita.PacienteId || x.PsicologoId == Cita.PsicologoId).Any()) 
-                {
-                    if (lsCitas.Where(x => Cita.FecInicio < x.FecInicio && Cita.FecFin < x.FecInicio).Any() || lsCitas.Where(x => Cita.FecInicio > x.FecFin && Cita.FecFin > x.FecFin).Any()) 
-                    {
-                        CitasServices.InsertCita(Cita);
-                        data.Add(Cita);
-                        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
-                    }
-                    else
-                    {
-                        NotificationService.Notify(NotificationSeverity.Error, "Error", "Ya tiene un Psicólogo o un Paciente Cita");
-                    }
-                }
-                else
-                {
-                    CitasServices.InsertCita(Cita);
-                    data.Add(Cita);
-                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
-                }
-                
+                CitasServices.InsertCita(Cita);
+                data.Add(Cita);
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Añadida Correctamente");
                 await scheduler.Reload();
             }
 
@@ -137,6 +119,8 @@ namespace GabinetePsicologia.Client.Pages
             {
                 Cita.Id = id;
                 CitasServices.ActualizarCita(Cita);
+                data.Remove(args.Data);
+                data.Add(Cita);
                 NotificationService.Notify(NotificationSeverity.Success, "Ok", "Cita Editada correctamente");
 
             }
