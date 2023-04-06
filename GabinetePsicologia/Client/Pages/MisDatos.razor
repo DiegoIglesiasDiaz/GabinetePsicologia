@@ -1,0 +1,64 @@
+﻿@page "/MisDatos"
+@using GabinetePsicologia.Shared
+
+@if (!isInRole || userDto == null)
+{
+    <p>No estas Autorizado para ver esta página.</p>
+}
+else
+{
+    <style>
+        .field-container{
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+            justify-content:space-between;
+            margin:5px;
+        }
+    </style>
+    <div class="d-flex flex-column align-items-center justify-content-center ">
+        <h3>DATOS DEL USUARIO</h3>
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="m-5">
+
+                <div class="field-container">
+                    <RadzenLabel Text="Nombre:" />
+                    <RadzenTextBox @bind-Value=userDto.Nombre ReadOnly=!isEdit />
+                </div>
+                <div class="field-container">
+                    <RadzenLabel Text="Primer Apellido:" />
+                    <RadzenTextBox @bind-Value=userDto.Apellido1 ReadOnly=!isEdit />
+                </div>
+                <div class="field-container">
+                    <RadzenLabel Text="Segundo Apellido:" />
+                    <RadzenTextBox @bind-Value=userDto.Apellido2 ReadOnly=!isEdit />
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="m-5">
+                <div class="field-container">
+                    <RadzenLabel Text="Fecha de Nacimiento:" />
+                    <RadzenDatePicker ReadOnly=!isEdit InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=userDto.FecNacim ShowTime="false" Name="FecNacim" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
+                </div>
+                <div class="field-container">
+                    <RadzenLabel Text="Teléfono:" />
+                    <RadzenTextBox @bind-Value=userDto.Telefono ReadOnly=!isEdit />
+                </div>
+                <div class="field-container">
+                    <RadzenLabel Text="NIF/DNI:" />
+                    <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=!isEdit />
+                </div>
+                <div class="field-container">
+                    <RadzenLabel Text="Dirección:" />
+                    <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=!isEdit />
+                </div>
+
+            </div>
+        </div>
+        <RadzenButton Icon="edit" Text="Modificar Datos" Click="Edit" Visible=!isEdit/>
+        <RadzenButton Icon="save" Text="Guardar Datos" Visible=isEdit/>
+    </div>
+}
