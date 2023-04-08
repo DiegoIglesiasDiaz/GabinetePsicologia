@@ -8,30 +8,78 @@
 else
 {
     <style>
-        .field-container{
-            display:flex;
-            flex-direction:row;
-            align-items:center;
-            justify-content:space-between;
-            margin:5px;
+        .field-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin: 5px;
         }
+
+        .calendar input {
+            position: relative;
+            z-index: -1;
+            border: none !important;
+        }
+
+        .textArea {
+            border: 2px solid var(--rz-primary) !important;
+            border-radius: var(--rz-border-radius-4) !important;
+            margin-left: 20px;
+        }
+
+        .EditTextArea {
+            border: 2px solid var(--rz-secondary-light) !important;
+            border-radius: var(--rz-border-radius-4);
+            margin-left: 20px;
+        }
+
+
+            .EditTextArea:focus {
+                border: 2px solid var(--rz-primary) !important;
+            }
+
+        .CambiarEmail {
+            background-color: transparent !important;
+            color: var(--rz-primary) !important;
+            border: 2px solid var(--rz-primary) !important;
+            border-radius: 10px !important;
+            height: fit-content !important;
+        }
+
+            .CambiarEmail:hover {
+                background-color: var(--rz-primary) !important;
+                color: var(--bs-body-bg) !important;
+            }
+
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center ">
         <h3>DATOS DEL USUARIO</h3>
+        @if (!isEdit)
+        {
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="field-container d-flex align-items-center">
+                    <RadzenLabel Text="Correo: " />
+                    <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH5">@userDto.Email</RadzenText>
+                </div>
+                <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" />
+            </div>
+        }
+        <hr>
         <div class="d-flex align-items-center justify-content-center">
             <div class="m-5">
 
                 <div class="field-container">
                     <RadzenLabel Text="Nombre:" />
-                    <RadzenTextBox @bind-Value=userDto.Nombre ReadOnly=!isEdit />
+                    <RadzenTextBox @bind-Value=userDto.Nombre ReadOnly=!isEdit class="@cssClass" />
                 </div>
                 <div class="field-container">
                     <RadzenLabel Text="Primer Apellido:" />
-                    <RadzenTextBox @bind-Value=userDto.Apellido1 ReadOnly=!isEdit />
+                    <RadzenTextBox @bind-Value=userDto.Apellido1 ReadOnly=!isEdit class="@cssClass" />
                 </div>
                 <div class="field-container">
                     <RadzenLabel Text="Segundo Apellido:" />
-                    <RadzenTextBox @bind-Value=userDto.Apellido2 ReadOnly=!isEdit />
+                    <RadzenTextBox @bind-Value=userDto.Apellido2 ReadOnly=!isEdit class="@cssClass" />
                 </div>
 
             </div>
@@ -41,24 +89,28 @@ else
             <div class="m-5">
                 <div class="field-container">
                     <RadzenLabel Text="Fecha de Nacimiento:" />
-                    <RadzenDatePicker ReadOnly=!isEdit InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=userDto.FecNacim ShowTime="false" Name="FecNacim" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
+                    <RadzenDatePicker class="@cssClass" style="width:32.5vh" ReadOnly=!isEdit InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=userDto.FecNacim ShowTime="false" Name="FecNacim" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
                 </div>
                 <div class="field-container">
                     <RadzenLabel Text="Teléfono:" />
-                    <RadzenTextBox @bind-Value=userDto.Telefono ReadOnly=!isEdit />
+                    <RadzenTextBox @bind-Value=userDto.Telefono ReadOnly=false class="@cssClass" />
                 </div>
                 <div class="field-container">
                     <RadzenLabel Text="NIF/DNI:" />
-                    <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=!isEdit />
+                    <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=false class="@cssClass" />
                 </div>
                 <div class="field-container">
                     <RadzenLabel Text="Dirección:" />
-                    <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=!isEdit />
+                    <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=false class="@cssClass" />
                 </div>
 
             </div>
         </div>
-        <RadzenButton Icon="edit" Text="Modificar Datos" Click="Edit" Visible=!isEdit/>
-        <RadzenButton Icon="save" Text="Guardar Datos" Visible=isEdit/>
+        <div class="d-flex justify-content-evenly" style="width:90vh">
+            <RadzenButton Icon="edit" Text="Modificar Datos" Click="Edit" Visible=!isEdit />
+            <RadzenButton Icon="cancel" class="rz-background-color-secondary-lighter rz-color-secondary-dark" Click="Cancel" Text="Cancelar" Visible=isEdit />
+            <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Secondary" Click="Save" Text="Guardar Datos" Visible=isEdit />
+        </div>
+
     </div>
 }

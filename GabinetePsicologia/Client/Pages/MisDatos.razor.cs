@@ -14,6 +14,7 @@ namespace GabinetePsicologia.Client.Pages
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] UsuarioServices UsuarioServices { get; set; }
         PersonaDto userDto;
+        public string cssClass = "textArea calendar" ;
         public bool isInRole = false;
         bool isEdit = false;
         //bool isPsicologo = false;
@@ -35,6 +36,17 @@ namespace GabinetePsicologia.Client.Pages
         public void Edit()
         {
             isEdit=true;
+            cssClass = "EditTextArea calendar";
+        }
+        public void Save()
+        {
+            isEdit = false;
+            cssClass = "textArea calendar";
+        }
+        public void Cancel()
+        {
+            isEdit = false;
+            cssClass = "textArea calendar";
         }
     }
 }
