@@ -8,14 +8,17 @@
 
 	<ItemGroup>
 	  <Content Remove="compilerconfig.json" />
+	  <Content Remove="Shared\Loading.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="compilerconfig.json" />
+	  <_ContentIncludedByDefault Remove="Shared\Loading.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="compilerconfig.json" />
+	  <None Include="Pages\Loading.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,6 +32,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Shared\GabinetePsicologia.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Shared\Loading.razor" />
 	</ItemGroup>
 
 

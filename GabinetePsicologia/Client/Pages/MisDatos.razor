@@ -1,11 +1,8 @@
 ﻿@page "/MisDatos"
 @using GabinetePsicologia.Shared
+@using GabinetePsicologia.Client.Shared
 
-@if (!isInRole || userDto == null)
-{
-    <p>No estas Autorizado para ver esta página.</p>
-}
-else
+@if (isInRole && userDto!=null)
 {
     <style>
         .field-container {
@@ -57,7 +54,7 @@ else
         <h3>DATOS DEL USUARIO</h3>
         @if (!isEdit)
         {
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center" style="width:90vh;">
                 <div class="field-container d-flex align-items-center">
                     <RadzenLabel Text="Correo: " />
                     <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH5">@userDto.Email</RadzenText>
@@ -113,4 +110,16 @@ else
         </div>
 
     </div>
+}
+else
+{
+    if (isInRole)
+    {
+        <Loading/>
+    }
+    else
+    {
+        <p>No estas Autorizado para ver esta página.</p>
+    }
+   
 }
