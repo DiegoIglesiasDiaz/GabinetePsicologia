@@ -46,7 +46,7 @@ namespace GabinetePsicologia.Client.Pages
         }
         private async void GuardarPersona(PersonaDto data)
         {
-            if (data.FecNacim < DateTime.Now.AddDays(-100) || data.FecNacim > DateTime.Now)
+            if (data.FecNacim < DateTime.Now.AddYears(-100) || data.FecNacim > DateTime.Now)
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar una Fecha de Naciemiento válido");
                 return;

@@ -2,7 +2,7 @@
 @using GabinetePsicologia.Shared
 @using GabinetePsicologia.Client.Shared
 
-@if (isInRole && userDto!=null)
+@if (isInRole && userDto != null)
 {
     <style>
         .field-container {
@@ -32,9 +32,9 @@
         }
 
 
-            .EditTextArea:focus {
-                border: 2px solid var(--rz-primary) !important;
-            }
+        .EditTextArea:focus {
+            border: 2px solid var(--rz-primary) !important;
+        }
 
         .CambiarEmail {
             background-color: transparent !important;
@@ -44,82 +44,104 @@
             height: fit-content !important;
         }
 
-            .CambiarEmail:hover {
-                background-color: var(--rz-primary) !important;
-                color: var(--bs-body-bg) !important;
-            }
+        .CambiarEmail:hover {
+            background-color: var(--rz-primary) !important;
+            color: var(--bs-body-bg) !important;
+        }
 
+        body .valid.modified:not([type=checkbox]){
+            outline: none;
+        }
+
+        body .invalid {
+            outline: none;
+        }
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center ">
+
         <h3>DATOS DEL USUARIO</h3>
         @if (!isEdit)
         {
             <div class="d-flex justify-content-between align-items-center" style="width:90vh;">
                 <div class="field-container d-flex align-items-center">
-                    <RadzenLabel Text="Correo: " />
+                    <RadzenText TextStyle="TextStyle.DisplayH5">Correo:&nbsp;&nbsp; </RadzenText>
                     <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH5">@userDto.Email</RadzenText>
                 </div>
                 <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" />
             </div>
         }
         <hr>
-        <div class="d-flex align-items-center justify-content-center">
-            <div class="m-5">
+        <RadzenTemplateForm Data="@userDto" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
+            <div>
 
-                <div class="field-container">
-                    <RadzenLabel Text="Nombre:" />
-                    <RadzenTextBox @bind-Value=userDto.Nombre ReadOnly=!isEdit class="@cssClass" />
-                </div>
-                <div class="field-container">
-                    <RadzenLabel Text="Primer Apellido:" />
-                    <RadzenTextBox @bind-Value=userDto.Apellido1 ReadOnly=!isEdit class="@cssClass" />
-                </div>
-                <div class="field-container">
-                    <RadzenLabel Text="Segundo Apellido:" />
-                    <RadzenTextBox @bind-Value=userDto.Apellido2 ReadOnly=!isEdit class="@cssClass" />
-                </div>
+                <div class="d-flex align-items-center justify-content-center">
 
+                    <div class="m-5">
+
+                        <div class="field-container">
+                            <RadzenLabel Text="Nombre:" />
+                            <RadzenTextBox Name="name" @bind-Value=userDto.Nombre ReadOnly=!isEdit class="@cssClass" />
+                            <RadzenRequiredValidator Style="position:absolute" Popup=true Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
+                        </div>
+                        <div class="field-container">
+                            <RadzenLabel Text="Primer Apellido:" />
+                            <RadzenTextBox Name="Apellido1" @bind-Value=userDto.Apellido1 ReadOnly=!isEdit class="@cssClass" />
+                            <RadzenRequiredValidator Style="position:absolute" Popup=true Component="Apellido1" Text="*Apellido1 requerido"></RadzenRequiredValidator>
+                        </div>
+                        <div class="field-container">
+                            <RadzenLabel Text="Segundo Apellido:" />
+                            <RadzenTextBox @bind-Value=userDto.Apellido2 ReadOnly=!isEdit class="@cssClass" />
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="m-5">
+                        <div class="field-container">
+                            <RadzenLabel Text="Fecha de Nacimiento:" />
+                            <RadzenDatePicker class="@cssClass" style="width:52.5%" ReadOnly=!isEdit InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=userDto.FecNacim ShowTime="false" Name="FecNacim" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
+                            <RadzenRequiredValidator Style="position:absolute" Popup=true Component="FecNacim" Text="*Fecha Nacimient requerido"></RadzenRequiredValidator>
+                        </div>
+                        <div class="field-container">
+                            <RadzenLabel Text="Teléfono:" />
+                            <RadzenTextBox Name="Telefono" @bind-Value=userDto.Telefono ReadOnly=false class="@cssClass" />
+                            <RadzenRegexValidator Component="Telefono" Popup=true Text="*Telefono no válido" Pattern="^\d{9}$" Style="position:absolute" />
+                            <RadzenRequiredValidator Style="position:absolute" Popup=true Component="Telefono" Text="*Telefono requerido"></RadzenRequiredValidator>
+                        </div>
+                        <div class="field-container">
+                            <RadzenLabel Text="NIF/DNI:" />
+                            <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=false class="@cssClass" Name="NIF" />
+                            <RadzenRegexValidator Component="NIF" Popup=true Text="*NIF no válido" Pattern="^[0-9]{8,8}[A-Za-z]$" Style="position:absolute" />
+                            <RadzenRequiredValidator Style="position:absolute" Popup=true Component="NIF" Text="*NIF requerido"></RadzenRequiredValidator>
+                        </div>
+                        <div class="field-container">
+                            <RadzenLabel Text="Dirección:" />
+                            <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=false class="@cssClass" Name="Direccion" />
+                            <RadzenRequiredValidator Style="position:absolute" Popup=true Component="Direccion" Text="*Direccion requerido"></RadzenRequiredValidator>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="d-flex justify-content-evenly">
+                    <RadzenButton Icon="edit" Text="Modificar Datos" Click="Edit" Visible=!isEdit />
+                    <RadzenButton Icon="cancel" class="rz-background-color-secondary-lighter rz-color-secondary-dark" Click="Cancel" Text="Cancelar" Visible=isEdit />
+                    <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Text="Guardar Datos" Visible=isEdit />
+                </div>
             </div>
-
-            <hr />
-
-            <div class="m-5">
-                <div class="field-container">
-                    <RadzenLabel Text="Fecha de Nacimiento:" />
-                    <RadzenDatePicker class="@cssClass" style="width:32.5vh" ReadOnly=!isEdit InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=userDto.FecNacim ShowTime="false" Name="FecNacim" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
-                </div>
-                <div class="field-container">
-                    <RadzenLabel Text="Teléfono:" />
-                    <RadzenTextBox @bind-Value=userDto.Telefono ReadOnly=false class="@cssClass" />
-                </div>
-                <div class="field-container">
-                    <RadzenLabel Text="NIF/DNI:" />
-                    <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=false class="@cssClass" />
-                </div>
-                <div class="field-container">
-                    <RadzenLabel Text="Dirección:" />
-                    <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=false class="@cssClass" />
-                </div>
-
-            </div>
-        </div>
-        <div class="d-flex justify-content-evenly" style="width:90vh">
-            <RadzenButton Icon="edit" Text="Modificar Datos" Click="Edit" Visible=!isEdit />
-            <RadzenButton Icon="cancel" class="rz-background-color-secondary-lighter rz-color-secondary-dark" Click="Cancel" Text="Cancelar" Visible=isEdit />
-            <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Secondary" Click="Save" Text="Guardar Datos" Visible=isEdit />
-        </div>
-
+        </RadzenTemplateForm>
     </div>
 }
 else
 {
     if (isInRole)
     {
-        <Loading/>
+        <Loading />
     }
     else
     {
         <p>No estas Autorizado para ver esta página.</p>
     }
-   
+
 }

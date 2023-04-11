@@ -24,13 +24,29 @@ namespace GabinetePsicologia.Client.Pages
         {
             await base.OnInitializedAsync();
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if (user.IsInRole("Psicologo") || user.IsInRole("Administrador") || user.IsInRole("Paciente"))
+            if (user.IsInRole("Paciente"))
             {
                 isInRole = true;
-                userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                if(userDto==null)
+                    userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                userDto.isPaciente = true;
             }
-            
-           
+            if (user.IsInRole("Psicologo"))
+            {
+                isInRole = true;
+                if (userDto == null)
+                    userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                userDto.isPsicologo = true;
+            }
+            if (user.IsInRole("Administrador"))
+            {
+                isInRole = true;
+                if (userDto == null)
+                    userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                userDto.isAdmin = true;
+            }
+
+
 
         }
         public void Edit()
@@ -38,10 +54,19 @@ namespace GabinetePsicologia.Client.Pages
             isEdit=true;
             cssClass = "EditTextArea calendar";
         }
-        public void Save()
+        public void GuardarPersona(PersonaDto data)
         {
+            if (data.FecNacim < DateTime.Now.AddYears(-100) || data.FecNacim > DateTime.Now)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar una Fecha de Naciemiento válido");
+                return;
+            }
             isEdit = false;
             cssClass = "textArea calendar";
+            
+
+            UsuarioServices.EditarPaciente(data);
+            NotificationService.Notify(NotificationSeverity.Success, "Ok", "Usuario editado correctamente.");
         }
         public void Cancel()
         {

@@ -282,6 +282,9 @@ namespace GabinetePsicologia.Server.Controllers
                     paciente.Apellido1 = data.Apellido1;
                     paciente.Apellido2 = data.Apellido2;
                     paciente.NIF = data.NIF;
+                    if(!String.IsNullOrEmpty(data.Direccion))
+                        paciente.Direccion = data.Direccion;
+                    paciente.FecNacim = data.FecNacim;
                     await _userManager.AddToRoleAsync(User, "Paciente");
                 }
                 else { await _pacienteController.RegisterPaciente(new Paciente { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id, FecNacim = data.FecNacim, Direccion = data.Direccion }); }
@@ -303,6 +306,9 @@ namespace GabinetePsicologia.Server.Controllers
                     pscilogo.Apellido1 = data.Apellido1;
                     pscilogo.Apellido2 = data.Apellido2;
                     pscilogo.NIF = data.NIF;
+                    if (!String.IsNullOrEmpty(data.Direccion))
+                        pscilogo.Direccion = data.Direccion;
+                    pscilogo.FecNacim = data.FecNacim;
                     await _userManager.AddToRoleAsync(User, "Psicologo");
                 }
                 else { await _psicologoController.RegisterPsicologo(new Psicologo { Apellido1 = data.Apellido1, NIF = data.NIF, Apellido2 = data.Apellido2, Nombre = data.Nombre, ApplicationUserId = User.Id, FecNacim = data.FecNacim, Direccion = data.Direccion }); }
@@ -324,6 +330,9 @@ namespace GabinetePsicologia.Server.Controllers
                     Admin.Apellido1 = data.Apellido1;
                     Admin.Apellido2 = data.Apellido2;
                     Admin.NIF = data.NIF;
+                    if (!String.IsNullOrEmpty(data.Direccion))
+                        Admin.Direccion = data.Direccion;
+                    Admin.FecNacim = data.FecNacim;
                     await _userManager.AddToRoleAsync(User, "Administrador");
 
                 }
@@ -343,7 +352,7 @@ namespace GabinetePsicologia.Server.Controllers
             }
 
             _context.SaveChanges();
-            return Ok("Usuarios Eliminados Correctamente");
+            return Ok("Usuarios Editados Correctamente");
         }
         [HttpPost("CambiarCorreo")]
         public async Task<IActionResult> CambiarCorreo([FromBody] string[] correos)
