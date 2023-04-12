@@ -5,50 +5,6 @@
 @if (isInRole && userDto != null)
 {
     <style>
-        .field-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            margin: 5px;
-        }
-
-        .calendar input {
-            position: relative;
-            z-index: -1;
-            border: none !important;
-        }
-
-        .textArea {
-            border: 2px solid var(--rz-primary) !important;
-            border-radius: var(--rz-border-radius-4) !important;
-            margin-left: 20px;
-        }
-
-        .EditTextArea {
-            border: 2px solid var(--rz-secondary-light) !important;
-            border-radius: var(--rz-border-radius-4);
-            margin-left: 20px;
-        }
-
-
-        .EditTextArea:focus {
-            border: 2px solid var(--rz-primary) !important;
-        }
-
-        .CambiarEmail {
-            background-color: transparent !important;
-            color: var(--rz-primary) !important;
-            border: 2px solid var(--rz-primary) !important;
-            border-radius: 10px !important;
-            height: fit-content !important;
-        }
-
-        .CambiarEmail:hover {
-            background-color: var(--rz-primary) !important;
-            color: var(--bs-body-bg) !important;
-        }
-
         body .valid.modified:not([type=checkbox]){
             outline: none;
         }
@@ -60,7 +16,7 @@
     <div class="d-flex flex-column align-items-center justify-content-center ">
 
         <h3>DATOS DEL USUARIO</h3>
-        @if (!isEdit)
+        @*@if (!isEdit)
         {
             <div class="d-flex justify-content-between align-items-center" style="width:90vh;">
                 <div class="field-container d-flex align-items-center">
@@ -69,15 +25,17 @@
                 </div>
                 <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" />
             </div>
-        }
-        <hr>
+        }*@
         <RadzenTemplateForm Data="@userDto" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
             <div>
 
                 <div class="d-flex align-items-center justify-content-center">
 
                     <div class="m-5">
-
+                        <div class="field-container">
+                            <RadzenText TextStyle="TextStyle.Body1">Correo:&nbsp;&nbsp; </RadzenText>
+                            <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH6">@userDto.Email</RadzenText>
+                        </div>
                         <div class="field-container">
                             <RadzenLabel Text="Nombre:" />
                             <RadzenTextBox Name="name" @bind-Value=userDto.Nombre ReadOnly=!isEdit class="@cssClass" />

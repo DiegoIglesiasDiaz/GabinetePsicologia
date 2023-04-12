@@ -64,6 +64,42 @@ body .logo {
 body .valid.modified:not([type=checkbox]) {
   outline: 1px solid #26b050;
 }
+body .field-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px;
+}
+body .calendar input {
+  position: relative;
+  z-index: -1;
+  border: none !important;
+}
+body .textArea {
+  border: 2px solid var(--rz-primary) !important;
+  border-radius: var(--rz-border-radius-4) !important;
+  margin-left: 20px;
+}
+body .EditTextArea {
+  border: 2px solid var(--rz-secondary-light) !important;
+  border-radius: var(--rz-border-radius-4);
+  margin-left: 20px;
+}
+body .EditTextArea:focus {
+  border: 2px solid var(--rz-primary) !important;
+}
+body .CambiarEmail {
+  background-color: transparent !important;
+  color: var(--rz-primary) !important;
+  border: 2px solid var(--rz-primary) !important;
+  border-radius: 10px !important;
+  height: fit-content !important;
+}
+body .CambiarEmail:hover {
+  background-color: var(--rz-primary) !important;
+  color: var(--bs-body-bg) !important;
+}
 body .invalid {
   outline: 1px solid red;
 }
@@ -102,6 +138,9 @@ body .head {
   margin-bottom: 20px;
   color: white;
   padding: 10px;
+}
+body .Footer {
+  border-top: 2px solid #1543f6;
 }
 body .menu {
   display: flex;

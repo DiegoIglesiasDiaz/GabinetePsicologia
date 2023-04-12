@@ -33,7 +33,7 @@ body {
 
     @import "open-iconic/font/css/open-iconic-bootstrap.min.css";
 
-   
+
 
     html {
         font-family: $font-family_1;
@@ -99,6 +99,50 @@ body {
         }
     }
 
+    .field-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin: 5px;
+    }
+
+    .calendar input {
+        position: relative;
+        z-index: -1;
+        border: none !important;
+    }
+
+    .textArea {
+        border: 2px solid var(--rz-primary) !important;
+        border-radius: var(--rz-border-radius-4) !important;
+        margin-left: 20px;
+    }
+
+    .EditTextArea {
+        border: 2px solid var(--rz-secondary-light) !important;
+        border-radius: var(--rz-border-radius-4);
+        margin-left: 20px;
+    }
+
+
+    .EditTextArea:focus {
+        border: 2px solid var(--rz-primary) !important;
+    }
+
+    .CambiarEmail {
+        background-color: transparent !important;
+        color: var(--rz-primary) !important;
+        border: 2px solid var(--rz-primary) !important;
+        border-radius: 10px !important;
+        height: fit-content !important;
+    }
+
+    .CambiarEmail:hover {
+        background-color: var(--rz-primary) !important;
+        color: var(--bs-body-bg) !important;
+    }
+
     .invalid {
         outline: 1px solid red;
     }
@@ -143,6 +187,10 @@ body {
         margin-bottom: 20px;
         color: $color_2;
         padding: 10px;
+    }
+
+    .Footer {
+        border-top: 2px solid $prim-color;
     }
 
     .menu {

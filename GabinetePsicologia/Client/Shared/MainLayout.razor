@@ -36,7 +36,7 @@
                 </RadzenMenuItem>
                 <RadzenMenuItem Path="/Contacto">
                     <Template>
-
+                       
                         <span class="rz-navigation-item-text">CONTACTO</span>
                     </Template>
                 </RadzenMenuItem>
@@ -46,6 +46,7 @@
                     <Authorized>
                         <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@Name" Icon="account_circle">
                             <RadzenMenuItem Text="Mis Datos" Path="/MisDatos" />
+                            <RadzenMenuItem Text="Configuración" Path="/Configuracion" />
                             <RadzenMenuItem Text="Cerrar sesión" Path="/Logout" />
                         </RadzenMenuItem>
                     </Authorized>
@@ -86,14 +87,17 @@
         </ChildContent>
     </RadzenBody>
 
-    <RadzenFooter>
+    <RadzenFooter class="Footer">
         <div>
-            <a href="/ContactUs" alt="" title="">Contactar</a>
-            <a href="/Documentation" alt="" title="">Documentaci&oacute;n</a>
-        </div>
-        <div>
-            <a href="/QuestionsAndAnswers" alt="" title="">FAQ</a>
-            <a href="/PoliciesAndPrivacy" alt="" title="">LEGAL</a>
+            <div>
+                <a href="/ContactUs" alt="" title="">Contactar</a>
+                <a href="/Documentation" alt="" title="">Documentaci&oacute;n</a>
+            </div>
+            <div>
+                <a href="/QuestionsAndAnswers" alt="" title="">FAQ</a>
+                <a href="/PoliciesAndPrivacy" alt="" title="">LEGAL</a>
+
+            </div>
         </div>
     </RadzenFooter>
 
