@@ -11,23 +11,21 @@
                 <RadzenLogin RegisterMessageText="¿No tienes una Cuenta?" RegisterText="REGISTRATE" Register="OnRegister" AutoComplete="true" AllowRegister="true" AllowResetPassword="false" AllowRememberMe="true" UserText="Correo" RememberMeText="¿Recuerdame el Usuario?" Login=@(args => OnLoginAsync(args, "Simple login")) />
             </RadzenTemplateForm>
         </RadzenCard>
-
+        <div class="col-12 d-flex p-3 login ">
+            <RadzenTemplateForm Action="/Usuario/ExternalLogin/Google" Method="Post" TItem="string">
+                <RadzenButton ButtonType="ButtonType.Submit" class="CambiarEmail">
+                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                    <h6 style="margin-bottom:0 !important;">Login with Google</h6>
+                </RadzenButton>
+            </RadzenTemplateForm>
+            @*  <RadzenTemplateForm Action="/Usuario/ExternalLogin/Facebook" Method="Post" TItem="string">
+            <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Light">
+            <RadzenImage Path="/img/facebook.png" Style="height:50px;width:50px"></RadzenImage>
+            </RadzenButton>
+            </RadzenTemplateForm>*@
+        </div>
     </RadzenCard>
 
-</div>
-<div class="col-12 d-flex p-3 login">
-    <RadzenCard class="d-flex rz-border-radius-6 rz-shadow-10 justify-content-center" Style="width: 25%; flex-flow: row wrap; overflow: hidden; align-items: stretch;">
-        <RadzenTemplateForm Action="/Usuario/ExternalLogin/Google" Method="Post" TItem="string">
-            <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Light">
-                <RadzenImage Path="/img/google.png" Style="height:50px;width:50px"></RadzenImage>
-            </RadzenButton>
-        </RadzenTemplateForm>
-        <RadzenTemplateForm Action="/Usuario/ExternalLogin/Facebook" Method="Post" TItem="string">
-            <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Light">
-                <RadzenImage Path="/img/facebook.png" Style="height:50px;width:50px"></RadzenImage>
-            </RadzenButton>
-        </RadzenTemplateForm>
-    </RadzenCard>
 </div>
 
 @code {

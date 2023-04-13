@@ -89,6 +89,13 @@ body .EditTextArea {
 body .EditTextArea:focus {
   border: 2px solid var(--rz-primary) !important;
 }
+body .BotonVacio {
+  background: none !important;
+  height: fit-content !important;
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
 body .CambiarEmail {
   background-color: transparent !important;
   color: var(--rz-primary) !important;

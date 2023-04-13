@@ -10,7 +10,6 @@
             display: inline-block;
             width: 60px;
             height: 34px;
-           
         }
 
             .switch input {
@@ -27,7 +26,6 @@
             background-color: #ccc;
             transition: .4s;
             border-radius: 34px;
-           
         }
 
             .slider:before {
@@ -50,7 +48,6 @@
                 transform: translateX(26px);
             }
 
-
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center ">
 
@@ -61,31 +58,21 @@
         </div>
 
         <div class="d-flex justify-content-evenly align-items-center" style="width:90vh; margin-top:4rem;">
-            <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" />
+            <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" Click="CambiarCorreo" />
         </div>
         <div class="d-flex justify-content-evenly align-items-center" style="width:90vh; margin-top:4rem;">
-            <RadzenButton Icon="password" class="CambiarEmail" Text="Cambiar Contraseña" />
+            <RadzenButton Icon="password" class="CambiarEmail" Text="Cambiar Contraseña" Click="CambiarContrasenia"/>
         </div>
         <div class="d-flex justify-content-center align-items-center" style="width:90vh; margin-top:4rem;">
-          
-            <RadzenButton class="CambiarEmail" Text="Cambiar Contraseña">
-              Doble Autenticación:&nbsp;&nbsp;
+            <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
                 <label class="switch">
                     <input type="checkbox">
                     <span class="slider round"></span>
                 </label>
-            </RadzenButton>
-           @* <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-            </label>*@
-
-
-
         </div>
         <div class="d-flex justify-content-evenly align-items-center" style="width:90vh; margin-top:4rem;">
             <RadzenButton Icon="logout" class="CambiarEmail" Text="Cerrar Sesión" Click="Logout" />
-            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Text="Borrar Cuenta" />
+            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Text="Borrar Cuenta" Click="BorrarCuenta" />
         </div>
     </div>
 }

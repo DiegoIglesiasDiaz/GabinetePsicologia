@@ -11,20 +11,16 @@ namespace GabinetePsicologia.Client.Pages
 {
     public partial class Register
     {
-        bool allowRowSelectOnRowClick = false;
-        protected string  RepiteContraseña;
-        IList<PersonaDto> LsUsuarios;
-        IList<PersonaDto> selectedUsuarios;
-        RadzenDataGrid<PersonaDto> grid;
+
+        protected string RepiteContraseña;
         PersonaDto PersonaForm = new PersonaDto() { FecNacim = DateTime.Today };
         public bool isInRole;
         public bool isAdmin;
         public bool isPiscologo;
         public bool isEdit;
-        IEnumerable<int> values = new int[] { };
-        string LoginUser;
+        public bool verPasswd = false;
+        public bool verRePasswd = false;
         [Inject] private UsuarioServices UsuarioServices { get; set; }
-        [Inject] private DialogService DialogService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -32,17 +28,6 @@ namespace GabinetePsicologia.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-            //if (user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
-            //{
-            //    if (user.IsInRole("Psicologo"))
-            //        isPiscologo = true;
-            //    if (user.IsInRole("Administrador"))
-            //        isAdmin = true;
-            //    isInRole = true;
-            //    LsUsuarios = await UsuarioServices.getPersonas();
-            //}
-            LoginUser = user.Identity.Name;
 
         }
         private async void GuardarPersona(PersonaDto data)
@@ -52,42 +37,39 @@ namespace GabinetePsicologia.Client.Pages
                 NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar una Fecha de Naciemiento válido");
                 return;
             }
+            string substring = data.Email.Substring(data.Email.IndexOf("@"));
+            if (!substring.Contains("."))
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Error", "Este Correo no es válido");
+                return;
+            }
             data.Rol = "";
             data.isPaciente = true;
             data.isPsicologo = false;
             data.isAdmin = false;
+            data.Id = Guid.NewGuid();
+            data.ApplicationUserId = "";
 
-            if (isEdit)
+            if (await UsuarioServices.RegisterPersonaAnonymous(data))
             {
-                UsuarioServices.EditarPaciente(data);
-                var remove = LsUsuarios.FirstOrDefault(x => x.Email == data.Email);
-                LsUsuarios.Remove(remove);
-                LsUsuarios.Add(data);
-                grid.Reload();
-                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Usuario editado correctamente.");
+                LoginDto user = new LoginDto();
+                user.Email = data.Email;
+                user.Password = data.Contraseña;
+                user.RememberMe = false;
+                if (await UsuarioServices.Login(user))
+                    NavigationManager.NavigateTo("/", true);
+
             }
             else
-            {
-                data.Id = Guid.NewGuid();
-                data.ApplicationUserId = "";
-
-                if (await UsuarioServices.RegisterPersonaAnonymous(data))
-                {
-                    LsUsuarios.Add(data);
-                    grid.Reload();
-                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Usuario creado correctamente.");
-                   
-
-                }
-                else
-                    NotificationService.Notify(NotificationSeverity.Error, "Error", "Este Correo Ya existe.");
-
-            }
-            DialogService.Close();
-
-
-
-
+                NotificationService.Notify(NotificationSeverity.Error, "Error", "Este Correo Ya existe.");
+        }
+        public void VerPasswd()
+        {
+            verPasswd = !verPasswd;
+        }
+        public void VerRePasswd()
+        {
+            verRePasswd = !verRePasswd;
         }
     }
 }

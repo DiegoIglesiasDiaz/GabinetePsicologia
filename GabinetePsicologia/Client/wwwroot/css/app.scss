@@ -130,6 +130,14 @@ body {
         border: 2px solid var(--rz-primary) !important;
     }
 
+    .BotonVacio {
+        background: none !important;
+        height: fit-content !important;
+        border: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
     .CambiarEmail {
         background-color: transparent !important;
         color: var(--rz-primary) !important;

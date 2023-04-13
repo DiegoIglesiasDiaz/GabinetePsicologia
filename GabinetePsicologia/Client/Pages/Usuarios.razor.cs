@@ -139,57 +139,57 @@ namespace GabinetePsicologia.Client.Pages
             DialogService.Close();
            
         }
-        private async void CambiarCorreo(string correoAntiguo)
-        {
-            selectedUsuarios = new List<PersonaDto>();
-            if (correoAntiguo == NewCorreo)
-            {
-                NotificationService.Notify(NotificationSeverity.Warning, "", "Has introducido el mismo correo que ya tienes.");
+        //private async void CambiarCorreo(string correoAntiguo)
+        //{
+        //    selectedUsuarios = new List<PersonaDto>();
+        //    if (correoAntiguo == NewCorreo)
+        //    {
+        //        NotificationService.Notify(NotificationSeverity.Warning, "", "Has introducido el mismo correo que ya tienes.");
 
-                return;
-            }
-            if (!(NewCorreo.Contains('@') && NewCorreo.Contains('.')))
-            {
-                NotificationService.Notify(NotificationSeverity.Warning, "", "No has Introducido un correo válido.");
+        //        return;
+        //    }
+        //    if (!(NewCorreo.Contains('@') && NewCorreo.Contains('.')))
+        //    {
+        //        NotificationService.Notify(NotificationSeverity.Warning, "", "No has Introducido un correo válido.");
 
-                return;
-            }
-            if (await UsuarioServices.CambiarCorreo(correoAntiguo, NewCorreo))
-            {
-                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Correo cambiado correctamente.");
-                var edit = LsUsuarios.FirstOrDefault(x => x.Email == correoAntiguo);
-                if (edit != null)
-                {
-                    LsUsuarios.Remove(edit);
-                    edit.Email = NewCorreo;
-                    LsUsuarios.Add(edit);
-                    await grid.Reload();
-                }
+        //        return;
+        //    }
+        //    if (await UsuarioServices.CambiarCorreo(correoAntiguo, NewCorreo))
+        //    {
+        //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Correo cambiado correctamente.");
+        //        var edit = LsUsuarios.FirstOrDefault(x => x.Email == correoAntiguo);
+        //        if (edit != null)
+        //        {
+        //            LsUsuarios.Remove(edit);
+        //            edit.Email = NewCorreo;
+        //            LsUsuarios.Add(edit);
+        //            await grid.Reload();
+        //        }
                   
-            }
-            else
-            {
-                NotificationService.Notify(NotificationSeverity.Warning, "", "Este Correo ya existe.");
-                return;
-            }
+        //    }
+        //    else
+        //    {
+        //        NotificationService.Notify(NotificationSeverity.Warning, "", "Este Correo ya existe.");
+        //        return;
+        //    }
 
-            await grid.Reload();
-            DialogService.Close();
-        }
-        private async void CambiarContraseña(string passwd)
-        {
-            string email = selectedUsuarios.First().Email;
-            selectedUsuarios = new List<PersonaDto>();
-            if (await UsuarioServices.CambiarContraseña(passwd, email))
-           {
-                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Contraseña cambiado correctamente.");
+        //    await grid.Reload();
+        //    DialogService.Close();
+        //}
+        //private async void CambiarContraseña(string passwd)
+        //{
+        //    string email = selectedUsuarios.First().Email;
+        //    selectedUsuarios = new List<PersonaDto>();
+        //    if (await UsuarioServices.CambiarContraseña(passwd, email))
+        //   {
+        //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Contraseña cambiado correctamente.");
 
-           }
-           else
-           {
-                NotificationService.Notify(NotificationSeverity.Warning, "Error", "No se ha podido cambiar la contraseña.");
-           }
-            DialogService.Close();
-        }
+        //   }
+        //   else
+        //   {
+        //        NotificationService.Notify(NotificationSeverity.Warning, "Error", "No se ha podido cambiar la contraseña.");
+        //   }
+        //    DialogService.Close();
+        //}
     }
 }

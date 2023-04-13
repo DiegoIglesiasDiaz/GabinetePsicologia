@@ -1,4 +1,5 @@
 ﻿
+using GabinetePsicologia.Client.Pages;
 using GabinetePsicologia.Server.Areas.Identity.Pages.Admin;
 using GabinetePsicologia.Server.Data;
 using GabinetePsicologia.Server.Data.Migrations;
@@ -58,10 +59,17 @@ namespace GabinetePsicologia.Server.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-
             return Ok("Logout Succesful");
         }
-
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> BorrarCuenta(Guid id)
+        {
+            ApplicationUser? user =  _context.Users.FirstOrDefault(x => x.Id == id.ToString());
+            if (user == null) return BadRequest();
+            await _userManager.DeleteAsync(user);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
         [HttpGet("Persona")]
         public async Task<IActionResult> getPersonas()
         {
@@ -148,7 +156,8 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpGet("Persona/{Username}")]
         public async Task<IActionResult> getApplicationUserByUsername(string UserName)
         {
-            ApplicationUser user = _context.Users.First(x => x.UserName.ToLower().Equals(UserName.ToLower()));
+            ApplicationUser? user = _context.Users.FirstOrDefault(x => x.UserName.ToLower().Equals(UserName.ToLower()));
+            if (user == null) return BadRequest(null);
             PersonaDto UserValue = new PersonaDto()
             {
                 Contraseña = user.PasswordHash,
@@ -361,6 +370,8 @@ namespace GabinetePsicologia.Server.Controllers
             var user = _context.Users.FirstOrDefault(x => x.UserName == correos[0]);
             await _userManager.SetUserNameAsync(user, correos[1]);
             await _userManager.SetEmailAsync(user, correos[1]);
+            string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            await _userManager.ConfirmEmailAsync(user, token);
             return Ok("Correo Actualizado");
         }
         [AllowAnonymous]
@@ -509,6 +520,21 @@ namespace GabinetePsicologia.Server.Controllers
                 }
             }
             return result;
+        }
+        [HttpPost("CheckPasswd")]
+        public async Task<IActionResult> CheckPasswd([FromBody] string[] data)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.UserName == data[0]);
+            if (user == null) return BadRequest("Contraseña Incorrecta");
+            bool result =  await _userManager.CheckPasswordAsync(user, data[1]);
+            if (result)
+            {
+                return Ok("Contraseña Correcta");
+            }
+            else
+            {
+                return BadRequest("Contraseña Incorrecta");
+            }
         }
     }
 }

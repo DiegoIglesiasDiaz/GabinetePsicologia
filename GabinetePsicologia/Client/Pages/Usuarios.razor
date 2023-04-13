@@ -66,10 +66,11 @@ else
         PersonaForm = new PersonaDto();
         string titulo = "";
         isEdit = false;
-        if (data.Id == Guid.Empty){
-             titulo = "Añadir Usuario";
+        if (data.Id == Guid.Empty)
+        {
+            titulo = "Añadir Usuario";
             PersonaForm.FecNacim = DateTime.Today;
-        }  
+        }
         else
         {
 
@@ -244,32 +245,20 @@ else
         }
         string CorreoAntiguo = selectedUsuarios.FirstOrDefault().Email;
         selectedUsuarios = new List<PersonaDto>();
-        var result = await DialogService.OpenAsync("Cambiar Correo", ds =>
-    @<div>
-        <div class="row">
-            <div class="col">
+        var result = await DialogService.OpenAsync<CambiarCorreo>("Cambiar Correo", new Dictionary<string, object> { { "CorreoAntiguo", CorreoAntiguo } });
+        if (result!=null)
+        {
+            var edit = LsUsuarios.FirstOrDefault(x => x.Email == CorreoAntiguo);
+            if (edit != null && edit.Id != Guid.Empty)
+            {
+                LsUsuarios.Remove(edit);
+                edit.Email = result;
+                LsUsuarios.Add(edit);
+                await grid.Reload();
+            }
+          
+        }
 
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Actual</RadzenText>
-                    <RadzenText TextStyle="TextStyle.Subtitle1" TagName="TagName.H2">@CorreoAntiguo</RadzenText>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Nuevo</RadzenText>
-                    <RadzenTextBox @bind-Value=NewCorreo Name="CorreoNuevo" class="w-100" />
-                    <RadzenEmailValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Eso no es un Correo valido"></RadzenEmailValidator>
-                    <RadzenRequiredValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Correo requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <br><br>
-                <div style="display:flex;align-items:center;justify-content:center">
-                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                    <RadzenButton style="margin:10px" Text="Guardar" class="me-1" Click="() => CambiarCorreo(CorreoAntiguo)" />
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-    );
     }
     async Task CambiarContraseñaModal()
     {
@@ -294,28 +283,9 @@ else
             return;
         }
         string passwd = "";
-        var result = await DialogService.OpenAsync("Cambiar Correo", ds =>
-    @<div>
-        <div class="row">
-            <div class="col">
-                <RadzenTemplateForm Data="@passwd" TItem="string" method="post" Submit="@((args) => { CambiarContraseña(passwd); })">
-                    <RadzenCard>
-                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nueva Contraseña</RadzenText>
-                        <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" />
-                        <RadzenRequiredValidator Component="passwd" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
-                        <RadzenRegexValidator Component="passwd" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
-
-                    </RadzenCard>
-                    <br><br>
-                    <div style="display:flex;align-items:center;justify-content:center">
-                        <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                        <RadzenButton style="margin:10px" Text="Guardar" class="me-1" ButtonType="ButtonType.Submit" />
-                    </div>
-                </RadzenTemplateForm>
-            </div>
-        </div>
-    </div>
-                );
+        string email = selectedUsuarios.First().Email;
+        selectedUsuarios = new List<PersonaDto>();
+        var result = await DialogService.OpenAsync<CambiarContraseña>("Cambiar Contraseña", new Dictionary<string, object> { { "email", email } });
     }
 }
 

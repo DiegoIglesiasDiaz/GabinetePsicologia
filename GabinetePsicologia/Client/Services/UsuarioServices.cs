@@ -33,6 +33,19 @@ namespace GabinetePsicologia.Client.Services
             return result.IsSuccessStatusCode;
 
         }
+        public async Task<bool> CheckPasswd(string correo, string passwd)
+        {
+            string[] data = new string[] { correo, passwd };
+            var result = await _httpClient.PostAsJsonAsync("/Usuario/CheckPasswd", data);
+            return result.IsSuccessStatusCode;
+
+        }
+        public async Task<bool> BorrarCuenta(Guid id)
+        {
+            var result = await _httpClient.DeleteAsync($"/Usuario/{id}");
+            return result.IsSuccessStatusCode;
+
+        }
         public async Task<bool> RegisterPersonaAnonymous(PersonaDto data)
         {
 
@@ -100,7 +113,7 @@ namespace GabinetePsicologia.Client.Services
            var result = await _httpClient.PostAsJsonAsync("/Usuario/CambiarTelefono", data);
            return result.IsSuccessStatusCode;
         }
-        public  void ExternalLogin(string Provider)
+        public void ExternalLogin(string Provider)
         {
 
 

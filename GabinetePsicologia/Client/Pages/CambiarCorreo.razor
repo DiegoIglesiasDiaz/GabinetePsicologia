@@ -1,0 +1,27 @@
+﻿@inject DialogService DialogService
+@using GabinetePsicologia.Shared
+
+<div>
+    <div class="row">
+        <div class="col">
+
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Actual</RadzenText>
+                <RadzenText TextStyle="TextStyle.Subtitle1" TagName="TagName.H2">@CorreoAntiguo</RadzenText>
+            </RadzenCard>
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo Nuevo</RadzenText>
+                <RadzenTextBox @bind-Value=NewCorreo Name="CorreoNuevo" class="w-100" />
+                <RadzenEmailValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Eso no es un Correo valido"></RadzenEmailValidator>
+                <RadzenRequiredValidator Popup=true Style="position:relative" Component="CorreoNuevo" Text="*Correo requerido"></RadzenRequiredValidator>
+            </RadzenCard>
+            <br><br>
+            <div style="display:flex;align-items:center;justify-content:center">
+                <RadzenButton style="margin:10px" Text="Cancelar" Click="() => DialogService.Close(null)" ButtonStyle="ButtonStyle.Light" class="me-1" />
+                <RadzenButton style="margin:10px" Text="Guardar" class="me-1" Click="() => CambiarMail()" />
+            </div>
+
+
+        </div>
+    </div>
+</div>

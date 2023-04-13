@@ -11,6 +11,7 @@ namespace GabinetePsicologia.Client.Pages
     public partial class Configuracion
     {
         [Inject] private NotificationService NotificationService { get; set; } 
+        [Inject] private DialogService DialogService { get; set; } 
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] UsuarioServices UsuarioServices { get; set; }
@@ -31,5 +32,47 @@ namespace GabinetePsicologia.Client.Pages
         {
             NavigationManager.NavigateTo("/Logout", true);
         }
+        public async void CambiarContrasenia()
+        {
+            var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", correo } });
+            if(chckPasswd != null && chckPasswd)
+            {
+                var result = await DialogService.OpenAsync<CambiarContraseña>("Cambiar Contraseña", new Dictionary<string, object> { { "email", correo } });
+            }
+           
+        }
+        public async void CambiarCorreo()
+        {
+            var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", correo } });
+            if (chckPasswd != null && chckPasswd)
+            {
+                var result = await DialogService.OpenAsync<CambiarCorreo>("Cambiar Correo", new Dictionary<string, object> { { "CorreoAntiguo", correo } });
+                if (result != null)
+                    correo = result;
+            }
+                
+        }
+        public async void BorrarCuenta()
+        {
+            var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", correo } });
+            if (chckPasswd != null && chckPasswd)
+            {
+                var result = await DialogService.Confirm("¿Quieres Borrar la Cuenta?", "Borrar Cuenta");
+                if(result != null && result==true)
+                {
+                    var claims = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+                    if (claims != null)
+                    {
+                        var user = await  UsuarioServices.getPersonaByUsername(claims.Identity.Name);
+                        await UsuarioServices.BorrarCuenta(user.Id);
+                        NavigationManager.NavigateTo("/Logout", true);
+                    }
+                  
+
+                }
+            }
+
+        }
+
     }
 }
