@@ -1,0 +1,101 @@
+﻿@page "/Equipo"
+<Page Title="Equipo de Psicólogos">
+    <style>
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #0767DB;
+        }
+
+        /* Estilo del contenedor de la lista de psicólogos */
+        .psychologists-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        /* Estilo del contenedor de cada psicólogo */
+        .psychologist-card {
+            background-color: #EAF5FD;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        /* Estilo de la imagen */
+        .image {
+            border-radius: 50%;
+            height: 150px;
+            margin: 0 auto;
+            width: 150px;
+            object-fit: cover;
+        }
+
+        /* Estilo de los textos */
+        h3, h4 {
+            color: #0767DB;
+            margin: 10px 0;
+        }
+
+        p {
+            color: #444444;
+            font-size: 14px;
+            text-align: justify;
+        }
+        .parrafoA{
+                   
+          font-size: 18px;
+          line-height: 1.5;
+          color: #333333;
+          text-align: center;
+          margin-top: 30px;
+          margin-bottom: 30px;
+          margin-left: 50px;
+          margin-right: 50px;
+          padding: 10px;
+          border-radius: 10px;
+          background-color: #EAF5FD;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        
+        }
+    </style>
+    <h1 style="text-align:center;">Conoce a nuestro equipo de psicólogos</h1>
+    <div class="psychologists-container">
+        <div class="psychologist-card" style="background-color:#F9D9EB;">
+            <img src="https://via.placeholder.com/200x200.png?text=Foto" class="image" />
+            <h3>Nombre Apellido</h3>
+            <h4>Especialidad</h4>
+            <p>Descripción breve sobre el psicólogo/a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut justo eget magna suscipit faucibus vel eget orci.</p>
+        </div>
+        <div class="psychologist-card" style="background-color:#D5E8D4;">
+            <img src="https://via.placeholder.com/200x200.png?text=Foto" class="image" />
+            <h3>Nombre Apellido</h3>
+            <h4>Especialidad</h4>
+            <p>Descripción breve sobre el psicólogo/a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut justo eget magna suscipit faucibus vel eget orci.</p>
+        </div>
+        <div class="psychologist-card" style="background-color:#DCE2F1;">
+            <img src="https://via.placeholder.com/200x200.png?text=Foto" class="image" />
+            <h3>Nombre Apellido</h3>
+            <h4>Especialidad</h4>
+            <p>Descripción breve sobre el psicólogo/a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut justo eget magna suscipit faucibus vel eget orci.</p>
+        </div>
+    </div>
+    <p class="parrafoA">
+        En nuestra clínica, contamos con un equipo de psicólogos altamente capacitados y comprometidos con la salud mental de nuestros pacientes. Nuestros psicólogos han sido cuidadosamente seleccionados para garantizar que tengan la experiencia y la formación necesarias para abordar una amplia variedad de problemas de salud mental.
+        <br />
+        Cada uno de nuestros psicólogos es único y aporta su propia perspectiva y habilidades a la clínica. Desde la terapia cognitivo-conductual hasta la terapia gestalt, nuestros psicólogos tienen experiencia en una amplia variedad de enfoques terapéuticos.
+        <br />
+        Nos esforzamos por crear un ambiente cálido y acogedor para nuestros pacientes, y nuestros psicólogos están comprometidos en proporcionar la mejor atención posible para ayudar a nuestros pacientes a superar sus desafíos y alcanzar su máximo potencial. Juntos, nuestro equipo de psicólogos está aquí para ayudar a nuestros pacientes en su viaje hacia la salud mental y el bienestar emocional.
+    </p>
+</Page>
+
+
+@code {
+
+}
