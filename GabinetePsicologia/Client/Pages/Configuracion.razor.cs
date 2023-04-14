@@ -46,11 +46,11 @@ namespace GabinetePsicologia.Client.Pages
             var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", correo } });
             if (chckPasswd != null && chckPasswd)
             {
-                var result = await DialogService.OpenAsync<CambiarCorreo>("Cambiar Correo", new Dictionary<string, object> { { "CorreoAntiguo", correo } });
+                var result =  await DialogService.OpenAsync<CambiarCorreo>("Cambiar Correo", new Dictionary<string, object> { { "CorreoAntiguo", correo } });
                 if (result != null)
-                    correo = result;
+                    NavigationManager.NavigateTo("/Configuracion", true);
             }
-                
+ 
         }
         public async void BorrarCuenta()
         {
