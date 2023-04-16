@@ -8,9 +8,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace GabinetePsicologia.Client.Pages
 {
-    public partial class Calendar
+    public partial class Citas
     {
-        string value = "psicologo";
+       
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private CitasServices CitasServices { get; set; }
         [Inject] private PacientesServices PacientesServices { get; set; }
@@ -27,9 +27,9 @@ namespace GabinetePsicologia.Client.Pages
         bool isPsicologo = false;
         bool isAdmin = false;
 
-
         List<Cita> allList = new List<Cita>();
         List<Cita> data = new List<Cita>();
+        List<Cita> ProximasCitas = new List<Cita>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,14 +44,15 @@ namespace GabinetePsicologia.Client.Pages
             lsPacientes = await PacientesServices.getPacientes();
             data = await CitasServices.GetCitas();
             allList = await CitasServices.GetCitas();
-            if (user.IsInRole("Administrador")) isAdmin = true;
+            ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
+           
             if (user.IsInRole("Psicologo"))
             {
                 SelectedPsciologo = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
                 allList = allList.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
                 data = allList;
                 isPsicologo = true;
-
+                ProximasCitas = ProximasCitas.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
             }
             else if (user.IsInRole("Paciente"))
             {
@@ -59,9 +60,26 @@ namespace GabinetePsicologia.Client.Pages
                 allList = allList.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
                 data = allList;
                 isPaciente = true;
-
+                if (user.IsInRole("Psicologo"))
+                {
+                    ProximasCitas.AddRange(allList.Where(x => x.PacienteId == SelectedPsciologo.Id).ToList());
+                }
+                else
+                {
+                    ProximasCitas = ProximasCitas.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
+                }
+               
             }
-
+            if (user.IsInRole("Administrador"))
+            {
+                ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
+                isAdmin = true;
+            }
+            ProximasCitas = ProximasCitas.OrderBy(x=> x.FecInicio).ToList();
+            if (ProximasCitas.Count > 5)
+            {
+                ProximasCitas = ProximasCitas.Take(5).ToList();
+            }
         }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
@@ -86,7 +104,7 @@ namespace GabinetePsicologia.Client.Pages
                 return;
             }
             Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo } });
+            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo }, { "isPaciente", false } });
 
             if (Cita != null)
             {
@@ -112,7 +130,12 @@ namespace GabinetePsicologia.Client.Pages
             Cita Cita = args.Data;
             Guid id = args.Data.Id;
             Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId);
-            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } });
+            bool isisPaciente = false;
+            if (isPaciente && !isAdmin && !isPsicologo)
+            {
+                isPaciente = true;
+            }
+            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } , { "isPaciente", isPaciente } });
             if (result == null || !(result is Cita)) return;
             Cita = result;
             if (Cita.Id != Guid.Empty)
@@ -187,6 +210,11 @@ namespace GabinetePsicologia.Client.Pages
                 data = data.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
                 scheduler.Reload();
             }
+        }
+        public string PsicologoName(Guid id)
+        {
+
+            return lsPsicologos.FirstOrDefault(x=> x.Id == id).FullName ?? "";
         }
     }
 }

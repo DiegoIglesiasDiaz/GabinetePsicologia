@@ -1,6 +1,6 @@
 ﻿@inject DialogService DialogService
 @using GabinetePsicologia.Shared
-@if (cita.Id != Guid.Empty)
+@if (cita.Id != Guid.Empty && !isPaciente)
 {
     <div style="display:flex;align-items:center;justify-content:right">
         <RadzenButton Click="Borrar" ButtonStyle="ButtonStyle.Danger" Text="Borrar" />
@@ -23,7 +23,8 @@
         @if (!isEdit)
         {
             <div class="col">
-                <RadzenDropDown Data=@lsPacientes TValue="Paciente" Name="Pacientes" AllowClear=true Placeholder="Selecciona un Paciente" Change="Change" TextProperty="FullName" ValueProperty="Id" />
+                <RadzenDropDown Data=@lsPacientes TValue="Paciente" Name="Pacientes" AllowClear=true Placeholder="Selecciona un Paciente" Change="Change" TextProperty="FullName" ValueProperty="Id"
+                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
                 <RadzenRequiredValidator Text="*Paciente Requrido" Component="Pacientes" />
             </div>
         }
@@ -40,7 +41,7 @@
             <RadzenLabel Text="Fecha Inicio" />
         </div>
         <div class="col">
-            <RadzenDatePicker @bind-Value="@cita.FecInicio" Name="FecInicio" ShowTime="true" />
+            <RadzenDatePicker @bind-Value="@cita.FecInicio" Name="FecInicio" ShowTime="true" ReadOnly=isPaciente />
             <RadzenRequiredValidator Text="*Fecha Inicio Requrido" Component="FecInicio" />
         </div>
     </div>
@@ -49,7 +50,7 @@
             <RadzenLabel Text="Fecha Fin" />
         </div>
         <div class="col">
-            <RadzenDatePicker Name="FecFin" @bind-Value="@cita.FecFin" ShowTime="true" />
+            <RadzenDatePicker Name="FecFin" @bind-Value="@cita.FecFin" ShowTime="true" ReadOnly=isPaciente />
             <RadzenRequiredValidator Component="FecFin" Text="*Fecha Fin Requrido" />
         </div>
     </div>
@@ -57,7 +58,10 @@
         <div class="col-md-3"></div>
         <div style="display:flex;align-items:center;justify-content:center;gap:10%">
             <RadzenButton Click="DialogService.Close" ButtonStyle="ButtonStyle.Primary" Text="Cancelar" />
-            <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
+            @if(!isPaciente){
+                <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
+            }
+           
         </div>
     </div>
 </RadzenTemplateForm>

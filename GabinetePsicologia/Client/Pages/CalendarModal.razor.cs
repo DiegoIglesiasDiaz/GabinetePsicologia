@@ -11,7 +11,9 @@ namespace GabinetePsicologia.Client.Pages
         public Cita Appointment { get; set; }
         [Parameter]
         public GabinetePsicologia.Shared.Psicologo Psicologo { get; set; }
-
+        [Parameter]
+        public Paciente Paciente { get; set; }
+        public bool isPaciente { get; set; }
         Cita cita = new Cita();
         [Inject] private PacientesServices PacientesServices { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }

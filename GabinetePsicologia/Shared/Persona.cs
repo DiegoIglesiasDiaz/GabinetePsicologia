@@ -1,5 +1,6 @@
 ﻿
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace GabinetePsicologia.Shared;
 
@@ -18,7 +19,8 @@ public abstract class Persona
     {
         get
         {
-            return Nombre +" " + Apellido1 + " " + Apellido2;
+            string str = Nombre +" " + Apellido1 + " " + Apellido2;
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
         }
 
     }

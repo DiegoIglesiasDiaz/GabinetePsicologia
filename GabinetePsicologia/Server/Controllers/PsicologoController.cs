@@ -36,6 +36,11 @@ namespace GabinetePsicologia.Server.Controllers
             //        u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
             return _context.Psicologos.ToList();
         }
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<Psicologo>> GetPsicologoById(Guid id)
+        {
+            return _context.Psicologos.FirstOrDefault(x=> x.Id == id) ?? new Psicologo();
+        }
         [HttpPost]
         public async Task<ActionResult> RegisterPsicologo(Psicologo psicologo)
         {

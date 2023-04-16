@@ -39,5 +39,10 @@ namespace GabinetePsicologia.Client.Services
             await _httpClient.PostAsJsonAsync("/Psicologo/Update", psicologo);
         }
 
+        public async Task<Psicologo> getPsicologoById(Guid id)
+        {
+            var psicologo = await _httpClient.GetFromJsonAsync<Psicologo>($"/Psicologo/{id}");
+            return psicologo;
+        }
     }
 }
