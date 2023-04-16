@@ -13,7 +13,9 @@
 </style>
 
 <div class="background">
-<RadzenButton Text="Volver" Click="Volver" Style="margin:70px;margin-bottom:10px !important"></RadzenButton>
+    <a href="/">
+<RadzenButton Text="Volver" Style="margin:70px;margin-bottom:10px !important"></RadzenButton>
+    </a>
     <ErrorBoundary @ref="ErrorBoundary" >
         <ChildContent>
             @Body
