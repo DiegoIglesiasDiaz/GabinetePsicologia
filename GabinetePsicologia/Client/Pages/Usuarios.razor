@@ -6,6 +6,11 @@
 
 @if (isInRole)
 {
+    if(LsUsuarios == null){
+        <Loading></Loading>
+    }else{
+
+    
     <div class="d-flex flex-column align-items-center justify-content-center ">
         <h3>Usuarios</h3>
         @if (isAdmin)
@@ -56,6 +61,7 @@
             </Columns>
         </RadzenDataGrid>
     </div>
+    }
 }
 else
 {
