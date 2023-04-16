@@ -23,7 +23,7 @@
                     <RadzenText TextStyle="TextStyle.DisplayH5">Correo:&nbsp;&nbsp; </RadzenText>
                     <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH5">@userDto.Email</RadzenText>
                 </div>
-                <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" />
+                <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" />
             </div>
         }*@
         <RadzenTemplateForm Data="@userDto" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
@@ -99,7 +99,7 @@ else
     }
     else
     {
-        <p>No estas Autorizado para ver esta página.</p>
+        <_403 />
     }
 
 }

@@ -1,39 +1,46 @@
 ﻿@page "/Trastornos"
 @using GabinetePsicologia.Shared
 
-@if(isInRole){
-<h3>Trastornos</h3>
-    <RadzenButton Text="Añadir Trastorno" ButtonStyle="ButtonStyle.Primary" Click=@(args => {formTrastorno = new Trastorno(); ShowInlineDialog(new Trastorno()); }) Style="margin-left:auto;margin-right:0" />
-<RadzenButton Text="Borrar Trastorno" ButtonStyle="ButtonStyle.Primary" Click=@BorrarTrastorno Style="margin-left:auto;margin-right:0" />
-<RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
-                AllowSorting="true" Data="@LsTrastornos" TItem="Trastorno" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
-                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedTrastornos class="m-4">
-    <Columns>
-        <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">
-            <HeaderTemplate >
-                <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedTrastornos != null && LsTrastornos.Count().Equals(selectedTrastornos.Count()))"
-                                Change="@(args => selectedTrastornos = args ? LsTrastornos.ToList() : null)" />
-            </HeaderTemplate>
-            <Template Context="data">
-                <RadzenCheckBox TriState="false" Value="@(selectedTrastornos != null && selectedTrastornos.Contains(data))"
-                                TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data); }}) />
-            </Template>
-        </RadzenDataGridColumn>
+@if (isInRole)
+{
+    <div class="d-flex flex-column align-items-center justify-content-center ">
+        <h3>Trastornos</h3>
+        <div >
+            <RadzenButton Text="Añadir Trastorno" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@(args => {formTrastorno = new Trastorno(); ShowInlineDialog(new Trastorno()); }) Style="margin-left:auto;margin-right:0;" />
+            <RadzenButton Text="Borrar Trastorno" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@BorrarTrastorno Style="margin-left:auto;margin-right:0;" />
+        </div>
+        <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
+                    AllowSorting="true" Data="@LsTrastornos" TItem="Trastorno" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
+                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedTrastornos class="m-4" Style="color:white">
+            <Columns>
+                <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">
+                    <HeaderTemplate>
+                        <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedTrastornos != null && LsTrastornos.Count().Equals(selectedTrastornos.Count()))"
+                                    Change="@(args => selectedTrastornos = args ? LsTrastornos.ToList() : null)" />
+                    </HeaderTemplate>
+                    <Template Context="data">
+                        <RadzenCheckBox TriState="false" Value="@(selectedTrastornos != null && selectedTrastornos.Contains(data))"
+                                    TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data); }}) />
+                    </Template>
+                </RadzenDataGridColumn>
 
-        <RadzenDataGridColumn TItem="Trastorno" Property="Nombre" Title="Nombre" />
-        <RadzenDataGridColumn TItem="Trastorno" Property="Tipo" Title="Tipo" />
-        <RadzenDataGridColumn TItem="Trastorno" Property="Sintomas" Title="Sintomas" />
-        <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">
-            <Template Context="data">
-                <RadzenButton Text="Editar" Click=@(args =>  { ShowInlineDialog(data); }) ButtonStyle="ButtonStyle.Secondary" />
-            </Template>
-        </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Trastorno" Property="Nombre" Title="Nombre"/>
+                <RadzenDataGridColumn TItem="Trastorno" Property="Tipo" Title="Tipo" />
+                <RadzenDataGridColumn TItem="Trastorno" Property="Sintomas" Title="Sintomas" />
+                <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">
+                    <Template Context="data" >
+                        <RadzenButton Icon="edit" Click=@(args => { ShowInlineDialog(data); }) class="BotonPrincipal" />
+                    </Template>
+                </RadzenDataGridColumn>
 
 
-    </Columns>
-</RadzenDataGrid>
-}else{
-    <p>No estas Autorizado para ver esta página.</p>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+}
+else
+{
+    <_403 />
 }
 @code {
     async Task ShowInlineDialog(Trastorno data)
@@ -42,7 +49,8 @@
         string titulo = "";
         if (data.Id == Guid.Empty)
             titulo = "Añadir Trastorno";
-        else{
+        else
+        {
             titulo = "Editar Trastorno";
             formTrastorno.Id = data.Id;
             formTrastorno.Nombre = data.Nombre;
@@ -50,39 +58,39 @@
             formTrastorno.Sintomas = data.Sintomas;
 
         }
-          
 
-      
+
+
 
         var result = await DialogService.OpenAsync(titulo, ds =>
     @<div>
-        <div class="row">
-            <div class="col">
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
-                    <RadzenTextBox @bind-Value=formTrastorno.Nombre Name="name" class="w-100" />
-                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Tipo</RadzenText>
-                    <RadzenTextBox @bind-Value=formTrastorno.Tipo Name="Tipo" class="w-100" />
-                    <RadzenRequiredValidator style ="position:relative" Popup=true Component ="Tipo" Text="*Nombre requerido"></RadzenRequiredValidator>
-                </RadzenCard>
-                <RadzenCard>
-                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Síntomas</RadzenText>
-                    <RadzenTextArea @bind-Value=formTrastorno.Sintomas Name="Sintomas" class="w-100" />
-                    <RadzenRequiredValidator Style="position:relative" Popup=true Component ="Sintomas" Text="*Nombre requerido"></RadzenRequiredValidator>
-                </RadzenCard>
+            <div class="row">
+                <div class="col">
+                    <RadzenCard>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
+                        <RadzenTextBox @bind-Value=formTrastorno.Nombre Name="name" class="w-100" />
+                        <RadzenRequiredValidator Style="position:relative" Popup=true Component="name" Text="*Nombre requerido"></RadzenRequiredValidator>
+                    </RadzenCard>
+                    <RadzenCard>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Tipo</RadzenText>
+                        <RadzenTextBox @bind-Value=formTrastorno.Tipo Name="Tipo" class="w-100" />
+                        <RadzenRequiredValidator style="position:relative" Popup=true Component="Tipo" Text="*Nombre requerido"></RadzenRequiredValidator>
+                    </RadzenCard>
+                    <RadzenCard>
+                        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Síntomas</RadzenText>
+                        <RadzenTextArea @bind-Value=formTrastorno.Sintomas Name="Sintomas" class="w-100" />
+                        <RadzenRequiredValidator Style="position:relative" Popup=true Component="Sintomas" Text="*Nombre requerido"></RadzenRequiredValidator>
+                    </RadzenCard>
 
-                <br><br>
-                <div style="display:flex;align-items:center;justify-content:center">
-                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                    <RadzenButton style="margin:10px" Text="Guardar" Click=@GuardarTrastorno class="me-1" />
+                    <br><br>
+                    <div style="display:flex;align-items:center;justify-content:center">
+                        <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
+                        <RadzenButton style="margin:10px" Text="Guardar" Click=@GuardarTrastorno class="me-1" />
+                    </div>
+
+
                 </div>
-
-
             </div>
-        </div>
     </div>);
 
 

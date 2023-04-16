@@ -9,11 +9,16 @@ $sec-color-darker: #444548;*/
   --rz-primary-lighter: #a3b4f8 !important;
   --rz-primary-dark: #11277d !important;
   --rz-primary-darker: #071446 !important;
+  --rz-grid-sort-icon-color: white !important;
+  --rz-grid-header-color: white !important;
+  --rz-grid-header-background-color: var(--rz-primary) !important;
+  --rz-grid-filter-color: white !important;
+  --rz-grid-header-filter-icon-hover-color: var(--rz-secondary-light) !important;
   /*    --rz-secondary: #746f36 !important;
-      --rz-secondary-light: #b9bed1 !important;
-      --rz-secondary-lighter: #d2d9f1 !important;
-      --rz-secondary-dark: #62656d !important;
-      --rz-secondary-darker: #444548 !important;*/
+  --rz-secondary-light: #b9bed1 !important;
+  --rz-secondary-lighter: #d2d9f1 !important;
+  --rz-secondary-dark: #62656d !important;
+  --rz-secondary-darker: #444548 !important;*/
 }
 
 body {
@@ -96,14 +101,14 @@ body .BotonVacio {
   padding: 0 !important;
   box-shadow: none !important;
 }
-body .CambiarEmail {
+body .BotonPrincipal {
   background-color: transparent !important;
   color: var(--rz-primary) !important;
   border: 2px solid var(--rz-primary) !important;
   border-radius: 10px !important;
   height: fit-content !important;
 }
-body .CambiarEmail:hover {
+body .BotonPrincipal:hover {
   background-color: var(--rz-primary) !important;
   color: var(--bs-body-bg) !important;
 }
@@ -112,6 +117,39 @@ body .invalid {
 }
 body .validation-message {
   color: white;
+}
+body .content-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+body .content-table thead tr {
+  background-color: var(--rz-primary);
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+body .content-table th,
+body .content-table td {
+  padding: 12px 15px;
+}
+body .content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+body .content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+body .content-table tbody tr:last-of-type {
+  border-bottom: 2px solid var(--rz-primary);
+}
+body .content-table tbody tr.active-row {
+  font-weight: bold;
+  color: var(--rz-primary);
 }
 body #blazor-error-ui {
   background: lightyellow;
