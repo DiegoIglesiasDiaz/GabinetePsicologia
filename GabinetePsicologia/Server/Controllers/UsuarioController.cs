@@ -378,8 +378,7 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> OnPostAsync([FromBody] LoginDto usuario)
         {
-            IList<AuthenticationScheme> ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
+ 
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -387,6 +386,8 @@ namespace GabinetePsicologia.Server.Controllers
                 var result = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    
+                  //  _userManager.AddClaimAsync(User)
                     return Ok("Usuario Logueado");
                 }
                 //if (result.RequiresTwoFactor)

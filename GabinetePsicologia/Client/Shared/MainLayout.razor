@@ -8,38 +8,117 @@
 
     <RadzenHeader>
         <div class="headerDiv">
-            <RadzenImage Path="../img/logo.png" class="logo" @onclick="@(_ => NavigationManager.NavigateTo("./"))" />
+            <a href="/">
+            <RadzenImage  Path="../img/logo.png" class="logo" @onclick="@(_ => NavigationManager.NavigateTo("./"))" />
+            </a>
             <RadzenMenu>
-                <RadzenMenuItem Path="/Terapias">
-                    <Template>
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <RadzenMenuItem Path="/Terapias">
+                            <Template>
 
-                        <span class="rz-navigation-item-text">TERAPIAS</span>
-                    </Template>
-                </RadzenMenuItem>
-                <RadzenMenuItem Path="/Equipo">
-                    <Template>
+                                <span class="rz-navigation-item-text">TERAPIAS</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Path="/Equipo">
+                            <Template>
 
-                        <span class="rz-navigation-item-text">EQUIPO</span>
-                    </Template>
-                </RadzenMenuItem>
-                <RadzenMenuItem Path="/QuienesSomos">
-                    <Template>
+                                <span class="rz-navigation-item-text">EQUIPO</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Path="/QuienesSomos">
+                            <Template>
 
-                        <span class="rz-navigation-item-text">¿QUIENES SOMOS?</span>
-                    </Template>
-                </RadzenMenuItem>
-                
-                <RadzenMenuItem Path="/Contacto">
-                    <Template>
-                       
-                        <span class="rz-navigation-item-text">CONTACTO</span>
-                    </Template>
-                </RadzenMenuItem>
+                                <span class="rz-navigation-item-text">¿QUIENES SOMOS?</span>
+                            </Template>
+                        </RadzenMenuItem>
+
+                        <RadzenMenuItem Path="/Contacto">
+                            <Template>
+
+                                <span class="rz-navigation-item-text">CONTACTO</span>
+                            </Template>
+                        </RadzenMenuItem>
+                    </NotAuthorized>
+                    <Authorized>
+                        @if (!context.User.IsInRole("Psicologo") && !context.User.IsInRole("Administrador"))
+                        {
+                            <RadzenMenuItem Path="/Terapias">
+                                <Template>
+                                    <span class="rz-navigation-item-text">TERAPIAS</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Equipo">
+                                <Template>
+
+                                    <span class="rz-navigation-item-text">EQUIPO</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/QuienesSomos">
+                                <Template>
+
+                                    <span class="rz-navigation-item-text">¿QUIENES SOMOS?</span>
+                                </Template>
+                            </RadzenMenuItem>
+
+                            <RadzenMenuItem Path="/Contacto">
+                                <Template>
+
+                                    <span class="rz-navigation-item-text">CONTACTO</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Citas">
+                                <Template>
+                                    <span class="rz-navigation-item-text">CITAS</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Informes">
+                                <Template>
+                                    <span class="rz-navigation-item-text">INFORMES</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            
+                        }
+                        else
+                        {
+                        <RadzenMenuItem Path="/Citas">
+                            <Template>
+                                <span class="rz-navigation-item-text">CITAS</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Path="/Informes">
+                            <Template>
+                                <span class="rz-navigation-item-text">INFORMES</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Path="/Usuarios">
+                            <Template>
+                                <span class="rz-navigation-item-text">USUARIOS</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Path="/Trastornos">
+                            <Template>
+                                <span class="rz-navigation-item-text">TRASTORNOS</span>
+                            </Template>
+                        </RadzenMenuItem>
+                        }
+                    </Authorized>
+                </AuthorizeView>
+
             </RadzenMenu>
+
+
+
+
+
+
+
+
+
             <RadzenMenu class="accountMenu">
                 <AuthorizeView>
                     <Authorized>
-                        <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@Name" Icon="account_circle">
+                        <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@context.User.Identity.Name" Icon="account_circle">
                             <RadzenMenuItem Text="Mis Datos" Path="/MisDatos" />
                             <RadzenMenuItem Text="Configuración" Path="/Configuracion" />
                             <RadzenMenuItem Text="Cerrar sesión" Path="/Logout" />

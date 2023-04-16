@@ -20,6 +20,7 @@ namespace GabinetePsicologia.Client.Shared
         [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] protected UsuarioServices UsuarioServices { get; set; }
         string Name = "";
+        public bool isAdmin = false;
 
         protected ErrorBoundary? ErrorBoundary;
 
@@ -33,9 +34,12 @@ namespace GabinetePsicologia.Client.Shared
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user != null && (user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
             {
-                PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
-                Name = userDto.FullName;
-                
+               // PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                //Name = userDto.FullName;
+                if (!user.IsInRole("Paciente"))
+                {
+                    isAdmin= true;
+                }
             }
 
         }
