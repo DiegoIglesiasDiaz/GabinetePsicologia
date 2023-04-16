@@ -98,13 +98,14 @@ namespace GabinetePsicologia.Client.Pages
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
             if (isPaciente && !isAdmin && !isPsicologo) return;
-            if (SelectedPsciologo == null)
-            {
-                NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
-                return;
-            }
+            //if (SelectedPsciologo == null)
+            //{
+            //    NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
+            //    return;
+            //}
+
             Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo }, { "isPaciente", false } });
+            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo ?? new Psicologo()}, { "Paciente", SelectedPaciente ?? new Paciente() },{ "isPaciente", false }, { "isEdit", false } });
 
             if (Cita != null)
             {
@@ -130,12 +131,13 @@ namespace GabinetePsicologia.Client.Pages
             Cita Cita = args.Data;
             Guid id = args.Data.Id;
             Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId);
-            bool isisPaciente = false;
+            Paciente paciente = lsPacientes.FirstOrDefault(x => x.Id == Cita.PacienteId);
+            bool isPacienteForModal = false;
             if (isPaciente && !isAdmin && !isPsicologo)
             {
-                isPaciente = true;
+                isPacienteForModal = true;
             }
-            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } , { "isPaciente", isPaciente } });
+            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo ?? new Psicologo() }, { "Paciente", paciente ?? new Paciente() }, { "isPaciente", isPacienteForModal }, { "isEdit", true } });
             if (result == null || !(result is Cita)) return;
             Cita = result;
             if (Cita.Id != Guid.Empty)
@@ -213,8 +215,11 @@ namespace GabinetePsicologia.Client.Pages
         }
         public string PsicologoName(Guid id)
         {
-
-            return lsPsicologos.FirstOrDefault(x=> x.Id == id).FullName ?? "";
+            var a = lsPsicologos.FirstOrDefault(x => x.Id == id).FullName;
+            if(a == null)
+                return "";
+            else
+                return a;
         }
     }
 }
