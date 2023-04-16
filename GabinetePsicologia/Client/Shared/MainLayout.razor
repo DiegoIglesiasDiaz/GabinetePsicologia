@@ -9,7 +9,7 @@
     <RadzenHeader>
         <div class="headerDiv">
             <a href="/">
-            <RadzenImage  Path="../img/logo.png" class="logo" @onclick="@(_ => NavigationManager.NavigateTo("./"))" />
+                <RadzenImage Path="../img/logo.png" class="logo" @onclick="@(_ => NavigationManager.NavigateTo("./"))" />
             </a>
             <RadzenMenu>
                 <AuthorizeView>
@@ -77,52 +77,55 @@
                                     <span class="rz-navigation-item-text">INFORMES</span>
                                 </Template>
                             </RadzenMenuItem>
-                            
+
                         }
                         else
                         {
-                        <RadzenMenuItem Path="/Citas">
-                            <Template>
-                                <span class="rz-navigation-item-text">CITAS</span>
-                            </Template>
-                        </RadzenMenuItem>
-                        <RadzenMenuItem Path="/Informes">
-                            <Template>
-                                <span class="rz-navigation-item-text">INFORMES</span>
-                            </Template>
-                        </RadzenMenuItem>
-                        <RadzenMenuItem Path="/Usuarios">
-                            <Template>
-                                <span class="rz-navigation-item-text">USUARIOS</span>
-                            </Template>
-                        </RadzenMenuItem>
-                        <RadzenMenuItem Path="/Trastornos">
-                            <Template>
-                                <span class="rz-navigation-item-text">TRASTORNOS</span>
-                            </Template>
-                        </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Citas">
+                                <Template>
+                                    <span class="rz-navigation-item-text">CITAS</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Informes">
+                                <Template>
+                                    <span class="rz-navigation-item-text">INFORMES</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Usuarios">
+                                <Template>
+                                    <span class="rz-navigation-item-text">USUARIOS</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            <RadzenMenuItem Path="/Trastornos">
+                                <Template>
+                                    <span class="rz-navigation-item-text">TRASTORNOS</span>
+                                </Template>
+                            </RadzenMenuItem>
                         }
                     </Authorized>
                 </AuthorizeView>
-
             </RadzenMenu>
-
-
-
-
-
-
-
 
 
             <RadzenMenu class="accountMenu">
                 <AuthorizeView>
                     <Authorized>
-                        <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@context.User.Identity.Name" Icon="account_circle">
-                            <RadzenMenuItem Text="Mis Datos" Path="/MisDatos" />
-                            <RadzenMenuItem Text="Configuración" Path="/Configuracion" />
-                            <RadzenMenuItem Text="Cerrar sesión" Path="/Logout" />
-                        </RadzenMenuItem>
+                        @if (Name == null)
+                        {
+                            <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@context.User?.Identity?.Name" Icon="account_circle">
+                                <RadzenMenuItem Text="Mis Datos" Path="/MisDatos" />
+                                <RadzenMenuItem Text="Configuración" Path="/Configuracion" />
+                                <RadzenMenuItem Text="Cerrar sesión" Path="/Logout" />
+                            </RadzenMenuItem>
+                        }
+                        else
+                        {
+                            <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@Name" Icon="account_circle">
+                                <RadzenMenuItem Text="Mis Datos" Path="/MisDatos" />
+                                <RadzenMenuItem Text="Configuración" Path="/Configuracion" />
+                                <RadzenMenuItem Text="Cerrar sesión" Path="/Logout" />
+                            </RadzenMenuItem>
+                        }
                     </Authorized>
                     <NotAuthorized>
                         <RadzenMenuItem Path="/Login">

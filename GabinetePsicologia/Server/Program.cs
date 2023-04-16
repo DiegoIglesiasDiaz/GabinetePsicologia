@@ -32,12 +32,20 @@ builder.Services.AddAuthentication()
     {
         googleOptions.ClientId = "488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com";
         googleOptions.ClientSecret = "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";
-    })
-    .AddFacebook(facebook =>
+    }).AddMicrosoftAccount(microsoftOptions =>
     {
-        facebook.AppId = "966826294752064";
-        facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
-    });
+        microsoftOptions.ClientId = "57bf0797-76f8-432f-9a2e-9280c05a17e7";
+        microsoftOptions.ClientSecret = "TQ08Q~Kfp_LfXbq1EFt62AWR-YZotDX3XMjvoc9s";
+    }
+
+    );
+
+    //.AddFacebook(facebook =>
+    //{
+    //    facebook.AppId = "966826294752064";
+    //    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
+    //});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<DialogService>();

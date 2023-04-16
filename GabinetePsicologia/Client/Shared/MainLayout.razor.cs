@@ -8,6 +8,8 @@ using Radzen;
 using System;
 using System.Net;
 using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace GabinetePsicologia.Client.Shared
 {
@@ -19,9 +21,8 @@ namespace GabinetePsicologia.Client.Shared
         [Inject] protected HttpClient _HttpClient { get; set; }
         [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] protected UsuarioServices UsuarioServices { get; set; }
-        string Name = "";
+        string Name;
         public bool isAdmin = false;
-
         protected ErrorBoundary? ErrorBoundary;
 
         protected override void OnParametersSet()
@@ -34,8 +35,8 @@ namespace GabinetePsicologia.Client.Shared
             var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user != null && (user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
             {
-               // PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
-                //Name = userDto.FullName;
+                PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+                Name = userDto.FullName;
                 if (!user.IsInRole("Paciente"))
                 {
                     isAdmin= true;
