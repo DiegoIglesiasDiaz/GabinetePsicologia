@@ -10,11 +10,11 @@
 
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Psicologo" />
+            <RadzenLabel Text="Psicólogo" />
         </div>
         <div class="col">
             @if(Psicologo != null && Psicologo.Id == Guid.Empty){
-                <RadzenDropDown Data=@lsPsicologo TValue="Psicologo" Name="Psicologo" AllowClear=true Placeholder="Selecciona un Psicolgo" Change="ChangePsicolgo" TextProperty="FullName" ValueProperty="Id"
+                <RadzenDropDown Data=@lsPsicologo TValue="Psicologo" Name="Psicologo" AllowClear=true Placeholder="Selecciona un Psicólogo" Change="ChangePsicolgo" TextProperty="FullName" ValueProperty="Id"
                             FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" />
                 <RadzenRequiredValidator Text="*Paciente Requrido" Component="Psicologo" />
             }else{
@@ -70,9 +70,9 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div style="display:flex;align-items:center;justify-content:center;gap:10%">
-            <RadzenButton Click="DialogService.Close" ButtonStyle="ButtonStyle.Primary" Text="Cancelar" />
+            <RadzenButton Click="DialogService.Close" class="BotonDelete" Text="Cancelar" />
             @if(!isPaciente){
-                <RadzenButton Click="Guardar" ButtonStyle="ButtonStyle.Primary" Text="Guardar" />
+                <RadzenButton Click="Guardar" class="BotonPrincipal" Text="Guardar" />
             }
            
         </div>

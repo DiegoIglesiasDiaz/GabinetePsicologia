@@ -157,6 +157,32 @@ body {
         color: var(--bs-body-bg) !important;
     }
 
+    .BotonDelete {
+        background-color: transparent !important;
+        color: red !important;
+        border: 2px solid red !important;
+        border-radius: 10px !important;
+        height: fit-content !important;
+    }
+
+    .BotonDelete:hover {
+        background-color: red !important;
+        color: var(--bs-body-bg) !important;
+    }
+
+    .BotonSecondary {
+        background-color: transparent !important;
+        color: var(--rz-secondary) !important;
+        border: 2px solid var(--rz-secondary) !important;
+        border-radius: 10px !important;
+        height: fit-content !important;
+    }
+
+    .BotonSecondary:hover {
+        background-color: var(--rz-secondary) !important;
+        color: var(--bs-body-bg) !important;
+    }
+
     .invalid {
         outline: 1px solid red;
     }
