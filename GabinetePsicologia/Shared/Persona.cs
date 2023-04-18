@@ -24,6 +24,15 @@ public abstract class Persona
         }
 
     }
+    public string Appelidos
+    {
+        get
+        {
+            string str = Apellido1 + " " + Apellido2;
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
+        }
+
+    }
     [AllowNull]
     public string? NIF { get; set; }
     public string ApplicationUserId { get;set; }

@@ -20,9 +20,9 @@
             {
                 <div>
                     <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); }) Style="margin-left:auto;margin-right:0" />
-                    <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@BorrarPersona Style="margin-left:auto;margin-right:0;" />
                     <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@CambiarCorreoModal Style="margin-left:auto;margin-right:0;" />
                     <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@CambiarContraseñaModal Style="margin-left:auto;margin-right:0;" />
+                    <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" class="BotonDelete" Click=@BorrarPersona Style="margin-left:auto;margin-right:0;" />
                 </div>
             }
             <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
@@ -44,7 +44,7 @@
                     }
                     <RadzenDataGridColumn TItem="PersonaDto" Property="Rol" Title="Rol" />
                     <RadzenDataGridColumn TItem="PersonaDto" Property="Nombre" Title="Nombre" />
-                    <RadzenDataGridColumn TItem="PersonaDto" Property="FullName" Title="Apellidos" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Appelidos" Title="Apellidos" />
                     <RadzenDataGridColumn TItem="PersonaDto" Property="NIF" Title="NIF" />
                     <RadzenDataGridColumn TItem="PersonaDto" Property="Email" Title="Email" />
                     <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
