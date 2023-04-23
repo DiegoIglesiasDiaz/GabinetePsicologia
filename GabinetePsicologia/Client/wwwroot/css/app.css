@@ -112,6 +112,28 @@ body .BotonPrincipal:hover {
   background-color: var(--rz-primary) !important;
   color: var(--bs-body-bg) !important;
 }
+body .BotonDelete {
+  background-color: transparent !important;
+  color: red !important;
+  border: 2px solid red !important;
+  border-radius: 10px !important;
+  height: fit-content !important;
+}
+body .BotonDelete:hover {
+  background-color: red !important;
+  color: var(--bs-body-bg) !important;
+}
+body .BotonSecondary {
+  background-color: transparent !important;
+  color: var(--rz-secondary) !important;
+  border: 2px solid var(--rz-secondary) !important;
+  border-radius: 10px !important;
+  height: fit-content !important;
+}
+body .BotonSecondary:hover {
+  background-color: var(--rz-secondary) !important;
+  color: var(--bs-body-bg) !important;
+}
 body .invalid {
   outline: 1px solid red;
 }

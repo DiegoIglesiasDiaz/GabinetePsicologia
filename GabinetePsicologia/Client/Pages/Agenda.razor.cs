@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace GabinetePsicologia.Client.Pages
 {
-    public partial class Citas
+    public partial class Agenda
     {
        
         [Inject] private DialogService DialogService { get; set; }
@@ -104,10 +104,10 @@ namespace GabinetePsicologia.Client.Pages
             //    return;
             //}
 
-            Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo ?? new Psicologo()}, { "Paciente", SelectedPaciente ?? new Paciente() },{ "isPaciente", false }, { "isEdit", false } });
+            var citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
+            var Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo ?? new Psicologo()}, { "Paciente", SelectedPaciente ?? new Paciente() },{ "isPaciente", false }, { "isEdit", false } });
 
-            if (Cita != null)
+            if (Cita != null && Cita is Cita)
             {
 
                 CitasServices.InsertCita(Cita);
@@ -140,7 +140,7 @@ namespace GabinetePsicologia.Client.Pages
             var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo ?? new Psicologo() }, { "Paciente", paciente ?? new Paciente() }, { "isPaciente", isPacienteForModal }, { "isEdit", true } });
             if (result == null || !(result is Cita)) return;
             Cita = result;
-            if (Cita.Id != Guid.Empty)
+            if ( Cita is Cita && Cita.Id != Guid.Empty )
             {
                 Cita.Id = id;
                 CitasServices.ActualizarCita(Cita);

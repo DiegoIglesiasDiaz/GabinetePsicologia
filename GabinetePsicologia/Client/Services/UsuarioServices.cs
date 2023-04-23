@@ -72,8 +72,17 @@ namespace GabinetePsicologia.Client.Services
         }
         public async Task<PersonaDto> getPersonaByUsername(string username)
         {
-            PersonaDto a = await _httpClient.GetFromJsonAsync<PersonaDto>($"/Usuario/Persona/{username}");
-            return a;
+            try
+            {
+                PersonaDto? a = await _httpClient.GetFromJsonAsync<PersonaDto>($"/Usuario/Persona/{username}");
+                return a ?? new PersonaDto();
+
+            }
+            catch(Exception ex)
+            {
+                return new PersonaDto();
+            }
+          
 
         }
         public async Task Logout()
