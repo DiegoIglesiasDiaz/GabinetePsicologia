@@ -395,4 +395,18 @@ body {
             padding-right: 1.5rem !important;
         }
     }
+
+    @media only screen and (max-width: 600px) {
+        //Agenda Movil
+        .AgendaFilter {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .AgendaFilter1 {
+            margin-bottom: 2em;
+        }
+
+    }
+}
 }
