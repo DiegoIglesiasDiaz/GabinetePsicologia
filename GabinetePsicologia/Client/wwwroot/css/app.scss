@@ -136,6 +136,32 @@ body {
         border: 2px solid var(--rz-primary) !important;
     }
 
+    .MisDatosDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+
+    .ConfiguracionDiv {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: row;
+        width: 90vh;
+        margin-top: 4rem;
+    }
+
+    .BotonUsuarios {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .BotonTrastornos {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
     .BotonVacio {
         background: none !important;
         height: fit-content !important;
@@ -406,7 +432,59 @@ body {
         .AgendaFilter1 {
             margin-bottom: 2em;
         }
+        //Usuarios Movil
 
+        .DivBotonUsuarios {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+        }
+
+        .BotonUsuarios {
+            margin: 0;
+            margin-bottom: 1em;
+        }
+        //Trastornos Movil
+        .DivBotonTrastornos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+        }
+
+        .BotonTrastornos {
+            margin: 0;
+            margin-bottom: 1em;
+        }
+
+        .ConfiguracionDiv {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: column;
+            width: 90vh;
+            margin-top: 4rem;
+        }
+
+        .ConfiguracionDobleAutenticacion {
+           
+            justify-content: center !important;
+            flex-direction: row !important;
+        }
+
+        .ConfiguracionBoton {
+            margin-top: 4rem;
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        .MisDatosDiv {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
     }
 }
-}
+

@@ -18,16 +18,16 @@
             <h3>Usuarios</h3>
             @if (isAdmin)
             {
-                <div>
-                    <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); }) Style="margin-left:auto;margin-right:0" />
-                    <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@CambiarCorreoModal Style="margin-left:auto;margin-right:0;" />
-                    <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal" Click=@CambiarContraseñaModal Style="margin-left:auto;margin-right:0;" />
-                    <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" class="BotonDelete" Click=@BorrarPersona Style="margin-left:auto;margin-right:0;" />
+                <div class="DivBotonUsuarios">
+                    <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); })/>
+                    <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarCorreoModal  />
+                    <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarContraseñaModal />
+                    <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonUsuarios" Click=@BorrarPersona  />
                 </div>
             }
             <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
                     AllowSorting="true" Data="@LsUsuarios" TItem="PersonaDto" ColumnWidth="200px" AllowColumnPicking="false" AllowPickAllColumns="false" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
-                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedUsuarios class="m-4" Context="cntxt">
+                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedUsuarios class="m-4" Context="cntxt" Style="width: 100%;">
                 <Columns>
                     @if (isAdmin)
                     {
