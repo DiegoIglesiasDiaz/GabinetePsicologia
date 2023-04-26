@@ -30,7 +30,8 @@ namespace GabinetePsicologia.Client.Pages
         List<Cita> allList = new List<Cita>();
         List<Cita> data = new List<Cita>();
         List<Cita> ProximasCitas = new List<Cita>();
-
+        public TimeSpan StartDate = new TimeSpan(7, 0, 0);
+        public TimeSpan EndDate = new TimeSpan(22, 0, 0);
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
