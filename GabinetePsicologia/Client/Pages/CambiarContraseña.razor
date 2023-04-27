@@ -4,17 +4,17 @@
 <div>
     <div class="row">
         <div class="col">
-           
+
             <RadzenTemplateForm Data="@passwd" TItem="string" method="post" Submit="@((args) => { CambiarContrasenia(passwd); })">
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nueva Contraseña</RadzenText>
                     <div class="d-flex align-content-center justify-content-between-">
-                    <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" Visible=verPasswd />
-                    <RadzenPassword @bind-Value=passwd Name="passwd" class="w-100" Visible=!verPasswd />
-                    <RadzenButton  Click="VerPasswd" class ="BotonVacio">
+                        <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" Visible=verPasswd />
+                        <RadzenPassword @bind-Value=passwd Name="passwd" class="w-100" Visible=!verPasswd />
+                        <RadzenButton Click="VerPasswd" class="BotonVacio">
                             <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
                             <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
-                    </RadzenButton>
+                        </RadzenButton>
                     </div>
                     <RadzenRequiredValidator Component="passwd" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
                     <RadzenRegexValidator Component="passwd" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$" Style="position:relative" />
