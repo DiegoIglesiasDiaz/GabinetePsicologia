@@ -57,6 +57,7 @@ builder.Services.AddScoped<TrastornoController>();
 builder.Services.AddScoped<PsicologoController>();
 builder.Services.AddScoped<AdministradorController>();
 builder.Services.AddScoped<PacienteController>();
+builder.Services.AddScoped<InformeController>();
 builder.Services.AddScoped<CitaController>();
 
 builder.Services.AddCors(options =>

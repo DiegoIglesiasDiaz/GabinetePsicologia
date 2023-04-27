@@ -7,7 +7,64 @@
     <div class="d-flex flex-column align-items-center justify-content-center ">
 
         <h3>Informes</h3>
-        
+        <div class="DivBotonTrastornos">
+            <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonTrastornos" />
+            <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonTrastornos"  />
+        </div>
+        <br>
+        @if (LsInformes != null && LsInformes.Count > 0)
+        {
+            <div class="AgendaFilter">
+                @*@if (isAdmin)*@
+                @if (true)
+                {
+                    <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" class="AgendaFilter1" Data=@lsPsicologos FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
+                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Psicólogo" Change="@change" />
+                }
+                @*@if (isPsicologo || isAdmin)*@
+                @if (true)
+                {
+                    <RadzenDropDown TValue="GabinetePsicologia.Shared.Paciente" Data=@lsPacientes FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
+                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Paciente" Change="@changePaciente" />
+                }
+
+            </div>
+            <br>
+            <br>
+
+            <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
+                    AllowSorting="true" Data="@LsInformes" TItem="Informe" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
+                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedInforme class="m-4" Style="color:white;width: 100%;">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Informe" Width="60px" Sortable="false" Filterable="false">
+                        <HeaderTemplate>
+                            <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedInforme != null && LsInformes.Count().Equals(selectedInforme.Count()))"
+                                    Change="@(args => selectedInforme = args ? LsInformes.ToList() : null)" />
+                        </HeaderTemplate>
+                        <Template Context="data">
+                            <RadzenCheckBox TriState="false" Value="@(selectedInforme != null && selectedInforme.Contains(data))"
+                                    TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data); }}) />
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="Informe" Property="PacienteFullName" Title="Paciente" />
+                    <RadzenDataGridColumn TItem="Informe" Property="PsicologoFullName" Title="Psicólogo" />
+                    <RadzenDataGridColumn TItem="Informe" Property="TrastornoName" Title="Trastorno" />
+                    <RadzenDataGridColumn TItem="Informe" Property="UltimaFecha" Title="Última Fecha de Modificación" />
+                    <RadzenDataGridColumn TItem="Informe" Width="60px" Sortable="false" Filterable="false">
+                        <Template Context="data">
+                            <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data); }) class="BotonPrincipal" />
+                        </Template>
+                    </RadzenDataGridColumn>
+
+
+                </Columns>
+            </RadzenDataGrid>
+        }
+        else
+        {
+            <p>No Hay Informes.</p>
+        }
     </div>
 }
 else

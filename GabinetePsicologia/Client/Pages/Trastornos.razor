@@ -18,7 +18,9 @@
                 <RadzenButton Text="Añadir Trastorno" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonTrastornos" Click=@(args => {formTrastorno = new Trastorno(); ShowInlineDialog(new Trastorno()); }) />
                 <RadzenButton Text="Borrar Trastorno" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonTrastornos" Click=@BorrarTrastorno />
             </div>
-            <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
+            @if (LsTrastornos != null && LsTrastornos.Count > 0)
+            {
+                <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
                     AllowSorting="true" Data="@LsTrastornos" TItem="Trastorno" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
                     SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedTrastornos class="m-4" Style="color:white;width: 100%;">
                 <Columns>
@@ -44,7 +46,12 @@
 
 
                 </Columns>
-            </RadzenDataGrid>
+                </RadzenDataGrid>
+            }
+            else
+            {
+                <p>No Hay Trastornos.</p>
+            }
         </div>
     }
 }

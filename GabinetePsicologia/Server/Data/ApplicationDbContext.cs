@@ -34,6 +34,7 @@ namespace GabinetePsicologia.Server.Data
         public DbSet<Administrador> Administradores => Set<Administrador>();
         public DbSet<Trastorno> Trastornos => Set<Trastorno>();
         public DbSet<Cita> Citas => Set<Cita>();
+        public DbSet<Informe> Informes => Set<Informe>();
 
     }
 }

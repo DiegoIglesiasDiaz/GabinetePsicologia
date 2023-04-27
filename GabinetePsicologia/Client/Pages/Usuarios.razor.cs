@@ -42,9 +42,9 @@ namespace GabinetePsicologia.Client.Pages
                     isAdmin = true;
                 isInRole = true;
                 LsUsuarios = await UsuarioServices.getPersonas();
+              
             }
             LoginUser = user.Identity.Name;
-
         }
         
         private void BorrarPersona()
