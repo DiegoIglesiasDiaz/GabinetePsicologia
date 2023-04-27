@@ -30,12 +30,12 @@ builder.Services.AddAuthentication()
     .AddIdentityServerJwt()
     .AddGoogle(googleOptions =>
     {
-        googleOptions.ClientId = "488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com";
-        googleOptions.ClientSecret = "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";
+        googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
+        googleOptions.ClientSecret = builder.Configuration["GoogleSecretId"]!;
     }).AddMicrosoftAccount(microsoftOptions =>
     {
-        microsoftOptions.ClientId = "57bf0797-76f8-432f-9a2e-9280c05a17e7";
-        microsoftOptions.ClientSecret = "TQ08Q~Kfp_LfXbq1EFt62AWR-YZotDX3XMjvoc9s";
+        microsoftOptions.ClientId = builder.Configuration["MicrosoftClientId"]!;
+        microsoftOptions.ClientSecret = builder.Configuration["MicrosoftSecretId"]!;
     }
 
     );
