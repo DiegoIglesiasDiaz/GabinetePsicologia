@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 using Radzen;
+using System;
 
 
 namespace GabinetePsicologia.Client.Pages
@@ -21,6 +22,7 @@ namespace GabinetePsicologia.Client.Pages
         public bool isAdmin;
         public bool isPiscologo;
         public bool isEdit;
+        Random random = new Random();
         IEnumerable<int> values = new int[] { };
         string LoginUser;
         [Inject] private UsuarioServices UsuarioServices { get; set; }
