@@ -8,7 +8,7 @@ namespace GabinetePsicologia.Client.Pages
     public partial class InformesModal
     {
         [Parameter]
-        public Informe Informe { get; set; }
+        public InformeDto Informe { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

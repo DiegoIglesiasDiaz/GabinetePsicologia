@@ -32,6 +32,7 @@ namespace GabinetePsicologia.Server.Controllers
         {
             return Ok(_context.Pacientes.ToList());
         }
+    
         [HttpPost]
         public async Task<ActionResult> RegisterPaciente(Paciente paciente)
         {

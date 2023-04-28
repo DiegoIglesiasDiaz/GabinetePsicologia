@@ -11,8 +11,8 @@ namespace GabinetePsicologia.Client.Pages
     public partial class Informes
     {
         bool allowRowSelectOnRowClick = false;
-        IList<Informe> LsInformes;
-        IList<Informe> selectedInforme;
+        IList<InformeDto> LsInformes;
+        IList<InformeDto> selectedInforme;
         [Inject] private NotificationService NotificationService { get; set; } 
         [Inject] private DialogService DialogService { get; set; } 
         [Inject] NavigationManager NavigationManager { get; set; }
@@ -22,13 +22,13 @@ namespace GabinetePsicologia.Client.Pages
         [Inject] UsuarioServices UsuarioServices { get; set; }
         [Inject] InformesServices InformesServices { get; set; }
         public bool isInRole = false;
-        RadzenDataGrid<Informe> grid;
+        RadzenDataGrid<InformeDto> grid;
         List<Psicologo> lsPsicologos = new List<Psicologo>();
         List<Paciente> lsPacientes = new List<Paciente>();
         Psicologo SelectedPsciologo;
         Paciente SelectedPaciente;
-        List<Informe> data = new List<Informe>();
-        List<Informe> allListInforme = new List<Informe>();
+        List<InformeDto> data = new List<InformeDto>();
+        List<InformeDto> allListInforme = new List<InformeDto>();
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -94,7 +94,7 @@ namespace GabinetePsicologia.Client.Pages
                 grid.Reload();
             }
         }
-        public void AbrirModal(Informe informe)
+        public void AbrirModal(InformeDto informe)
         {
             var a = DialogService.OpenAsync<InformesModal>("Informe", new Dictionary<string, object> { { "Informe", informe } });
 

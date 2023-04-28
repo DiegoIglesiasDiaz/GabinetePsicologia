@@ -3,60 +3,95 @@ using GabinetePsicologia.Server.Data.Migrations;
 using GabinetePsicologia.Server.Models;
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
-using Informe = GabinetePsicologia.Shared.Informe;
+
+using Paciente = GabinetePsicologia.Shared.Paciente;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace GabinetePsicologia.Server.Controllers
 {
+
     [Authorize]
     [Route("[controller]")]
     [ApiController]
-  
-    public class InformeController : ControllerBase
+
+    public class InformeController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public InformeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+
+
+        public InformeController(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
+
         }
+
         [HttpGet]
-        public async Task<ActionResult<List<Informe>>> GetInforme()
+        public async Task<IActionResult> getInformes()
         {
-            return Ok(_context.Informes.ToList());
-        }
-        [HttpPost]
-        public async Task<ActionResult> InsertInforme(Informe Informe)
-        {
+            var lsInforme = _context.Informes.ToList();
+            var lsInformeDto  =  new List<InformeDto>();
+            foreach (var inf in lsInforme)
+            {
+                InformeDto infDto = new InformeDto();
+                infDto.PacienteId= inf.PacienteId;
+                infDto.PsicologoId = inf.PsicologoId;
+                infDto.TrastornoId = inf.TrastornoId;
+                infDto.Id = inf.Id;
+                Paciente paciente = _context.Pacientes.FirstOrDefault(x=>x.Id == inf.PacienteId);
+                if(paciente != null)
+                    infDto.PacienteFullName = paciente.FullName;
+                Trastorno trastorno = _context.Trastornos.FirstOrDefault(x => x.Id == inf.TrastornoId);
+                if (trastorno != null)
+                {
+                    infDto.TrastornoName = trastorno.Nombre;
+                    infDto.TrastornoTipo = trastorno.Tipo;
+                }
+                   
+                Psicologo psicologo = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
+                if (psicologo != null)
+                    infDto.PsicologoFullName = psicologo.FullName;
+                lsInformeDto.Add(infDto);
+            }
 
-            if(Informe == null) return BadRequest();
-            _context.Informes.Add(Informe);
-            _context.SaveChanges();
-            return Ok();
+            return Ok(lsInformeDto);
         }
-        [HttpPost("Actualizar")]
-        public async Task<ActionResult> ActualizarInforme([FromBody] Informe Informe)
-        {
 
-            if (Informe == null) return BadRequest();
-            _context.Informes.Update(Informe);
-            _context.SaveChanges();
-            return Ok();
-        }
-        [HttpPost("Eliminar")]
-        public async Task<ActionResult<string>> EliminarInforme([FromBody] Informe Informe)
-        {
-            if (Informe == null) return BadRequest();
-            _context.Informes.Remove(Informe);
-            _context.SaveChanges();
-            return Ok();
-        }
+        //[HttpPost]
+        //public IActionResult Register([FromBody] Trastorno trastorno)
+        //{
+        //    _context.Trastornos.Add(trastorno);
+        //    _context.SaveChanges();
+        //    return Ok("Trastorno Añadido");
+        //}
+
+        //[HttpPost("Borrar")]
+
+        //public IActionResult Borrar([FromBody] IList<Trastorno> trastornos)
+        //{
+        //    foreach (var a in trastornos)
+        //    {
+        //        if (_context.Trastornos.Where(x => x.Id != Guid.Empty && x.Id == a.Id).Any())
+        //            _context.Trastornos.Remove(a);
+        //    }
+        //    _context.SaveChanges();
+        //    return Ok("Trastornos Eliminados Correctamente");
+        //}
+
+        //[HttpPost("Editar")]
+
+        //public IActionResult Editar([FromBody] Trastorno trastorno)
+        //{
+        //    _context.Trastornos.Update(trastorno);
+        //    _context.SaveChanges();
+        //    return Ok("Trastorno editado Correctamente");
+        //}
+
     }
 }
-
-

@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 
 namespace GabinetePsicologia.Shared
 {
-    public class Informe
+    public class InformeDto
     {
         public Guid Id { get; set; }
-        [ForeignKey("Trastorno")]
+      
         public Guid TrastornoId { get; set; }
+        public string TrastornoName { get; set; }
+        public string TrastornoTipo { get; set; }
 
-        [ForeignKey("Paciente")]
         public Guid PacienteId { get; set; }
-
-        [ForeignKey("Psicologo")]
+        public string PacienteFullName { get; set; }
+      
         public Guid PsicologoId { get; set; }
+        public string PsicologoFullName { get; set; }
+        public DateTime UltimaFecha { get; set; }
     }
 }

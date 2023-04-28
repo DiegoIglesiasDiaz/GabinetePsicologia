@@ -16,9 +16,9 @@ namespace GabinetePsicologia.Client.Services
             _navigationManager = navigationManager;
 
         }
-        public async Task<List<Informe>> GetInformes()
+        public async Task<List<InformeDto>> GetInformes()
         {
-            var inf = await _httpClient.GetFromJsonAsync<List<Informe>>("/Informe");
+            var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>("/Informe");
             return inf;
 
         }

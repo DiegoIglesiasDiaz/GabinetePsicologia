@@ -33,10 +33,10 @@
             <br>
 
             <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
-                    AllowSorting="true" Data="@LsInformes" TItem="Informe" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
+                    AllowSorting="true" Data="@LsInformes" TItem="InformeDto" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
                     SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedInforme class="m-4" Style="color:white;width: 100%;">
                 <Columns>
-                    <RadzenDataGridColumn TItem="Informe" Width="60px" Sortable="false" Filterable="false">
+                    <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false">
                         <HeaderTemplate>
                             <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedInforme != null && LsInformes.Count().Equals(selectedInforme.Count()))"
                                     Change="@(args => selectedInforme = args ? LsInformes.ToList() : null)" />
@@ -47,11 +47,11 @@
                         </Template>
                     </RadzenDataGridColumn>
 
-                    <RadzenDataGridColumn TItem="Informe" Property="PacienteFullName" Title="Paciente" />
-                    <RadzenDataGridColumn TItem="Informe" Property="PsicologoFullName" Title="Psicólogo" />
-                    <RadzenDataGridColumn TItem="Informe" Property="TrastornoName" Title="Trastorno" />
-                    <RadzenDataGridColumn TItem="Informe" Property="UltimaFecha" Title="Última Fecha de Modificación" />
-                    <RadzenDataGridColumn TItem="Informe" Width="60px" Sortable="false" Filterable="false">
+                    <RadzenDataGridColumn TItem="InformeDto" Property="PacienteFullName" Title="Paciente" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="PsicologoFullName" Title="Psicólogo" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="TrastornoTipo" Title="Trastorno" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFecha" Title="Última Fecha de Modificación" />
+                    <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false">
                         <Template Context="data">
                             <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data); }) class="BotonPrincipal" />
                         </Template>
