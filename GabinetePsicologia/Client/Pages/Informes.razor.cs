@@ -42,61 +42,14 @@ namespace GabinetePsicologia.Client.Pages
                 LsInformes = await InformesServices.GetInformes();
             } 
         }
-        private void change(object args)
-        {
-            SelectedPsciologo = null;
-            data = allListInforme.ToList();
-            if (args != null)
-            {
-                Guid Id = Guid.Parse(args.ToString());
-                SelectedPsciologo = lsPsicologos.FirstOrDefault(x => x.Id == Id);
-                if (SelectedPaciente != null)
-                {
-                    data = data.Where(x => x.PsicologoId == Id && x.PacienteId == SelectedPaciente.Id).ToList();
-                }
-                else
-                {
-                    data = data.Where(x => x.PsicologoId == Id).ToList();
-                }
-
-                grid.Reload();
-
-            }
-            else if (SelectedPaciente != null)
-            {
-                data = data.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
-                grid.Reload();
-            }
-        }
-        private void changePaciente(object args)
-        {
-            SelectedPaciente = null;
-            data = allListInforme.ToList();
-
-            if (args != null)
-            {
-                Guid Id = Guid.Parse(args.ToString());
-                SelectedPaciente = lsPacientes.FirstOrDefault(x => x.Id == Id);
-                if (SelectedPsciologo != null)
-                {
-                    data = data.Where(x => x.PacienteId == Id && x.PsicologoId == SelectedPsciologo.Id).ToList();
-                }
-                else
-                {
-                    data = data.Where(x => x.PacienteId == Id).ToList();
-                }
-
-                grid.Reload();
-            }
-            else if (SelectedPsciologo != null)
-            {
-                data = data.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
-                grid.Reload();
-            }
-        }
+      
         public void AbrirModal(InformeDto informe)
         {
             var a = DialogService.OpenAsync<InformesModal>("Informe", new Dictionary<string, object> { { "Informe", informe } });
+
+        }
+        public void BorrarInforme()
+        {
 
         }
 

@@ -8,27 +8,12 @@
 
         <h3>Informes</h3>
         <div class="DivBotonTrastornos">
-            <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonTrastornos" />
-            <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonTrastornos"  />
+            <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" Click=@(args => { _ = new InformeDto();AbrirModal(new InformeDto()); }) class="BotonPrincipal BotonTrastornos" />
+            <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" Click=BorrarInforme class="BotonDelete BotonTrastornos"  />
         </div>
         <br>
         @if (LsInformes != null && LsInformes.Count > 0)
         {
-            <div class="AgendaFilter">
-                @*@if (isAdmin)*@
-                @if (true)
-                {
-                    <RadzenDropDown TValue="GabinetePsicologia.Shared.Psicologo" class="AgendaFilter1" Data=@lsPsicologos FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
-                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Psicólogo" Change="@change" />
-                }
-                @*@if (isPsicologo || isAdmin)*@
-                @if (true)
-                {
-                    <RadzenDropDown TValue="GabinetePsicologia.Shared.Paciente" Data=@lsPacientes FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
-                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Paciente" Change="@changePaciente" />
-                }
-
-            </div>
             <br>
             <br>
 
