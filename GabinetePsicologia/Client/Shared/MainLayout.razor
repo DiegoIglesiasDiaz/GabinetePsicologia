@@ -3,7 +3,11 @@
 <RadzenNotification />
 <RadzenContextMenu />
 <RadzenTooltip />
-
+<style>
+    .afoot{
+        padding-right:25px;
+    }
+</style>
 <RadzenLayout id="@(@NavigationManager.Uri.Equals(@NavigationManager.BaseUri) ? "Home" : Path.GetFileName(NavigationManager.Uri))">
 
     <RadzenHeader>
@@ -147,7 +151,7 @@
         </div>
     </RadzenHeader>
 
-    <RadzenBody>
+    <RadzenBody style="padding: inherit">
         <ChildContent>
             <RadzenContentContainer Name="main">
                 <ErrorBoundary @ref="ErrorBoundary">
@@ -167,12 +171,10 @@
     <RadzenFooter class="Footer">
         <div>
             <div>
-                <a href="/ContactUs" alt="" title="">Contactar</a>
-                <a href="/Documentation" alt="" title="">Documentaci&oacute;n</a>
-            </div>
-            <div>
-                <a href="/QuestionsAndAnswers" alt="" title="">FAQ</a>
-                <a href="/PoliciesAndPrivacy" alt="" title="">LEGAL</a>
+                <a class="afoot" href="/Contacto" alt="" title="">Contactanos</a>
+                <a class="afoot" href="/Documentation" alt="" title="">Documentaci&oacute;n</a>
+                <a class="afoot" href="/QuestionsAndAnswers" alt="" title="">FAQ</a>
+                <a class="afoot" href="/PoliciesAndPrivacy" alt="" title="">LEGAL</a>
 
             </div>
         </div>

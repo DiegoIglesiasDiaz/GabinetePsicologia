@@ -1,80 +1,100 @@
 ﻿@page "/QuienesSomos"
 <PageTitle>¿Quiénes Somos?</PageTitle>
-<style>
-    /* Estilos para el encabezado */
-    header {
-        background-color: #f2f2f2;
-        padding: 20px;
-        text-align: center;
-    }
 
-        header h1 {
-            font-size: 36px;
-            color: #333;
-            text-transform: uppercase;
-        }
 
-    /* Estilos para el cuerpo del documento */
-    body {
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        line-height: 1.5;
-        color: #333;
-        margin: 0;
-    }
+<head>
+	<meta charset="UTF-8">
+	<title>Quiénes somos | Clínica de Psicología</title>
+	<style>
+		body {
+			background-color: #F0F8FF;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
 
-        body p {
-            margin-bottom: 20px;
-        }
+		header {
+			background-color: lightskyblue;
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 10px;
 
-        body h2 {
-            font-size: 24px;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
+		}
 
-    /* Estilos para el botón de Programar cita */
-    footer {
-        background-color: #333;
-        padding: 20px;
-        text-align: center;
-    }
+		header h1 {
+			margin: 0;
+			font-size: 2em;
+			padding: 10px;
+		}
 
-        footer a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #fff;
-            color: #333;
-            font-size: 18px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.2s ease-in-out;
-        }
+		main {
+			margin: 50px 0;
+			padding: 0 20px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
 
-            footer a:hover {
-                background-color: #333;
-                color: #fff;
-            }
+		section {
+			background-color: white;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0,0,0,0.3);
+			padding: 20px;
+			margin-bottom: 20px;
+			width: 48%;
+			
 
-</style>
-<header>
-    <h1>Quiénes somos</h1>
-</header>
+		}
+
+		section h2 {
+			margin-top: 0;
+		}
+
+		section p {
+			margin: 0;
+		}
+
+		section img {
+			width: 100%;
+			height: auto;
+			margin-top: 20px;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0,0,0,0.3);
+		}
+
+		footer {
+			background-color: #3F51B5;
+			color: white;
+			text-align: center;
+			padding: 10px;
+		}
+
+		footer p {
+			margin: 0;
+			font-size: 0.8em;
+		}
+	</style>
+</head>
 <body>
-<p>Somos un equipo de psicólogos con experiencia en diferentes áreas de la salud mental.
-   Ofrecemos una amplia gama de servicios para ayudar a nuestros pacientes a superar los desafíos que enfrentan en sus vidas.</p>
-<h2>Nuestra filosofía</h2>
-<p>Creemos en la importancia de tratar a nuestros pacientes con compasión y respeto.
-   Nos esforzamos por crear un ambiente cálido y acogedor para ayudar a nuestros pacientes a sentirse cómodos y seguros mientras trabajan en sus problemas.</p>
-<h2>Nuestros valores</h2>
-<p>Valoramos la honestidad, la integridad y la transparencia en nuestra práctica clínica.
-   Nos comprometemos a trabajar con nuestros pacientes para desarrollar planes de tratamiento personalizados que se ajusten
-   a sus necesidades y metas individuales.</p>
-<h2>¿Estás listo para empezar?</h2>
-<p>Programa una cita con uno de nuestros psicólogos hoy mismo para empezar tu camino hacia la salud mental.</p>
-
+	<header>
+		<h1>QUIENES SOMOS</h1>
+	</header>
+	<main>
+		<section>
+			<h2>Misión</h2>
+			<p>En Clínica de Psicología nos dedicamos a ofrecer servicios profesionales de psicología, comprometidos con el bienestar emocional de nuestros pacientes.</p>
+			<img src="/img/terapia2.jpg" alt="Imagen de la clínica">
+		</section>
+		<section>
+			<h2>Visión</h2>
+			<p>Nos esforzamos por ser una clínica reconocida a nivel nacional por nuestro compromiso con la excelencia en el tratamiento psicológico y la satisfacción de nuestros pacientes.</p>
+			<img src="/img/terapia-familiar1.jpg" alt="Imagen de la clínica">
+		</section>
+	</main>
 </body>
-<footer><a href="programar-cita.html" class="btn btn-primary">Programar cita</a></footer>
+
 
 
 @code {
