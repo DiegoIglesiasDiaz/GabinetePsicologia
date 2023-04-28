@@ -1,7 +1,7 @@
 ﻿@page "/MisDatos"
 @using GabinetePsicologia.Shared
 @using GabinetePsicologia.Client.Shared
-
+<PageTitle>Mis Datos</PageTitle>
 @if (isInRole && userDto != null)
 {
     <style>
@@ -15,7 +15,7 @@
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center ">
 
-        <h3>DATOS DEL USUARIO</h3>
+        <h3>MIS DATOS</h3>
         @*@if (!isEdit)
         {
             <div class="d-flex justify-content-between align-items-center" style="width:90vh;">
@@ -23,13 +23,13 @@
                     <RadzenText TextStyle="TextStyle.DisplayH5">Correo:&nbsp;&nbsp; </RadzenText>
                     <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH5">@userDto.Email</RadzenText>
                 </div>
-                <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" />
+                <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" />
             </div>
         }*@
         <RadzenTemplateForm Data="@userDto" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
             <div>
 
-                <div class="d-flex align-items-center justify-content-center">
+                <div class="MisDatosDiv">
 
                     <div class="m-5">
                         <div class="field-container">
@@ -99,7 +99,7 @@ else
     }
     else
     {
-        <p>No estas Autorizado para ver esta página.</p>
+        <_403 />
     }
 
 }

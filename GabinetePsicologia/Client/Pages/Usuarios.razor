@@ -1,4 +1,5 @@
 ﻿@page "/Usuarios"
+<PageTitle>Usuarios</PageTitle>
 @using GabinetePsicologia.Shared
 
 
@@ -6,57 +7,70 @@
 
 @if (isInRole)
 {
-    <h3>Usuarios</h3>
-    @if (isAdmin)
+    if (LsUsuarios == null)
     {
-        <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); }) Style="margin-left:auto;margin-right:0" />
-        <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" Click=@BorrarPersona Style="margin-left:auto;margin-right:0" />
-        <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" Click=@CambiarCorreoModal Style="margin-left:auto;margin-right:0" />
-        <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" Click=@CambiarContraseñaModal Style="margin-left:auto;margin-right:0" />
-
+        <Loading></Loading>
     }
-    <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
-                AllowSorting="true" Data="@LsUsuarios" TItem="PersonaDto" ColumnWidth="200px" AllowColumnPicking="false" AllowPickAllColumns="false" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
-                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedUsuarios class="m-4" Context="cntxt">
-        <Columns>
+    else
+    {
+
+
+        <div class="d-flex flex-column align-items-center justify-content-center ">
+            <h3>Usuarios</h3>
             @if (isAdmin)
             {
-                <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
-                    <HeaderTemplate>
-                        <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedUsuarios != null && LsUsuarios.Count().Equals(selectedUsuarios.Count()))"
-                                Change="@(args => {selectedUsuarios = args ? LsUsuarios.ToList() : null;})" />
-                    </HeaderTemplate>
-                    <Template Context="data">
-                        <RadzenCheckBox TriState="false" Value="@(selectedUsuarios != null && selectedUsuarios.Contains(data))"
-                                TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data);}}) Visible=!data.Email.Equals(LoginUser) />
-                    </Template>
-                </RadzenDataGridColumn>
+                <div class="DivBotonUsuarios">
+                    <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); })/>
+                    <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarCorreoModal  />
+                    <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarContraseñaModal />
+                    <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonUsuarios" Click=@BorrarPersona  />
+                </div>
             }
-            <RadzenDataGridColumn TItem="PersonaDto" Property="Rol" Title="Rol" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="Nombre" Title="Nombre" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="FullName" Title="Apellidos" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="NIF" Title="NIF" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="Email" Title="Email" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="FecNacim" Title="Fecha de Nacimiento" FormatString="{0:d}" Width="160px" />
-            <RadzenDataGridColumn TItem="PersonaDto" Property="Direccion" Title="Direccion" />
-            @if (isAdmin)
-            {
-                <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
-                    <Template Context="data">
+            @if(LsUsuarios!=null && LsUsuarios.Count>0){}
+            <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
+                    AllowSorting="true" Data="@LsUsuarios" TItem="PersonaDto" ColumnWidth="200px" AllowColumnPicking="false" AllowPickAllColumns="false" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
+                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedUsuarios class="m-4" Context="cntxt" Style="width: 100%;">
+                <Columns>
+                    @if (isAdmin)
+                    {
+                        <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
+                            <HeaderTemplate>
+                                <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedUsuarios != null && LsUsuarios.Count().Equals(selectedUsuarios.Count()))"
+                                    Change="@(args => {selectedUsuarios = args ? LsUsuarios.ToList() : null;})" />
+                            </HeaderTemplate>
+                            <Template Context="data">
+                                <RadzenCheckBox TriState="false" Value="@(selectedUsuarios != null && selectedUsuarios.Contains(data))"
+                                    TValue="bool" Change=@(args => { if(!allowRowSelectOnRowClick) { grid.SelectRow(data);}}) Visible=!data.Email.Equals(LoginUser) />
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Rol" Title="Rol" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Nombre" Title="Nombre" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Appelidos" Title="Apellidos" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="NIF" Title="NIF" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Email" Title="Email" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="FecNacim" Title="Fecha de Nacimiento" FormatString="{0:d}" Width="160px" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="Direccion" Title="Direccion" />
+                    @if (isAdmin)
+                    {
+                        <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
+                            <Template Context="data">
 
-                        <RadzenButton Text="Editar" Click=@(args => {ShowInlineDialog(data); }) ButtonStyle="ButtonStyle.Secondary" Visible=!data.Email.Equals(LoginUser) />
+                                <RadzenButton Icon="edit" Click=@(args => {ShowInlineDialog(data); }) class="BotonPrincipal" Visible=!data.Email.Equals(LoginUser) />
 
-                    </Template>
-                </RadzenDataGridColumn>
-            }
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
 
-        </Columns>
-    </RadzenDataGrid>
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    }
 }
 else
 {
-    <p>No estas Autorizado para ver esta página.</p>
+    <_403 />
 }
 @{
     async Task ShowInlineDialog(PersonaDto data)
@@ -70,6 +84,7 @@ else
         {
             titulo = "Añadir Usuario";
             PersonaForm.FecNacim = DateTime.Today;
+            PersonaForm.Contraseña = Password.Generate(random.Next(8, 10), random.Next(1, 3));
         }
         else
         {
@@ -93,7 +108,7 @@ else
             {
                 PersonaForm.isPaciente = true;
                 values = values.Append(1);
-
+                
             }
 
             if (data.Rol.Contains("Psicologo"))
@@ -144,7 +159,7 @@ else
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña Provisional</RadzenText>
                                     <RadzenTextBox @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
                                     <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
-                                    <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+                                    <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$" Style="position:relative" />
 
                                 </RadzenCard>
 
@@ -196,7 +211,7 @@ else
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Fecha Nacimiento</RadzenText>
                                     <RadzenDatePicker InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=PersonaForm.FecNacim ShowTime="false" Name="FecNacim" class="w-100" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
-                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimient requerido"></RadzenRequiredValidator>
+                                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimiento requerido"></RadzenRequiredValidator>
                                 </RadzenCard>
                                 <RadzenCard>
                                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Direccion</RadzenText>
@@ -204,8 +219,8 @@ else
                                     <RadzenRequiredValidator Style="position:relative" Popup=true Component="Telefono" Text="*Direccion requerido"></RadzenRequiredValidator>
                                 </RadzenCard><br><br>
                                 <div style="display:flex;align-items:center;justify-content:center">
-                                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                                    <RadzenButton style="margin:10px" Text="Guardar" ButtonType="ButtonType.Submit" class="me-1" />
+                                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => ds.Close(false)" class="BotonDelete" />
+                                    <RadzenButton style="margin:10px" Text="Guardar" ButtonType="ButtonType.Submit" class="BotonPrincipal" />
                                 </div>
 
                             </RadzenStepsItem>
@@ -221,71 +236,7 @@ else
 
 
     }
-    async Task CambiarCorreoModal()
-    {
-
-        if (selectedUsuarios != null)
-        {
-
-
-            var remove = selectedUsuarios.FirstOrDefault(x => x.Email == LoginUser);
-            if (remove != null)
-                selectedUsuarios.Remove(remove);
-        }
-        else { selectedUsuarios = new List<PersonaDto>(); }
-        if (selectedUsuarios.Count == null || selectedUsuarios.Count == 0)
-        {
-            NotificationService.Notify(NotificationSeverity.Warning, "", "Ningún Usuario seleccionado.");
-            return;
-        }
-        if (selectedUsuarios.Count != 1)
-        {
-            NotificationService.Notify(NotificationSeverity.Warning, "", "Debes de seleccionar solo un Usuario.");
-            return;
-        }
-        string CorreoAntiguo = selectedUsuarios.FirstOrDefault().Email;
-        selectedUsuarios = new List<PersonaDto>();
-        var result = await DialogService.OpenAsync<CambiarCorreo>("Cambiar Correo", new Dictionary<string, object> { { "CorreoAntiguo", CorreoAntiguo } });
-        if (result!=null)
-        {
-            var edit = LsUsuarios.FirstOrDefault(x => x.Email == CorreoAntiguo);
-            if (edit != null && edit.Id != Guid.Empty)
-            {
-                LsUsuarios.Remove(edit);
-                edit.Email = result;
-                LsUsuarios.Add(edit);
-                await grid.Reload();
-            }
-          
-        }
-
-    }
-    async Task CambiarContraseñaModal()
-    {
-
-        if (selectedUsuarios != null)
-        {
-
-
-            var remove = selectedUsuarios.FirstOrDefault(x => x.Email == LoginUser);
-            if (remove != null)
-                selectedUsuarios.Remove(remove);
-        }
-        else { selectedUsuarios = new List<PersonaDto>(); }
-        if (selectedUsuarios.Count == null || selectedUsuarios.Count == 0)
-        {
-            NotificationService.Notify(NotificationSeverity.Warning, "", "Ningún Usuario seleccionado.");
-            return;
-        }
-        if (selectedUsuarios.Count != 1)
-        {
-            NotificationService.Notify(NotificationSeverity.Warning, "", "Debes de seleccionar solo un Usuario.");
-            return;
-        }
-        string passwd = "";
-        string email = selectedUsuarios.First().Email;
-        selectedUsuarios = new List<PersonaDto>();
-        var result = await DialogService.OpenAsync<CambiarContraseña>("Cambiar Contraseña", new Dictionary<string, object> { { "email", email } });
-    }
+   
+  
 }
 

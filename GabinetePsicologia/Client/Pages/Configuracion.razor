@@ -1,7 +1,7 @@
 ﻿@page "/Configuracion"
 @using GabinetePsicologia.Shared
 @using GabinetePsicologia.Client.Shared
-
+<PageTitle>Configuración</PageTitle>
 @if (isInRole)
 {
     <style>
@@ -57,26 +57,26 @@
             <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.Body1">@correo</RadzenText>
         </div>
 
-        <div class="d-flex justify-content-evenly align-items-center" style="width:90vh; margin-top:4rem;">
-            <RadzenButton Icon="mail" class="CambiarEmail" Text="Cambiar Correo" Click="CambiarCorreo" />
+        <div class="ConfiguracionDiv">
+            <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" Click="CambiarCorreo" />
         </div>
-        <div class="d-flex justify-content-evenly align-items-center" style="width:90vh; margin-top:4rem;">
-            <RadzenButton Icon="password" class="CambiarEmail" Text="Cambiar Contraseña" Click="CambiarContrasenia"/>
+        <div class="ConfiguracionDiv">
+            <RadzenButton Icon="password" class="BotonPrincipal" Text="Cambiar Contraseña" Click="CambiarContrasenia"/>
         </div>
-        <div class="d-flex justify-content-center align-items-center" style="width:90vh; margin-top:4rem;">
+        <div class="ConfiguracionDiv ConfiguracionDobleAutenticacion">
             <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
                 <label class="switch">
                     <input type="checkbox">
                     <span class="slider round"></span>
                 </label>
         </div>
-        <div class="d-flex justify-content-evenly align-items-center" style="width:90vh; margin-top:4rem;">
-            <RadzenButton Icon="logout" class="CambiarEmail" Text="Cerrar Sesión" Click="Logout" />
-            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Text="Borrar Cuenta" Click="BorrarCuenta" />
+        <div class="ConfiguracionDiv">
+            <RadzenButton Icon="logout" class="BotonPrincipal +" Text="Cerrar Sesión" Click="Logout" />
+            <RadzenButton Icon="delete" class="BotonDelete ConfiguracionBoton" Text="Borrar Cuenta" Click="BorrarCuenta" />
         </div>
     </div>
 }
 else
 {
-    <p>No estas Autorizado para ver esta página.</p>
+    <_403 />
 }

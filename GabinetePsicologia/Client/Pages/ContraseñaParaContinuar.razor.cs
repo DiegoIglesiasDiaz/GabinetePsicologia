@@ -35,10 +35,12 @@ namespace GabinetePsicologia.Client.Pages
             if(await UsuarioServices.CheckPasswd(email, passwd))
             {
                 DialogService.Close(true);
+                NotificationService.Notify(NotificationSeverity.Success, "Ok","Contraseña Correcta");
+
             }
             else
             {
-                NotificationService.Notify(NotificationSeverity.Error, "Contraseña Incorrecta");
+                NotificationService.Notify(NotificationSeverity.Error,"Error","Contraseña Incorrecta");
                 return;
             }
         }

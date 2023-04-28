@@ -30,14 +30,22 @@ builder.Services.AddAuthentication()
     .AddIdentityServerJwt()
     .AddGoogle(googleOptions =>
     {
-        googleOptions.ClientId = "488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com";
-        googleOptions.ClientSecret = "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";
-    })
-    .AddFacebook(facebook =>
+        googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
+        googleOptions.ClientSecret = builder.Configuration["GoogleSecretId"]!;
+    }).AddMicrosoftAccount(microsoftOptions =>
     {
-        facebook.AppId = "966826294752064";
-        facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
-    });
+        microsoftOptions.ClientId = builder.Configuration["MicrosoftClientId"]!;
+        microsoftOptions.ClientSecret = builder.Configuration["MicrosoftSecretId"]!;
+    }
+
+    );
+
+    //.AddFacebook(facebook =>
+    //{
+    //    facebook.AppId = "966826294752064";
+    //    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
+    //});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<DialogService>();
@@ -49,6 +57,7 @@ builder.Services.AddScoped<TrastornoController>();
 builder.Services.AddScoped<PsicologoController>();
 builder.Services.AddScoped<AdministradorController>();
 builder.Services.AddScoped<PacienteController>();
+builder.Services.AddScoped<InformeController>();
 builder.Services.AddScoped<CitaController>();
 
 builder.Services.AddCors(options =>
@@ -65,7 +74,7 @@ CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-ES");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseMigrationsEndPoint();
     app.UseWebAssemblyDebugging();

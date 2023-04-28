@@ -16,11 +16,45 @@
                     <RadzenText TextStyle="TextStyle.Body1" TagName="TagName.H3">@Persona.Email</RadzenText>
                 </RadzenCard>
 
+
                 <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña</RadzenText>
+                    <div class="d-flex align-content-center justify-content-between-">
+                        <RadzenPassword @bind-Value=Persona.Contraseña Name="Contraseña" class="w-100" Visible=!verPasswd />
+                        <RadzenTextBox @bind-Value=Persona.Contraseña Name="Contraseña" class="w-100" Visible=verPasswd />
+                        <RadzenButton Click="VerPasswd" class="BotonVacio">
+                            <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
+                            <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
+                        </RadzenButton>
+                    </div>
+                    <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
+                    <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$" Style="position:relative" />
+
+
+                </RadzenCard>
+                <RadzenCard>
+                    <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Repite la Contraseña</RadzenText>
+                    <div class="d-flex align-content-center justify-content-between-">
+                        <RadzenPassword @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=!verRePasswd />
+                        <RadzenTextBox @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=verRePasswd />
+                        <RadzenButton Click="VerRePasswd" class="BotonVacio">
+                            <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verRePasswd></RadzenImage>
+                            <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verRePasswd></RadzenImage>
+                        </RadzenButton>
+                    </div>
+                    <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>
+                    <RadzenCompareValidator Visible=@(!string.IsNullOrEmpty(RepiteContraseña)) Value=@Persona.Contraseña Component="ReContraseña" Text="Las Contraseñas no coinciden" Popup=true Style="position: relative" />
+
+                </RadzenCard>
+
+
+
+
+               @* <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Visible=true>Contraseña</RadzenText>
                     <RadzenPassword @bind-Value=Persona.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" />
                     <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
-                    <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+                <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$" Style="position:relative" />
                 </RadzenCard>
 
                 <RadzenCard>
@@ -28,7 +62,7 @@
                     <RadzenPassword @bind-Value=RepiteContraseña AllowPasswordReveal=true Name="ReContraseña" class="w-100" />
                     <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>
                     <RadzenCompareValidator Visible=@(!string.IsNullOrEmpty(RepiteContraseña)) Value=@Persona.Contraseña Component="ReContraseña" Text="Las Contraseñas no coinciden" Popup=true Style="position: relative" />
-                 </RadzenCard>
+                 </RadzenCard>*@
             </RadzenStepsItem>
 
             <RadzenStepsItem Text="Nombre y Apellidos">
@@ -63,7 +97,7 @@
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Fecha Nacimiento</RadzenText>
                     <RadzenDatePicker InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=Persona.FecNacim ShowTime="false" Name="FecNacim" class="w-100" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
-                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimient requerido"></RadzenRequiredValidator>
+                    <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimiento requerido"></RadzenRequiredValidator>
                 </RadzenCard>
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Direccion</RadzenText>

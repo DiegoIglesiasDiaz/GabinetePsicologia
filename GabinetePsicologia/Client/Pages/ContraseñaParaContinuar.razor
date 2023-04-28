@@ -4,26 +4,26 @@
 <div>
     <div class="row">
         <div class="col">
-           
+
             <RadzenTemplateForm Data="@passwd" TItem="string" method="post" Submit="@((args) => {Contrasenia(passwd); })">
                 <RadzenCard>
                     <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Contraseña:</RadzenText>
                     <div class="d-flex align-content-center justify-content-between-">
-                    <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" Visible=verPasswd />
-                    <RadzenPassword @bind-Value=passwd Name="passwd" class="w-100" Visible=!verPasswd />
-                    <RadzenButton  Click="VerPasswd" class ="BotonVacio">
-                        <RadzenImage Path="/img/eye.png" Style="height:35px;width:35px" Visible=verPasswd></RadzenImage>
-                        <RadzenImage Path="/img/closed-eye.png" Style="height:35px;width:35px" Visible=!verPasswd></RadzenImage>
-                    </RadzenButton>
+                        <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" Visible=verPasswd />
+                        <RadzenPassword @bind-Value=passwd Name="passwd" class="w-100" Visible=!verPasswd />
+                        <RadzenButton Click="VerPasswd" class="BotonVacio">
+                            <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
+                            <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
+                        </RadzenButton>
                     </div>
                     <RadzenRequiredValidator Component="passwd" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
-                    <RadzenRegexValidator Component="passwd" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+                    <RadzenRegexValidator Component="passwd" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$" Style="position:relative" />
 
                 </RadzenCard>
                 <br><br>
                 <div style="display:flex;align-items:center;justify-content:center">
-                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => DialogService.Close(false)" ButtonStyle="ButtonStyle.Light" class="me-1" />
-                    <RadzenButton style="margin:10px" Text="Guardar" class="me-1" ButtonType="ButtonType.Submit" />
+                    <RadzenButton style="margin:10px" Text="Cancelar" Click="() => DialogService.Close(false)" class="BotonDelete" />
+                    <RadzenButton style="margin:10px" Text="Continuar" class="BotonPrincipal" ButtonType="ButtonType.Submit" />
                 </div>
             </RadzenTemplateForm>
         </div>

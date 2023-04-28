@@ -9,11 +9,16 @@ $sec-color-darker: #444548;*/
   --rz-primary-lighter: #a3b4f8 !important;
   --rz-primary-dark: #11277d !important;
   --rz-primary-darker: #071446 !important;
+  --rz-grid-sort-icon-color: white !important;
+  --rz-grid-header-color: white !important;
+  --rz-grid-header-background-color: var(--rz-primary) !important;
+  --rz-grid-filter-color: white !important;
+  --rz-grid-header-filter-icon-hover-color: var(--rz-secondary-light) !important;
   /*    --rz-secondary: #746f36 !important;
-      --rz-secondary-light: #b9bed1 !important;
-      --rz-secondary-lighter: #d2d9f1 !important;
-      --rz-secondary-dark: #62656d !important;
-      --rz-secondary-darker: #444548 !important;*/
+  --rz-secondary-light: #b9bed1 !important;
+  --rz-secondary-lighter: #d2d9f1 !important;
+  --rz-secondary-dark: #62656d !important;
+  --rz-secondary-darker: #444548 !important;*/
 }
 
 body {
@@ -89,6 +94,28 @@ body .EditTextArea {
 body .EditTextArea:focus {
   border: 2px solid var(--rz-primary) !important;
 }
+body .MisDatosDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+body .ConfiguracionDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 90vh;
+  margin-top: 4rem;
+}
+body .BotonUsuarios {
+  margin-left: auto;
+  margin-right: 0;
+}
+body .BotonTrastornos {
+  margin-left: auto;
+  margin-right: 0;
+}
 body .BotonVacio {
   background: none !important;
   height: fit-content !important;
@@ -96,15 +123,37 @@ body .BotonVacio {
   padding: 0 !important;
   box-shadow: none !important;
 }
-body .CambiarEmail {
+body .BotonPrincipal {
   background-color: transparent !important;
   color: var(--rz-primary) !important;
   border: 2px solid var(--rz-primary) !important;
   border-radius: 10px !important;
   height: fit-content !important;
 }
-body .CambiarEmail:hover {
+body .BotonPrincipal:hover {
   background-color: var(--rz-primary) !important;
+  color: var(--bs-body-bg) !important;
+}
+body .BotonDelete {
+  background-color: transparent !important;
+  color: red !important;
+  border: 2px solid red !important;
+  border-radius: 10px !important;
+  height: fit-content !important;
+}
+body .BotonDelete:hover {
+  background-color: red !important;
+  color: var(--bs-body-bg) !important;
+}
+body .BotonSecondary {
+  background-color: transparent !important;
+  color: var(--rz-secondary) !important;
+  border: 2px solid var(--rz-secondary) !important;
+  border-radius: 10px !important;
+  height: fit-content !important;
+}
+body .BotonSecondary:hover {
+  background-color: var(--rz-secondary) !important;
   color: var(--bs-body-bg) !important;
 }
 body .invalid {
@@ -112,6 +161,39 @@ body .invalid {
 }
 body .validation-message {
   color: white;
+}
+body .content-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+body .content-table thead tr {
+  background-color: var(--rz-primary);
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+body .content-table th,
+body .content-table td {
+  padding: 12px 15px;
+}
+body .content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+body .content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+body .content-table tbody tr:last-of-type {
+  border-bottom: 2px solid var(--rz-primary);
+}
+body .content-table tbody tr.active-row {
+  font-weight: bold;
+  color: var(--rz-primary);
 }
 body #blazor-error-ui {
   background: lightyellow;
@@ -237,5 +319,57 @@ body .top-row::deep .btn-link:hover {
   body article {
     padding-left: 2rem !important;
     padding-right: 1.5rem !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  body .AgendaFilter {
+    display: flex;
+    flex-direction: column;
+  }
+  body .AgendaFilter1 {
+    margin-bottom: 2em;
+  }
+  body .DivBotonUsuarios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+  body .BotonUsuarios {
+    margin: 0;
+    margin-bottom: 1em;
+  }
+  body .DivBotonTrastornos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+  body .BotonTrastornos {
+    margin: 0;
+    margin-bottom: 1em;
+  }
+  body .ConfiguracionDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 90vh;
+    margin-top: 4rem;
+  }
+  body .ConfiguracionDobleAutenticacion {
+    justify-content: center !important;
+    flex-direction: row !important;
+  }
+  body .ConfiguracionBoton {
+    margin-top: 4rem;
+  }
+}
+@media only screen and (max-width: 800px) {
+  body .MisDatosDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 }

@@ -18,6 +18,9 @@ namespace GabinetePsicologia.Client.Pages
         [Parameter]
         public PersonaDto Persona { get; set; }
         protected string RepiteContraseña;
+
+        public bool verPasswd = false;
+        public bool verRePasswd = false;
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -84,6 +87,14 @@ namespace GabinetePsicologia.Client.Pages
 
             }
             DialogService.Close(true);
+        }
+        public void VerPasswd()
+        {
+            verPasswd = !verPasswd;
+        }
+        public void VerRePasswd()
+        {
+            verRePasswd = !verRePasswd;
         }
     }
 }

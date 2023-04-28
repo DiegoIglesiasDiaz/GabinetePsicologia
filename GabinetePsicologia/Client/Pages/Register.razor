@@ -1,9 +1,10 @@
 ﻿@page "/Register"
+<PageTitle>Registrar</PageTitle>
 @using GabinetePsicologia.Shared
 @layout LoginDisplay
 
 <div class="col-12 d-flex p-3 login">
-    <RadzenCard class="d-flex m-5 p-0 rz-border-radius-6 rz-shadow-10" Style=" flex-flow: row wrap; overflow: hidden; align-items: stretch;">
+    <RadzenCard class="d-flex m-5 p-0 rz-border-radius-6 rz-shadow-10" Style="min-width:min-content;flex-flow: row wrap; overflow: hidden; align-items: stretch;">
         <RadzenCard class="rz-shadow-0 rz-border-radius-0 p-5" style="flex: 1 14rem;">
             <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="mb-4">
                 Registrarse
@@ -24,12 +25,12 @@
                                     <RadzenPassword @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" Visible=!verPasswd />
                                     <RadzenTextBox @bind-Value=PersonaForm.Contraseña Name="Contraseña" class="w-100" Visible=verPasswd />
                                     <RadzenButton Click="VerPasswd" class="BotonVacio">
-                                        <RadzenImage Path="/img/eye.png" Style="height:35px;width:35px" Visible=verPasswd></RadzenImage>
-                                        <RadzenImage Path="/img/closed-eye.png" Style="height:35px;width:35px" Visible=!verPasswd></RadzenImage>
+                                        <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
+                                        <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
                                     </RadzenButton>
                                 </div>
                                 <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
-                                <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="(?=^.{6,}$)(?=.*\d)(?=.*[!#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" Style="position:relative" />
+                                <RadzenRegexValidator Component="Contraseña" Popup=true Text="*La Contraseña debe de tener mas de 6 caracteres y al menos una Mayúscula, una minúscula, un número y un caracter especial" Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$" Style="position:relative" />
 
 
                             </RadzenCard>
@@ -39,8 +40,8 @@
                                      <RadzenPassword @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=!verRePasswd />
                                     <RadzenTextBox @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=verRePasswd />                                  
                                     <RadzenButton Click="VerRePasswd" class="BotonVacio">
-                                        <RadzenImage Path="/img/eye.png" Style="height:35px;width:35px" Visible=verRePasswd></RadzenImage>
-                                        <RadzenImage Path="/img/closed-eye.png" Style="height:35px;width:35px" Visible=!verRePasswd></RadzenImage>
+                                        <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verRePasswd></RadzenImage>
+                                        <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verRePasswd></RadzenImage>
                                     </RadzenButton>
                                 </div>
                                 <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>
@@ -81,7 +82,7 @@
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Fecha Nacimiento</RadzenText>
                                 <RadzenDatePicker InitialViewDate="DateTime.Today" DateFormat="dd/MM/yyyy" YearRange="1900:2100" @bind-Value=PersonaForm.FecNacim ShowTime="false" Name="FecNacim" class="w-100" Min="DateTime.Today.AddYears(-110)" Max="DateTime.Today" />
-                                <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimient requerido"></RadzenRequiredValidator>
+                                <RadzenRequiredValidator Style="position:relative" Popup=true Component="FecNacim" Text="*Fecha Nacimiento requerido"></RadzenRequiredValidator>
                             </RadzenCard>
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Direccion</RadzenText>

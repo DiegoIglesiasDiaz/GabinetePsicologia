@@ -64,7 +64,7 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> BorrarCuenta(Guid id)
         {
-            ApplicationUser? user =  _context.Users.FirstOrDefault(x => x.Id == id.ToString());
+            ApplicationUser? user = _context.Users.FirstOrDefault(x => x.Id == id.ToString());
             if (user == null) return BadRequest();
             await _userManager.DeleteAsync(user);
             await _context.SaveChangesAsync();
@@ -164,10 +164,10 @@ namespace GabinetePsicologia.Server.Controllers
                 Email = UserName,
                 Id = Guid.Parse(user.Id)
             };
-            if(await _userManager.IsInRoleAsync(user, "Administrador"))
+            if (await _userManager.IsInRoleAsync(user, "Administrador"))
             {
-                Administrador? a = _context.Administradores.First(x=>x.ApplicationUserId == user.Id);
-                  
+                Administrador? a = _context.Administradores.First(x => x.ApplicationUserId == user.Id);
+
                 if (a != null)
                 {
                     UserValue.Rol = "Administrador";
@@ -219,7 +219,7 @@ namespace GabinetePsicologia.Server.Controllers
                 }
             }
             return Ok(UserValue);
-           
+
         }
         [AllowAnonymous]
         [HttpPost]
@@ -229,10 +229,10 @@ namespace GabinetePsicologia.Server.Controllers
             var emailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             await _userManager.ConfirmEmailAsync(user, emailConfirmationCode);
             await _userStore.SetUserNameAsync(user, data.Email, CancellationToken.None);
-            if(data.Telefono != null)
+            if (data.Telefono != null)
                 await _userManager.SetPhoneNumberAsync(user, data.Telefono);
             await _emailStore.SetEmailAsync(user, data.Email, CancellationToken.None);
-            var result = await _userManager.CreateAsync(user,data.Contraseña);
+            var result = await _userManager.CreateAsync(user, data.Contraseña);
 
 
             if (result.Succeeded)
@@ -291,7 +291,7 @@ namespace GabinetePsicologia.Server.Controllers
                     paciente.Apellido1 = data.Apellido1;
                     paciente.Apellido2 = data.Apellido2;
                     paciente.NIF = data.NIF;
-                    if(!String.IsNullOrEmpty(data.Direccion))
+                    if (!String.IsNullOrEmpty(data.Direccion))
                         paciente.Direccion = data.Direccion;
                     paciente.FecNacim = data.FecNacim;
                     await _userManager.AddToRoleAsync(User, "Paciente");
@@ -378,7 +378,6 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> OnPostAsync([FromBody] LoginDto usuario)
         {
-            IList<AuthenticationScheme> ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
@@ -387,6 +386,7 @@ namespace GabinetePsicologia.Server.Controllers
                 var result = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                   
                     return Ok("Usuario Logueado");
                 }
                 //if (result.RequiresTwoFactor)
@@ -435,7 +435,6 @@ namespace GabinetePsicologia.Server.Controllers
         {
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, "/Usuario/ExternalLogin/Success");
             return new ChallengeResult(provider, properties);
-
         }
         [AllowAnonymous]
         [HttpGet("ExternalLogin/Success")]
@@ -445,7 +444,7 @@ namespace GabinetePsicologia.Server.Controllers
             string Name = "";
             string Apellido1 = "";
             string Apellido2 = "";
-            string SurNames = ""; 
+            string SurNames = "";
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 Email = info.Principal.FindFirstValue(ClaimTypes.Email);
@@ -526,7 +525,7 @@ namespace GabinetePsicologia.Server.Controllers
         {
             var user = _context.Users.FirstOrDefault(x => x.UserName == data[0]);
             if (user == null) return BadRequest("Contraseña Incorrecta");
-            bool result =  await _userManager.CheckPasswordAsync(user, data[1]);
+            bool result = await _userManager.CheckPasswordAsync(user, data[1]);
             if (result)
             {
                 return Ok("Contraseña Correcta");

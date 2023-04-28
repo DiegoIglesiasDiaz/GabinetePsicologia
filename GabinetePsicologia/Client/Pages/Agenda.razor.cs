@@ -8,9 +8,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace GabinetePsicologia.Client.Pages
 {
-    public partial class Calendar
+    public partial class Agenda
     {
-        string value = "psicologo";
+       
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private CitasServices CitasServices { get; set; }
         [Inject] private PacientesServices PacientesServices { get; set; }
@@ -27,10 +27,11 @@ namespace GabinetePsicologia.Client.Pages
         bool isPsicologo = false;
         bool isAdmin = false;
 
-
         List<Cita> allList = new List<Cita>();
         List<Cita> data = new List<Cita>();
-
+        List<Cita> ProximasCitas = new List<Cita>();
+        public TimeSpan StartDate = new TimeSpan(7, 0, 0);
+        public TimeSpan EndDate = new TimeSpan(22, 0, 0);
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -44,14 +45,15 @@ namespace GabinetePsicologia.Client.Pages
             lsPacientes = await PacientesServices.getPacientes();
             data = await CitasServices.GetCitas();
             allList = await CitasServices.GetCitas();
-            if (user.IsInRole("Administrador")) isAdmin = true;
+            ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
+           
             if (user.IsInRole("Psicologo"))
             {
                 SelectedPsciologo = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
                 allList = allList.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
                 data = allList;
                 isPsicologo = true;
-
+                ProximasCitas = ProximasCitas.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
             }
             else if (user.IsInRole("Paciente"))
             {
@@ -59,9 +61,26 @@ namespace GabinetePsicologia.Client.Pages
                 allList = allList.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
                 data = allList;
                 isPaciente = true;
-
+                if (user.IsInRole("Psicologo"))
+                {
+                    ProximasCitas.AddRange(allList.Where(x => x.PacienteId == SelectedPsciologo.Id).ToList());
+                }
+                else
+                {
+                    ProximasCitas = ProximasCitas.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
+                }
+               
             }
-
+            if (user.IsInRole("Administrador"))
+            {
+                ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
+                isAdmin = true;
+            }
+            ProximasCitas = ProximasCitas.OrderBy(x=> x.FecInicio).ToList();
+            if (ProximasCitas.Count > 5)
+            {
+                ProximasCitas = ProximasCitas.Take(5).ToList();
+            }
         }
         void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
@@ -80,15 +99,16 @@ namespace GabinetePsicologia.Client.Pages
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
             if (isPaciente && !isAdmin && !isPsicologo) return;
-            if (SelectedPsciologo == null)
-            {
-                NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
-                return;
-            }
-            Cita citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
-            Cita Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo } });
+            //if (SelectedPsciologo == null)
+            //{
+            //    NotificationService.Notify(NotificationSeverity.Warning, "Psicologo", "Debes de seleccioanr un Psicologo");
+            //    return;
+            //}
 
-            if (Cita != null)
+            var citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
+            var Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo ?? new Psicologo()}, { "Paciente", SelectedPaciente ?? new Paciente() },{ "isPaciente", false }, { "isEdit", false } });
+
+            if (Cita != null && Cita is Cita)
             {
 
                 CitasServices.InsertCita(Cita);
@@ -112,10 +132,16 @@ namespace GabinetePsicologia.Client.Pages
             Cita Cita = args.Data;
             Guid id = args.Data.Id;
             Psicologo psicologo = lsPsicologos.FirstOrDefault(x => x.Id == Cita.PsicologoId);
-            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo } });
+            Paciente paciente = lsPacientes.FirstOrDefault(x => x.Id == Cita.PacienteId);
+            bool isPacienteForModal = false;
+            if (isPaciente && !isAdmin && !isPsicologo)
+            {
+                isPacienteForModal = true;
+            }
+            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo ?? new Psicologo() }, { "Paciente", paciente ?? new Paciente() }, { "isPaciente", isPacienteForModal }, { "isEdit", true } });
             if (result == null || !(result is Cita)) return;
             Cita = result;
-            if (Cita.Id != Guid.Empty)
+            if ( Cita is Cita && Cita.Id != Guid.Empty )
             {
                 Cita.Id = id;
                 CitasServices.ActualizarCita(Cita);
@@ -187,6 +213,14 @@ namespace GabinetePsicologia.Client.Pages
                 data = data.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
                 scheduler.Reload();
             }
+        }
+        public string PsicologoName(Guid id)
+        {
+            var a = lsPsicologos.FirstOrDefault(x => x.Id == id).FullName;
+            if(a == null)
+                return "";
+            else
+                return a;
         }
     }
 }

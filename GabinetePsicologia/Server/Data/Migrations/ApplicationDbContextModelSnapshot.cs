@@ -292,6 +292,26 @@ namespace GabinetePsicologia.Server.Data.Migrations
                     b.ToTable("Citas");
                 });
 
+            modelBuilder.Entity("GabinetePsicologia.Shared.Informe", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PacienteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PsicologoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TrastornoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Informes");
+                });
+
             modelBuilder.Entity("GabinetePsicologia.Shared.Paciente", b =>
                 {
                     b.Property<Guid>("Id")
