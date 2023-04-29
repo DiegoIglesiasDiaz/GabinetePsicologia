@@ -23,11 +23,11 @@
                     <div class="m-2">
                         <div class="field-container">
                             <RadzenText TextStyle="TextStyle.Body1">Paciente: </RadzenText>
-                            <RadzenTextBox Name="Paciente" ReadOnly=@(!isEdit || !isNew) @bind-Value=Informe.PacienteFullName class="@cssClass" />
+                            <RadzenTextBox Name="Paciente" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.PacienteFullName class="@cssClass" />
                         </div>
                         <div class="field-container">
                             <RadzenText TextStyle="TextStyle.Body1">Psicólogo:</RadzenText>
-                            <RadzenTextBox Name="Psicologo" ReadOnly=@(!isEdit || !isNew) @bind-Value=Informe.PsicologoFullName class="@cssClass" />
+                            <RadzenTextBox Name="Psicologo" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.PsicologoFullName class="@cssClass" />
                         </div>
                     </div>
 
@@ -36,8 +36,8 @@
                     <div class="m-2">
                         <div class="field-container">
                             <RadzenLabel Text="Trastorno:" />
-                            <RadzenTextBox Name="TipoTrastorno" ReadOnly=@(!isEdit || !isNew) @bind-Value=Informe.TrastornoTipo class="@cssClass" />
-                            <RadzenTextBox Name="NameTrastorno" ReadOnly=@(!isEdit || !isNew) @bind-Value=Informe.TrastornoName class="@cssClass" />
+                            <RadzenTextBox Name="TipoTrastorno" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.TrastornoTipo class="@cssClass" />
+                            <RadzenTextBox Name="NameTrastorno" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.TrastornoName class="@cssClass" />
                         </div>
                     </div>
                     <div class="m-2">
