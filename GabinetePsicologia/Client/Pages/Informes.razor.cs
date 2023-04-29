@@ -43,9 +43,9 @@ namespace GabinetePsicologia.Client.Pages
             } 
         }
       
-        public void AbrirModal(InformeDto informe)
+        public void AbrirModal(InformeDto informe, bool isNew)
         {
-            var a = DialogService.OpenAsync<InformesModal>("Informe", new Dictionary<string, object> { { "Informe", informe } });
+            var a = DialogService.OpenAsync<InformesModal>("Informe", new Dictionary<string, object> { { "Informe", informe }, { "isNew", isNew } }, new DialogOptions() { Height="90%",Width="90%", Resizable=true} );
 
         }
         public void BorrarInforme()

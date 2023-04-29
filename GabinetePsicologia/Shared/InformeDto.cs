@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +22,11 @@ namespace GabinetePsicologia.Shared
         public Guid PsicologoId { get; set; }
         public string PsicologoFullName { get; set; }
         public DateTime UltimaFecha { get; set; }
+        public string UltimaFechaString {
+            get
+            {
+                return UltimaFecha.ToString("dd/MM/yyyy");
+            }
+        }
     }
 }

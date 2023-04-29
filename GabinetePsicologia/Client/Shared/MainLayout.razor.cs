@@ -1,4 +1,5 @@
 ﻿
+using GabinetePsicologia.Client.Pages;
 using GabinetePsicologia.Client.Services;
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
@@ -41,7 +42,14 @@ namespace GabinetePsicologia.Client.Shared
                 {
                     isAdmin= true;
                 }
+                if (userDto.Contraseña == null)
+                {
+                    var result = await DialogService.OpenAsync<IndexModal>("Información Adicional", new Dictionary<string, object> { { "Persona", userDto } });
+                    if (result)
+                        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
+                }
             }
+
 
         }
         protected void OnError(Exception e)

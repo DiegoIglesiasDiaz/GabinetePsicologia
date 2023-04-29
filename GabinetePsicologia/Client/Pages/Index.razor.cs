@@ -18,12 +18,12 @@ namespace GabinetePsicologia.Client.Pages
             if (user != null &&( user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
             {
                 PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
-                if(userDto.Contraseña == null)
-                {
-                    var result = await DialogService.OpenAsync<IndexModal>("Información Adicional", new Dictionary<string, object> { { "Persona", userDto }});
-                    if (result)
-                        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
-                }
+                //if(userDto.Contraseña == null)
+                //{
+                //    var result = await DialogService.OpenAsync<IndexModal>("Información Adicional", new Dictionary<string, object> { { "Persona", userDto }});
+                //    if (result)
+                //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
+                //}
             }
            
         }

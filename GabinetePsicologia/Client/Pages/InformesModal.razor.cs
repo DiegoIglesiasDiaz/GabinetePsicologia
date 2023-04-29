@@ -9,6 +9,10 @@ namespace GabinetePsicologia.Client.Pages
     {
         [Parameter]
         public InformeDto Informe { get; set; }
+        [Parameter]
+        public bool isNew { get; set; }
+        public string cssClass = "textArea calendar";
+        public bool isEdit = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -19,6 +23,10 @@ namespace GabinetePsicologia.Client.Pages
         protected async override void OnParametersSet()
         {
 
+        }
+        public void CambiarEdit()
+        {
+            isEdit=!isEdit;
         }
         
     }

@@ -16,6 +16,7 @@ $background-prim-color: #cbd4fa;
 
 $font-family_1: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-family_2: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
 :root {
     --rz-primary: #1543f6 !important;
     --rz-primary-light: #6583fa !important;
@@ -33,6 +34,7 @@ $font-family_2: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     --rz-secondary-dark: #62656d !important;
     --rz-secondary-darker: #444548 !important;*/
 }
+
 body {
 
 
@@ -139,8 +141,16 @@ body {
     .MisDatosDiv {
         display: flex;
         align-items: center;
+        align-items: center;
         justify-content: center;
         flex-direction: row;
+    }
+
+    .InformeModalDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 
     .ConfiguracionDiv {
@@ -468,7 +478,6 @@ body {
         }
 
         .ConfiguracionDobleAutenticacion {
-           
             justify-content: center !important;
             flex-direction: row !important;
         }
@@ -487,4 +496,3 @@ body {
         }
     }
 }
-

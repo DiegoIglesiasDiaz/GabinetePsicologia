@@ -8,7 +8,7 @@
 
         <h3>Informes</h3>
         <div class="DivBotonTrastornos">
-            <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" Click=@(args => { _ = new InformeDto();AbrirModal(new InformeDto()); }) class="BotonPrincipal BotonTrastornos" />
+            <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" Click=@(args => { var a = new InformeDto();AbrirModal(new InformeDto(),true); }) class="BotonPrincipal BotonTrastornos" />
             <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" Click=BorrarInforme class="BotonDelete BotonTrastornos"  />
         </div>
         <br>
@@ -38,7 +38,7 @@
                     <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFecha" Title="Última Fecha de Modificación" />
                     <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false">
                         <Template Context="data">
-                            <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data); }) class="BotonPrincipal" />
+                            <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data,false); }) class="BotonPrincipal" />
                         </Template>
                     </RadzenDataGridColumn>
 

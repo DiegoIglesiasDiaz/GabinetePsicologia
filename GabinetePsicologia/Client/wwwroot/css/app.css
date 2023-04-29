@@ -97,8 +97,15 @@ body .EditTextArea:focus {
 body .MisDatosDiv {
   display: flex;
   align-items: center;
+  align-items: center;
   justify-content: center;
   flex-direction: row;
+}
+body .InformeModalDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 body .ConfiguracionDiv {
   display: flex;
