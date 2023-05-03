@@ -23,4 +23,15 @@ BEGIN
 
 	SELECT * from Psicologos ps inner join  AspNetUsers us on us.Id = ps.ApplicationUserId where us.UserName = @username
 END
+GO
+
+CREATE PROCEDURE [dbo].[GetPsicologoById]
+@id uniqueidentifier
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	SELECT * from Psicologos ps inner join  AspNetUsers us on us.Id = ps.ApplicationUserId where us.Id = @id
+END
 

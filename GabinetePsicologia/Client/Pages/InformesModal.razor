@@ -15,63 +15,96 @@
         }
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center ">
-        <RadzenTemplateForm Data="@Informe" TItem="InformeDto" method="post">
+        <RadzenTemplateForm Data="@Informe" TItem="InformeDto" method="post" Submit="Guardar">
             @* Submit="@((PersonaDto args) => { GuardarPersona(args); })"*@
             <div>
                 <div class="InformeModalDiv">
 
                     <div class="m-2">
+                        @if (user.IsInRole("Paciente"))
+                        {
+                            <div class="field-container">
+
+                                <RadzenText TextStyle="TextStyle.Body1">Psicólogo: &nbsp; &nbsp; @Informe.PsicologoFullName</RadzenText>
+
+                            </div>
+                        }
                         <div class="field-container">
-                            <RadzenText TextStyle="TextStyle.Body1">Paciente: </RadzenText>
-                            <RadzenTextBox Name="Paciente" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.PacienteFullName class="@cssClass" />
-                        </div>
-                        <div class="field-container">
-                            <RadzenText TextStyle="TextStyle.Body1">Psicólogo:</RadzenText>
-                            <RadzenTextBox Name="Psicologo" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.PsicologoFullName class="@cssClass" />
+                            @if (!isNew)
+                            {
+                                <RadzenText TextStyle="TextStyle.Body1">Paciente: &nbsp; &nbsp; @Informe.PacienteFullName &nbsp; (@edad)</RadzenText>
+                            }
+                            else
+                            {
+                                <RadzenDropDown TValue="GabinetePsicologia.Shared.Paciente" Data=@lsPacientes FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
+                                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Paciente" Change="@(args => changePaciente(args))" />
+                            }
+
                         </div>
                     </div>
-
                     <hr />
-
                     <div class="m-2">
                         <div class="field-container">
-                            <RadzenLabel Text="Trastorno:" />
-                            <RadzenTextBox Name="TipoTrastorno" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.TrastornoTipo class="@cssClass" />
-                            <RadzenTextBox Name="NameTrastorno" ReadOnly=@(!isEdit && !isNew) @bind-Value=Informe.TrastornoName class="@cssClass" />
+                            @if (!user.IsInRole("Paciente"))
+                            {
+                                if (isNew)
+                                {
+                                    <RadzenDropDown TValue="GabinetePsicologia.Shared.Trastorno" Data=@lsTrastornos FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
+                                        TextProperty="NombreTipo" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Trastorno" Change="@(args => changeTrastorno(args))" />
+                                }
+                                else
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1">Trastorno: &nbsp; &nbsp; @Informe.TrastornoName &nbsp; (@Informe.TrastornoTipo)</RadzenText>
+                                  
+                                }
+                                <RadzenLabel Text="Severidad:" />
+                                <p> &nbsp; &nbsp; </p>
+                                <RadzenNumeric Min="1" Max="5" @bind-Value=@Informe.Severidad Style="border: 2px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;" />
+                            }
                         </div>
                     </div>
-                    <div class="m-2">
-                        <div class="field-container">
-                            <RadzenLabel Text="Última Fecha de Modificación:" />
-                            <p class="@cssClass" style="padding: var(--rz-input-padding);"> @Informe.UltimaFechaString </p>
-                        </div>
-
-
+                    <div class="m-2 InformeModalTextArea">
+                        @if (!user.IsInRole("Paciente"))
+                        {
+                            <RadzenLabel Text="Antecendentes Personales:" />
+                            <RadzenTextArea @bind-Value=Informe.AntecendentesPersonales class="TextArea" />
+                        }
                     </div>
-                </div>
+
+                    <div class="m-2 InformeModalTextArea">
+                        @if (!user.IsInRole("Paciente"))
+                        {
+                            <RadzenLabel Text="Evaluación Psicológica:" />
+                            <RadzenTextArea @bind-Value=Informe.EvaluacionPsicologica class="TextArea" />
+                        }
+                    </div>
+                    <div class="m-2 InformeModalTextArea">
+
+                        <RadzenLabel Text="Plan de Tratamiento: (Este campo es visible para el usuario.)" />
+                        <RadzenTextArea @bind-Value=Informe.PlandDeTratamiento class="TextArea" />
+                    </div>
+                    <div class="m-2 InformeModalTextArea">
+                        <RadzenLabel Text="Resultados: (Este campo es visible para el usuario.)" />
+                        <RadzenTextArea @bind-Value=Informe.Resultados class="TextArea" />
+                    </div>
+                </div> <br /><br />
                 <div class="d-flex justify-content-evenly">
-                    @if (isNew)
-                    {
-                        <RadzenButton Icon="cancel" Click="DialogService.Close" class="rz-background-color-secondary-lighter rz-color-secondary-dark" Text="Cancelar" />
-                        <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Secondary" Text="Guardar Informe" ButtonType="ButtonType.Submit" />
-
-
-                    }
-                    else
-                    {
-                        @if (isEdit)
-                        {
-                            <RadzenButton Icon="cancel" Click="CambiarEdit" class="rz-background-color-secondary-lighter rz-color-secondary-dark" Text="Cancelar" />
-                            <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Secondary" Text="Guardar Informe" ButtonType="ButtonType.Submit" />
-                        }
-                        else
-                        {
-                            <RadzenButton Icon="edit" Text="Modificar Informe" Click="CambiarEdit" />
-                        }
-                       
-                    }
-
+                    <RadzenButton Icon="save" Text="Guardar Informe" ButtonType="ButtonType.Submit" />
                 </div>
+                @if (!isNew)
+                {
+                    <br />
+
+                    <br />
+                    <div class="m-2">
+                        <div class="field-container" style="justify-content:center; align-content:center">
+                            <RadzenLabel Text="Última Fecha de Modificación:" />
+                            <p class="@cssClass" style="padding: var(--rz-input-padding);margin-bottom:0 !important"> @Informe.UltimaFechaString </p>
+                        </div>
+
+
+                    </div>
+                }
             </div>
         </RadzenTemplateForm>
     </div>

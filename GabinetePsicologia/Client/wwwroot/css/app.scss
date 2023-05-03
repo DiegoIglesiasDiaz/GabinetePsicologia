@@ -308,6 +308,10 @@ body {
 
     .Footer {
         border-top: 2px solid $prim-color;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        text-align: center;
     }
 
     .menu {
@@ -494,5 +498,60 @@ body {
             justify-content: center;
             flex-direction: column;
         }
+    }
+
+    @media (max-width: 1400px) {
+        .InformeModalTextArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            width: 45rem !important;
+        }
+    }
+
+    @media (max-width: 820px) {
+        .InformeModalTextArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            width: 23rem !important;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .InformeModalTextArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            width: 15rem !important;
+        }
+    }
+
+    @media (max-width: 260px) {
+        .InformeModalTextArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            width: 9rem !important;
+        }
+    }
+
+    .InformeModalTextArea {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        width: 75rem;
+    }
+
+    .TextArea {
+        height: 10rem;
+        width: 100%;
+        border: 2px solid var(--rz-primary) !important;
+        border-radius: var(--rz-border-radius-4) !important;
     }
 }

@@ -90,5 +90,41 @@ namespace GabinetePsicologia.Server.Controllers
 
             }
         }
+        [HttpGet("{id:guid}")]
+        public Paciente GetPsicologoById(Guid id)
+        {
+            using (SqlConnection con = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetPacienteById", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+                    con.Open();
+                    using (IDataReader reader = cmd.ExecuteReader())
+                    {
+                        Paciente paciente = new Paciente();
+                        while (reader.Read())
+                        {
+
+
+                            paciente.Id = (Guid)reader["Id"];
+                            paciente.Nombre = (string)reader["Nombre"];
+                            paciente.Apellido1 = (string)reader["Apellido1"];
+                            paciente.Apellido2 = (string)reader["Apellido2"];
+                            paciente.NIF = (string)reader["NIF"];
+                            paciente.Direccion = (string)reader["Direccion"];
+                            paciente.FecNacim = (DateTime)reader["FecNacim"];
+                            paciente.ApplicationUserId = (string)reader["ApplicationUserId"];
+
+                        }
+                        con.Close();
+                        return paciente;
+                    }
+
+                }
+
+
+            }
+        }
     }
 }

@@ -14,7 +14,14 @@ namespace GabinetePsicologia.Shared
         public string Tipo { get; set; }
         [AllowNull]
 
-        public string? Sintomas { get; set; }    
+        public string? Sintomas { get; set; }
+        public string NombreTipo
+        {
+            get
+            {
+                return Tipo + "  " + Nombre;
+            }
+        }
 
     }
 }

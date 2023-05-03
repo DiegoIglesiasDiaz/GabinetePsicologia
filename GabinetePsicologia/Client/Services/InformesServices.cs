@@ -22,6 +22,33 @@ namespace GabinetePsicologia.Client.Services
             return inf;
 
         }
+        public async void CrearOActalizarInforme(InformeDto Informe, bool isNew)
+        {
+            Informe inf = new Informe()
+            {
+                AntecendentesPersonales = Informe.AntecendentesPersonales,
+                EvaluacionPsicologica = Informe.EvaluacionPsicologica,
+                Id = Informe.Id,
+                PacienteId = Informe.PacienteId,
+                PlandDeTratamiento = Informe.PlandDeTratamiento,
+                PsicologoId = Informe.PsicologoId,
+                Resultados = Informe.Resultados,
+                Severidad = Informe.Severidad,
+                TrastornoId = Informe.TrastornoId,
+                UltimaFecha = Informe.UltimaFecha
+                
+                
+            };
+            if (isNew)
+            {
+                await _httpClient.PostAsJsonAsync("/Informe", inf);
+            }
+            else
+            {
+                await _httpClient.PostAsJsonAsync("/Informe/Actualizar", inf);
+            }
 
+
+        }
     }
 }

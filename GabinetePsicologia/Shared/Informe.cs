@@ -18,5 +18,11 @@ namespace GabinetePsicologia.Shared
 
         [ForeignKey("Psicologo")]
         public Guid PsicologoId { get; set; }
+        public int Severidad { get; set; }
+        public string? EvaluacionPsicologica { get; set; }
+        public string? PlandDeTratamiento { get; set; }
+        public string? Resultados { get; set; }
+        public string? AntecendentesPersonales { get; set; }
+        public DateTime UltimaFecha { get; set; }
     }
 }

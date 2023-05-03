@@ -34,9 +34,10 @@
 
                     <RadzenDataGridColumn TItem="InformeDto" Property="PacienteFullName" Title="Paciente" />
                     <RadzenDataGridColumn TItem="InformeDto" Property="PsicologoFullName" Title="Psicólogo" />
-                    <RadzenDataGridColumn TItem="InformeDto" Property="TrastornoTipo" Title="Trastorno" />
-                    <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFecha" Title="Última Fecha de Modificación" />
-                    <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false">
+                    <RadzenDataGridColumn TItem="InformeDto" Property="Severidad" Title="Severidad" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="NombreTipoTrastorno" Title="Trastorno" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFechaString2" Title="Última Fecha de Modificación" />
+                    <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false" Visible=isPsicologo>
                         <Template Context="data">
                             <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data,false); }) class="BotonPrincipal" />
                         </Template>
