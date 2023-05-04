@@ -25,14 +25,19 @@
                         {
                             <div class="field-container">
 
-                                <RadzenText TextStyle="TextStyle.Body1">Psicólogo: &nbsp; &nbsp; @Informe.PsicologoFullName</RadzenText>
+                                <RadzenText TextStyle="TextStyle.DisplayH6">Psicólogo: &nbsp; &nbsp; @Informe.PsicologoFullName</RadzenText>
 
                             </div>
                         }
                         <div class="field-container">
                             @if (!isNew)
                             {
-                                <RadzenText TextStyle="TextStyle.Body1">Paciente: &nbsp; &nbsp; @Informe.PacienteFullName &nbsp; (@edad)</RadzenText>
+                                <RadzenText TextStyle="TextStyle.DisplayH6">Paciente: &nbsp; &nbsp; @Informe.PacienteFullName &nbsp; </RadzenText>
+                                @if (!String.IsNullOrEmpty(edad))
+                                {
+                                    <RadzenText TextStyle="TextStyle.DisplayH6">(@edad)</RadzenText>
+                                }
+
                             }
                             else
                             {
@@ -55,7 +60,7 @@
                                 else
                                 {
                                     <RadzenText TextStyle="TextStyle.Body1">Trastorno: &nbsp; &nbsp; @Informe.TrastornoName &nbsp; (@Informe.TrastornoTipo)</RadzenText>
-                                  
+
                                 }
                                 <p> &nbsp; &nbsp; </p>
                                 <RadzenNumeric Min="1" Max="5" @bind-Value=@Informe.Severidad Style="border: 2px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;" />
@@ -86,9 +91,43 @@
                         <RadzenLabel Text="Resultados: (Este campo es visible para el usuario.)" />
                         <RadzenTextArea @bind-Value=Informe.Resultados class="TextArea" />
                     </div>
-                </div> <br /><br />
+                </div>
+                <div>
+                    <div>
+                        <RadzenButton Icon="upload" Text="Archivos" />
+                        <RadzenButton Icon="link" Text="Enlace" />
+                    </div>
+                    <RadzenUpload ChooseText="Subir Archivos" Auto="true" Multiple="true" Icon="upload" Url="/Informe/UploadFile" class="w-100">
+                        <RadzenUploadHeader Name="InformeId" Value=@Informe.Id.ToString() />
+                    </RadzenUpload>
+                </div>
+
+                <div>
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>Archivo</th>
+                                <th>Visible para el usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var x in lsFiles)
+                            {
+                                <tr>
+                                    <td>@x[0]</td>
+                                    <td>@x[1]</td>
+   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <br /><br />
+
                 <div class="d-flex justify-content-evenly">
-                    <RadzenButton Icon="save" Text="Guardar Informe" ButtonType="ButtonType.Submit" />
+                    <RadzenButton Icon="save" Text="Guardar Informe"  ButtonType="ButtonType.Submit" />
                 </div>
                 @if (!isNew)
                 {
