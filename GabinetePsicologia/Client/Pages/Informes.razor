@@ -4,19 +4,13 @@
 <PageTitle>Informes</PageTitle>
 @if (isInRole)
 {
-    <div class="d-flex flex-column align-items-center justify-content-center ">
-
-        <h3>Informes</h3>
-        <div class="DivBotonTrastornos">
+    <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
+        <div class="DivBotonTrastornos DivBotonesTop">
             <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" Click=@(args => { var a = new InformeDto();AbrirModal(new InformeDto(),true); }) class="BotonPrincipal BotonTrastornos" />
             <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" Click=BorrarInforme class="BotonDelete BotonTrastornos"  />
         </div>
-        <br>
         @if (LsInformes != null && LsInformes.Count > 0)
         {
-            <br>
-            <br>
-
             <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
                     AllowSorting="true" Data="@LsInformes" TItem="InformeDto" ColumnWidth="200px" AllowRowSelectOnRowClick=allowRowSelectOnRowClick
                     SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedInforme class="m-4" Style="color:white;width: 100%;">
@@ -39,7 +33,7 @@
                     <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFechaString2" Title="Última Fecha de Modificación" />
                     <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false" Visible=isPsicologo>
                         <Template Context="data">
-                            <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data,false); }) class="BotonPrincipal" />
+                            <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data,false); }) class="BotonLapiz" />
                         </Template>
                     </RadzenDataGridColumn>
 

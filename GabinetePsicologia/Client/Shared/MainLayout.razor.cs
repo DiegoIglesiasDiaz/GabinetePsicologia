@@ -37,7 +37,7 @@ namespace GabinetePsicologia.Client.Shared
             if (user != null && (user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
             {
                 PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
-                Name = userDto.FullName;
+                Name = userDto.Nombre;
                 if (!user.IsInRole("Paciente"))
                 {
                     isAdmin= true;

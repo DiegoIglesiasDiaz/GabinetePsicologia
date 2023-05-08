@@ -12,10 +12,10 @@
 
     <RadzenHeader>
         <div class="headerDiv">
-            <a href="/">
+            <a href="/" class="logoHeader">
                 <RadzenImage Path="../img/logo.png" class="logo" @onclick="@(_ => NavigationManager.NavigateTo("./"))" />
             </a>
-            <RadzenMenu>
+            <RadzenMenu class="menuPrincipal">
                 <AuthorizeView>
                     <NotAuthorized>
                         <RadzenMenuItem Path="/Terapias">
@@ -111,7 +111,7 @@
             </RadzenMenu>
 
 
-            <RadzenMenu class="accountMenu">
+            <RadzenMenu class="accountMenu" Responsive=false >
                 <AuthorizeView>
                     <Authorized>
                         @if (Name == null)

@@ -12,9 +12,9 @@
     {
 
 
-        <div class="d-flex flex-column align-items-center justify-content-center ">
-            <h3>Trastornos</h3>
-            <div class="DivBotonTrastornos">
+        <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
+
+            <div class="DivBotonTrastornos DivBotonesTop">
                 <RadzenButton Text="Añadir Trastorno" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonTrastornos" Click=@(args => {formTrastorno = new Trastorno(); ShowInlineDialog(new Trastorno()); }) />
                 <RadzenButton Text="Borrar Trastorno" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonTrastornos" Click=@BorrarTrastorno />
             </div>
@@ -40,7 +40,7 @@
                     <RadzenDataGridColumn TItem="Trastorno" Property="Sintomas" Title="Sintomas" />
                     <RadzenDataGridColumn TItem="Trastorno" Width="60px" Sortable="false" Filterable="false">
                         <Template Context="data">
-                            <RadzenButton Icon="edit" Click=@(args => { ShowInlineDialog(data); }) class="BotonPrincipal" />
+                                <RadzenButton Icon="edit" Click=@(args => { ShowInlineDialog(data); }) class="BotonLapiz" />
                         </Template>
                     </RadzenDataGridColumn>
 

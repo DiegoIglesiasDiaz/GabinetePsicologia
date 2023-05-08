@@ -1,4 +1,5 @@
-﻿/*$sec-color: #959aad;
+﻿@charset "UTF-8";
+/*$sec-color: #959aad;
 $sec-color-light: #b9bed1;
 $sec-color-lighter: #d2d9f1;
 $sec-color-dark: #62656d;
@@ -45,15 +46,41 @@ body a {
 body .btn-link {
   color: #1543f6;
 }
-body .headerDiv {
+body .header {
+  background-color: white;
+  box-shadow: var(--rz-primary) 0px -5px 14px;
+}
+body .header .headerDiv {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+}
+body .header .headerDiv .menuPrincipal .active {
+  font-size: 26px;
+}
+body .header .headerDiv .rz-menu:not(.rz-profile-menu) {
+  background-color: white;
+}
+body .header .headerDiv .rz-menu:not(.rz-profile-menu) .rz-navigation-item-link {
+  color: var(--rz-primary);
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  font-weight: bold;
+}
+body .rz-navigation-item-wrapper {
+  color: var(--rz-primary);
+}
+body .rz-navigation-item-wrapper :hover {
+  color: var(--rz-primary);
 }
 body .btn-primary {
   color: white;
   background-color: #1543f6;
   border-color: #1543f6;
+}
+body .rz-fileupload-buttonbar {
+  background-color: none;
+  margin-top: 1rem;
 }
 body .accountMenu {
   margin-left: auto !important;
@@ -76,18 +103,23 @@ body .field-container {
   justify-content: space-between;
   margin: 5px;
 }
+body .rz-fileupload-buttonbar {
+  background: none;
+  margin-top: 1rem;
+  padding: var(--rz-upload-button-bar-padding);
+}
 body .calendar input {
   position: relative;
   z-index: -1;
   border: none !important;
 }
-body .textArea {
-  border: 2px solid var(--rz-primary) !important;
+body .MisDatosTextArea {
+  border: 1px solid grey !important;
   border-radius: var(--rz-border-radius-4) !important;
   margin-left: 20px;
 }
 body .EditTextArea {
-  border: 2px solid var(--rz-secondary-light) !important;
+  border: 1px solid var(--rz-primary) !important;
   border-radius: var(--rz-border-radius-4);
   margin-left: 20px;
 }
@@ -110,18 +142,13 @@ body .InformeModalDiv {
 body .ConfiguracionDiv {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-direction: row;
-  width: 90vh;
+  width: 30%;
   margin-top: 4rem;
 }
-body .BotonUsuarios {
-  margin-left: auto;
-  margin-right: 0;
-}
 body .BotonTrastornos {
-  margin-left: auto;
-  margin-right: 0;
+  margin-right: 0.5em;
 }
 body .BotonVacio {
   background: none !important;
@@ -129,6 +156,17 @@ body .BotonVacio {
   border: 0 !important;
   padding: 0 !important;
   box-shadow: none !important;
+}
+body .BotonLapiz {
+  color: var(--rz-primary) !important;
+  background: none !important;
+  height: fit-content !important;
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+body .TituloPagina {
+  margin-top: 26px;
 }
 body .BotonPrincipal {
   background-color: transparent !important;
@@ -159,6 +197,14 @@ body .BotonSecondary {
   border-radius: 10px !important;
   height: fit-content !important;
 }
+body .DivBotonesTop {
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
+}
+body .DivBotonesTop button {
+  margin-right: 0.5em;
+}
 body .BotonSecondary:hover {
   background-color: var(--rz-secondary) !important;
   color: var(--bs-body-bg) !important;
@@ -168,6 +214,11 @@ body .invalid {
 }
 body .validation-message {
   color: white;
+}
+body .rz-data-grid {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  border: none;
 }
 body .content-table {
   border-collapse: collapse;
@@ -201,6 +252,9 @@ body .content-table tbody tr:last-of-type {
 body .content-table tbody tr.active-row {
   font-weight: bold;
   color: var(--rz-primary);
+}
+body .rz-menu-toggle {
+  color: var(--rz-primary) !important;
 }
 body #blazor-error-ui {
   background: lightyellow;
@@ -256,6 +310,12 @@ body .page {
   position: relative;
   display: flex;
   flex-direction: column;
+}
+body .ojo {
+  height: 36px;
+  width: 36px;
+  padding: 5px;
+  opacity: 0.65;
 }
 body main {
   flex: 1;
@@ -332,6 +392,19 @@ body .top-row::deep .btn-link:hover {
     padding-right: 1.5rem !important;
   }
 }
+@media only screen and (max-width: 768px) {
+  body .logoHeader {
+    text-align: right;
+    width: 46%;
+  }
+  body .menuPrincipal {
+    position: absolute;
+    top: 36px;
+  }
+  body .menuPrincipal .active {
+    font-size: 20px;
+  }
+}
 @media only screen and (max-width: 600px) {
   body .AgendaFilter {
     display: flex;
@@ -363,9 +436,9 @@ body .top-row::deep .btn-link:hover {
   body .ConfiguracionDiv {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex-direction: column;
-    width: 90vh;
+    width: 80%;
     margin-top: 4rem;
   }
   body .ConfiguracionDobleAutenticacion {
@@ -393,13 +466,30 @@ body .top-row::deep .btn-link:hover {
     width: 45rem !important;
   }
 }
+@media (max-width: 1100px) {
+  body .ConfiguracionDiv {
+    width: 80%;
+  }
+}
 @media (max-width: 820px) {
+  body {
+    /* Ajusta el ancho del contenido del menú en la vista móvil */
+  }
   body .InformeModalTextArea {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
     width: 23rem !important;
+  }
+  body .rz-menu-button {
+    display: none;
+  }
+  body .rz-menu-content {
+    width: 100% !important;
+  }
+  body .accountMenu {
+    display: flex !important;
   }
 }
 @media (max-width: 400px) {
@@ -430,6 +520,6 @@ body .InformeModalTextArea {
 body .TextArea {
   height: 10rem;
   width: 100%;
-  border: 2px solid var(--rz-primary) !important;
+  border: 1px solid var(--rz-primary) !important;
   border-radius: var(--rz-border-radius-4) !important;
 }

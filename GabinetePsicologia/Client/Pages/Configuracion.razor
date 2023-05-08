@@ -49,19 +49,16 @@
             }
 
     </style>
-    <div class="d-flex flex-column align-items-center justify-content-center ">
+    <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
 
-        <h3>CONFIGURACIÓN</h3>
         <div class="field-container d-flex align-items-center">
             <RadzenText TextStyle="TextStyle.Body2">Correo:&nbsp;&nbsp; </RadzenText>
             <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.Body1">@correo</RadzenText>
         </div>
 
         <div class="ConfiguracionDiv">
-            <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" Click="CambiarCorreo" />
-        </div>
-        <div class="ConfiguracionDiv">
-            <RadzenButton Icon="password" class="BotonPrincipal" Text="Cambiar Contraseña" Click="CambiarContrasenia"/>
+            <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" Click="CambiarCorreo" Style="margin:0.5em"/>
+            <RadzenButton Icon="password" class="BotonPrincipal ConfiguracionBoton" Style="margin:0.5em"  Text="Cambiar Contraseña" Click="CambiarContrasenia" />
         </div>
         <div class="ConfiguracionDiv ConfiguracionDobleAutenticacion">
             <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
@@ -71,8 +68,8 @@
                 </label>
         </div>
         <div class="ConfiguracionDiv">
-            <RadzenButton Icon="logout" class="BotonPrincipal +" Text="Cerrar Sesión" Click="Logout" />
-            <RadzenButton Icon="delete" class="BotonDelete ConfiguracionBoton" Text="Borrar Cuenta" Click="BorrarCuenta" />
+            <RadzenButton Icon="logout" class="BotonPrincipal " Text="Cerrar Sesión" Style="margin:0.5em"  Click="Logout" />
+            <RadzenButton Icon="delete" class="BotonDelete ConfiguracionBoton" Text="Borrar Cuenta" Style="margin:0.5em" Click="BorrarCuenta" />
         </div>
     </div>
 }

@@ -15,11 +15,11 @@
     {
 
 
-        <div class="d-flex flex-column align-items-center justify-content-center ">
-            <h3>Usuarios</h3>
+        <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
+          
             @if (isAdmin)
             {
-                <div class="DivBotonUsuarios">
+                <div class="DivBotonUsuarios DivBotonesTop">
                     <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); })/>
                     <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarCorreoModal  />
                     <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarContraseñaModal />
@@ -57,7 +57,7 @@
                         <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">
                             <Template Context="data">
 
-                                <RadzenButton Icon="edit" Click=@(args => {ShowInlineDialog(data); }) class="BotonPrincipal" Visible=!data.Email.Equals(LoginUser) />
+                                <RadzenButton Icon="edit" Click=@(args => {ShowInlineDialog(data); }) class="BotonLapiz" Visible=!data.Email.Equals(LoginUser) />
 
                             </Template>
                         </RadzenDataGridColumn>

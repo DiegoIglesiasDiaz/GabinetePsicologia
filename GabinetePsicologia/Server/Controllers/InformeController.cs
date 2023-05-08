@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Radzen;
 using System.Security.Claims;
 
 using Paciente = GabinetePsicologia.Shared.Paciente;
@@ -24,7 +25,6 @@ namespace GabinetePsicologia.Server.Controllers
     public class InformeController : Controller
     {
         private readonly ApplicationDbContext _context;
-
 
         public InformeController(ApplicationDbContext context)
         {
@@ -85,9 +85,11 @@ namespace GabinetePsicologia.Server.Controllers
             _context.SaveChanges();
             return Ok("Informe Actualizado");
         }
+        [AllowAnonymous]
         [HttpPost("UploadFile")]
         public async Task<IActionResult> Upload([FromHeader] string InformeId)
         {
+            List<string> filesnames = new List<string>();
             var files = Request.Form.Files;
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads"));
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId));
@@ -97,15 +99,18 @@ namespace GabinetePsicologia.Server.Controllers
                 {
                     var fileName = Path.GetFileName(file.FileName);
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId, fileName);
-
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        filesnames.Add(fileName);
+                    }
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
+                       
                     }
                 }
             }
-
-            return Ok();
+            return Ok(filesnames);
         }
         [HttpGet("Files/{id}")]
         public IActionResult GetFiles(string id)

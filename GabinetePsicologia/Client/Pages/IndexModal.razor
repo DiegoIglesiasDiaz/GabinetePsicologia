@@ -23,8 +23,8 @@
                         <RadzenPassword @bind-Value=Persona.Contraseña Name="Contraseña" class="w-100" Visible=!verPasswd />
                         <RadzenTextBox @bind-Value=Persona.Contraseña Name="Contraseña" class="w-100" Visible=verPasswd />
                         <RadzenButton Click="VerPasswd" class="BotonVacio">
-                            <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
-                            <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
+                            <RadzenImage Path="/img/eye.png" class="ojo" Visible=verPasswd></RadzenImage>
+                            <RadzenImage Path="/img/closed-eye.png" class="ojo" Visible=!verPasswd></RadzenImage>
                         </RadzenButton>
                     </div>
                     <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
@@ -38,8 +38,8 @@
                         <RadzenPassword @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=!verRePasswd />
                         <RadzenTextBox @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=verRePasswd />
                         <RadzenButton Click="VerRePasswd" class="BotonVacio">
-                            <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verRePasswd></RadzenImage>
-                            <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verRePasswd></RadzenImage>
+                            <RadzenImage Path="/img/eye.png" class="ojo" Visible=verRePasswd></RadzenImage>
+                            <RadzenImage Path="/img/closed-eye.png" class="ojo" Visible=!verRePasswd></RadzenImage>
                         </RadzenButton>
                     </div>
                     <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>

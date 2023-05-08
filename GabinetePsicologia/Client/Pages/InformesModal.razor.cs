@@ -1,10 +1,12 @@
 ﻿using GabinetePsicologia.Client.Services;
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using Radzen;
 using Radzen.Blazor;
 using System;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -30,6 +32,9 @@ namespace GabinetePsicologia.Client.Pages
         List<Paciente> lsPacientes = new List<Paciente>();
         RadzenUpload upload = new RadzenUpload();
         List<string[]> lsFiles = new List<string[]>();
+        string cssButtonArchivo = "";
+        string cssButtonEnlace = "BotonPrincipal";
+        bool verArchivos = true;
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -92,8 +97,43 @@ namespace GabinetePsicologia.Client.Pages
         {
             Informe.TrastornoId = Guid.Parse(args.ToString());
         }
+        public async void complete(UploadCompleteEventArgs args)
+        {
+            var data = args.RawResponse.Split('"');
+            foreach (var item in data)
+            {
+                if (!Regex.IsMatch(item, @"[a-zA-Z]"))
+                {
+                    continue;
+                }
+                //string output = Regex.Replace(item, @"[^\w\s.\!@$%^&*()\-\/]+", "");
+                lsFiles.Add(new string[]
+                {
+                    item,
+                    "si"
+                });
+            }
+            NotificationService.Notify(NotificationSeverity.Success,"Ok", "Archivo Subido correctamente");
+        }
+        public void error(UploadErrorEventArgs args)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Error","Archivo muy pesado (Max 30mb)");
+        }
+        public void clickArchivo()
+        {
+             cssButtonArchivo = "";
+            cssButtonEnlace = "BotonPrincipal";
+            verArchivos = true;
 
-       
+
+        } 
+        public void clickEnlace()
+        {
+             cssButtonEnlace = "";
+            cssButtonArchivo = "BotonPrincipal";
+            verArchivos = false;
+        }
+
 
     }
 

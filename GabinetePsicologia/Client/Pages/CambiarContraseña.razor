@@ -12,8 +12,8 @@
                         <RadzenTextBox @bind-Value=passwd Name="passwd" class="w-100" Visible=verPasswd />
                         <RadzenPassword @bind-Value=passwd Name="passwd" class="w-100" Visible=!verPasswd />
                         <RadzenButton Click="VerPasswd" class="BotonVacio">
-                            <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
-                            <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
+                            <RadzenImage Path="/img/eye.png" class="ojo" Visible=verPasswd></RadzenImage>
+                            <RadzenImage Path="/img/closed-eye.png" class="ojo" Visible=!verPasswd></RadzenImage>
                         </RadzenButton>
                     </div>
                     <RadzenRequiredValidator Component="passwd" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>

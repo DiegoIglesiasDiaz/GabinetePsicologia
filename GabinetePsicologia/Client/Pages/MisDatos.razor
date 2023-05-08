@@ -13,9 +13,8 @@
             outline: none;
         }
     </style>
-    <div class="d-flex flex-column align-items-center justify-content-center ">
+    <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
 
-        <h3>MIS DATOS</h3>
         @*@if (!isEdit)
         {
             <div class="d-flex justify-content-between align-items-center" style="width:90vh;">
@@ -63,19 +62,19 @@
                         </div>
                         <div class="field-container">
                             <RadzenLabel Text="Teléfono:" />
-                            <RadzenTextBox Name="Telefono" @bind-Value=userDto.Telefono ReadOnly=false class="@cssClass" />
+                            <RadzenTextBox Name="Telefono" @bind-Value=userDto.Telefono ReadOnly=!isEdit class="@cssClass" />
                             <RadzenRegexValidator Component="Telefono" Popup=true Text="*Telefono no válido" Pattern="^\d{9}$" Style="position:absolute" />
                             <RadzenRequiredValidator Style="position:absolute" Popup=true Component="Telefono" Text="*Telefono requerido"></RadzenRequiredValidator>
                         </div>
                         <div class="field-container">
                             <RadzenLabel Text="NIF/DNI:" />
-                            <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=false class="@cssClass" Name="NIF" />
+                            <RadzenTextBox @bind-Value=userDto.NIF ReadOnly=!isEdit class="@cssClass" Name="NIF" />
                             <RadzenRegexValidator Component="NIF" Popup=true Text="*NIF no válido" Pattern="^[0-9]{8,8}[A-Za-z]$" Style="position:absolute" />
                             <RadzenRequiredValidator Style="position:absolute" Popup=true Component="NIF" Text="*NIF requerido"></RadzenRequiredValidator>
                         </div>
                         <div class="field-container">
                             <RadzenLabel Text="Dirección:" />
-                            <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=false class="@cssClass" Name="Direccion" />
+                            <RadzenTextBox @bind-Value=userDto.Direccion ReadOnly=!isEdit class="@cssClass" Name="Direccion" />
                             <RadzenRequiredValidator Style="position:absolute" Popup=true Component="Direccion" Text="*Direccion requerido"></RadzenRequiredValidator>
                         </div>
 
@@ -83,9 +82,9 @@
 
                 </div>
                 <div class="d-flex justify-content-evenly">
-                    <RadzenButton Icon="edit" Text="Modificar Datos" Click="Edit" Visible=!isEdit />
-                    <RadzenButton Icon="cancel" class="rz-background-color-secondary-lighter rz-color-secondary-dark" Click="Cancel" Text="Cancelar" Visible=isEdit />
-                    <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Text="Guardar Datos" Visible=isEdit />
+                    <RadzenButton Icon="edit" Text="Modificar Datos" class="BotonPrincipal" Click="Edit" Visible=!isEdit />
+                    <RadzenButton Icon="cancel" class="BotonDelete" Click="Cancel" Text="Cancelar" Visible=isEdit />
+                    <RadzenButton Icon="save" class="BotonPrincipal" ButtonType="ButtonType.Submit" Text="Guardar Datos" Visible=isEdit />
                 </div>
             </div>
         </RadzenTemplateForm>

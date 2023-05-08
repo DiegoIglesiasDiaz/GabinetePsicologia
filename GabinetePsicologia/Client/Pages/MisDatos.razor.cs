@@ -15,7 +15,7 @@ namespace GabinetePsicologia.Client.Pages
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] UsuarioServices UsuarioServices { get; set; }
         PersonaDto userDto;
-        public string cssClass = "textArea calendar" ;
+        public string cssClass = "MisDatosTextArea calendar";
         public bool isInRole = false;
         bool isEdit = false;
         //bool isPsicologo = false;
@@ -69,7 +69,7 @@ namespace GabinetePsicologia.Client.Pages
                 return;
             }
             isEdit = false;
-            cssClass = "textArea calendar";
+            cssClass = "MisDatosTextArea calendar";
             
             UsuarioServices.EditarPaciente(data);
             NotificationService.Notify(NotificationSeverity.Success, "Ok", "Usuario editado correctamente.");
@@ -78,7 +78,7 @@ namespace GabinetePsicologia.Client.Pages
         public void Cancel()
         {
             isEdit = false;
-            cssClass = "textArea calendar";
+            cssClass = "MisDatosTextArea calendar";
         }
     }
 }

@@ -25,8 +25,8 @@
                                     <RadzenPassword @bind-Value=PersonaForm.Contraseña AllowPasswordReveal=true Name="Contraseña" class="w-100" Visible=!verPasswd />
                                     <RadzenTextBox @bind-Value=PersonaForm.Contraseña Name="Contraseña" class="w-100" Visible=verPasswd />
                                     <RadzenButton Click="VerPasswd" class="BotonVacio">
-                                        <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verPasswd></RadzenImage>
-                                        <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verPasswd></RadzenImage>
+                                        <RadzenImage Path="/img/eye.png" class="ojo" Visible=verPasswd></RadzenImage>
+                                        <RadzenImage Path="/img/closed-eye.png" class="ojo" Visible=!verPasswd></RadzenImage>
                                     </RadzenButton>
                                 </div>
                                 <RadzenRequiredValidator Component="Contraseña" Style="position:relative" Popup=true Text="*Contraseña requerido"></RadzenRequiredValidator>
@@ -40,8 +40,8 @@
                                      <RadzenPassword @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=!verRePasswd />
                                     <RadzenTextBox @bind-Value=RepiteContraseña Name="ReContraseña" class="w-100" Visible=verRePasswd />                                  
                                     <RadzenButton Click="VerRePasswd" class="BotonVacio">
-                                        <RadzenImage Path="/img/eye.png" Style="height:36px;width:36px" Visible=verRePasswd></RadzenImage>
-                                        <RadzenImage Path="/img/closed-eye.png" Style="height:36px;width:36px" Visible=!verRePasswd></RadzenImage>
+                                        <RadzenImage Path="/img/eye.png" class="ojo" Visible=verRePasswd></RadzenImage>
+                                        <RadzenImage Path="/img/closed-eye.png" class="ojo" Visible=!verRePasswd></RadzenImage>
                                     </RadzenButton>
                                 </div>
                                 <RadzenRequiredValidator Component="ReContraseña" Style="position:relative" Popup=true Text="*Repetir Contraseña requerido"></RadzenRequiredValidator>
@@ -99,11 +99,11 @@
                 </RadzenSteps>
 
             </RadzenTemplateForm>
-            <div class="d-flex align-items-center justify-content-between ">
-                <RadzenText TagName="TagName.H2" class="mb-4">
+            <div class="d-flex align-items-center justify-content-evenly ">
+                <RadzenText TagName="TagName.H2" Style="margin:0px">
                     ¿Ya tienes una cuenta?
                 </RadzenText>
-                <RadzenButton Text="Login" Style="margin-top:2em" class="rz-background-color-secondary-lighter rz-color-secondary w-auto" Click='@(args => { NavigationManager.NavigateTo("/login",true); })'></RadzenButton>
+                <RadzenButton Text="Login"  class="rz-background-color-secondary-lighter rz-color-secondary w-auto" Click='@(args => { NavigationManager.NavigateTo("/login",true); })'></RadzenButton>
             </div>
         </RadzenCard>
     </RadzenCard>
