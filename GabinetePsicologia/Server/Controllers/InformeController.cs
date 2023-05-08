@@ -85,7 +85,51 @@ namespace GabinetePsicologia.Server.Controllers
             _context.SaveChanges();
             return Ok("Informe Actualizado");
         }
+        [HttpPost("UploadFile")]
+        public async Task<IActionResult> Upload([FromHeader] string InformeId)
+        {
+            var files = Request.Form.Files;
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads"));
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId));
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId, fileName);
 
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            return Ok();
+        }
+        [HttpGet("Files/{id}")]
+        public IActionResult GetFiles(string id)
+        {
+            var lsFiles = new List<String[]>();
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id);
+            if (Directory.Exists(path))
+            {
+
+
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach (var f in di.GetFiles())
+                {
+                    var a = new String[]
+                    {
+                    f.Name,
+                    "Si"
+                    };
+                    lsFiles.Add(a);
+                }
+                return Ok(lsFiles);
+            }
+            return BadRequest();
+        }
         //[HttpPost("Borrar")]
 
         //public IActionResult Borrar([FromBody] IList<Trastorno> trastornos)

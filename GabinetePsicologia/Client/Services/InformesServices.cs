@@ -50,5 +50,11 @@ namespace GabinetePsicologia.Client.Services
 
 
         }
+        public async Task<List<string[]>> ListFiles(string InformeId)
+        {
+            var inf = await _httpClient.GetFromJsonAsync<List<string[]>>($"/Informe/Files/{InformeId}");
+            return inf;
+
+        }
     }
 }

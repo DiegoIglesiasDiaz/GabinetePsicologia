@@ -2,6 +2,8 @@
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using Radzen;
+using Radzen.Blazor;
+using System;
 using System.Security.Claims;
 
 namespace GabinetePsicologia.Client.Pages
@@ -26,6 +28,8 @@ namespace GabinetePsicologia.Client.Pages
         public bool isEdit = false;
         List<Trastorno> lsTrastornos = new List<Trastorno>();
         List<Paciente> lsPacientes = new List<Paciente>();
+        RadzenUpload upload = new RadzenUpload();
+        List<string[]> lsFiles = new List<string[]>();
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -33,9 +37,23 @@ namespace GabinetePsicologia.Client.Pages
             if(Informe.Id !=Guid.Empty)
             {
                 Paciente paciente = await PacientesServices.GetPacienteByid(Informe.PacienteId);
-                int edadNum = DateTime.Now.Year - paciente.FecNacim.Value.Year;
-                edad = edadNum.ToString() + " años";
-
+                if (paciente != null)
+                {
+                    try
+                    {
+                        int edadNum = 0;
+                        if (paciente != null)
+                        {
+                            edadNum = DateTime.Now.Year - paciente.FecNacim.Value.Year;
+                            if (edadNum > 0)
+                                edad = edadNum.ToString() + " años";
+                        }
+                    }catch(Exception ex)
+                    {
+                        
+                    }
+                    
+                }
             }
             if (user.IsInRole("Paciente"))
             {
@@ -48,8 +66,10 @@ namespace GabinetePsicologia.Client.Pages
                 Informe.PsicologoId = ps.Id;
                 Informe.PacienteId = Guid.Empty;
             }
+
             lsTrastornos = await TrastornosServices.getTrastornos();
             lsPacientes = await PacientesServices.getPacientes();
+            lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
         }
 
         protected async override void OnParametersSet()
@@ -72,6 +92,9 @@ namespace GabinetePsicologia.Client.Pages
         {
             Informe.TrastornoId = Guid.Parse(args.ToString());
         }
+
+       
+
     }
 
 }
