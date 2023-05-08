@@ -56,5 +56,11 @@ namespace GabinetePsicologia.Client.Services
             return inf;
 
         }
+        public async void Descargar(string InformeId)
+        {
+            await _httpClient.GetFromJsonAsync<object>($"/Informe/Files/Download/{InformeId}");
+           
+
+        }
     }
 }

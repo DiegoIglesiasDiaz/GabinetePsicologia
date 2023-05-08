@@ -56,7 +56,8 @@ body .header .headerDiv {
   width: 100%;
 }
 body .header .headerDiv .menuPrincipal .active {
-  font-size: 26px;
+  /* font-size: 26px;*/
+  text-decoration: 3px underline;
 }
 body .header .headerDiv .rz-menu:not(.rz-profile-menu) {
   background-color: white;
@@ -397,12 +398,17 @@ body .top-row::deep .btn-link:hover {
     text-align: right;
     width: 46%;
   }
+  body .rz-menu-toggle-item {
+    display: flex;
+    justify-content: flex-start;
+  }
   body .menuPrincipal {
     position: absolute;
     top: 36px;
   }
   body .menuPrincipal .active {
-    font-size: 20px;
+    /* font-size: 20px;*/
+    text-decoration: 3px underline;
   }
 }
 @media only screen and (max-width: 600px) {

@@ -110,10 +110,28 @@ namespace GabinetePsicologia.Client.Pages
                 lsFiles.Add(new string[]
                 {
                     item,
-                    "si"
+                    "Si"
                 });
             }
             NotificationService.Notify(NotificationSeverity.Success,"Ok", "Archivo Subido correctamente");
+        }
+        public async void completePrivate(UploadCompleteEventArgs args)
+        {
+            var data = args.RawResponse.Split('"');
+            foreach (var item in data)
+            {
+                if (!Regex.IsMatch(item, @"[a-zA-Z]"))
+                {
+                    continue;
+                }
+                //string output = Regex.Replace(item, @"[^\w\s.\!@$%^&*()\-\/]+", "");
+                lsFiles.Add(new string[]
+                {
+                    item,
+                    "No"
+                });
+            }
+            NotificationService.Notify(NotificationSeverity.Success, "Ok", "Archivo Subido correctamente");
         }
         public void error(UploadErrorEventArgs args)
         {
@@ -133,7 +151,10 @@ namespace GabinetePsicologia.Client.Pages
             cssButtonArchivo = "BotonPrincipal";
             verArchivos = false;
         }
-
+        public void Descargar()
+        {
+             InformesServices.Descargar(Informe.Id.ToString());
+        }
 
     }
 

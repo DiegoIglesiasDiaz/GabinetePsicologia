@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Radzen;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 
 using Paciente = GabinetePsicologia.Shared.Paciente;
@@ -36,11 +38,11 @@ namespace GabinetePsicologia.Server.Controllers
         public async Task<IActionResult> getInformes()
         {
             var lsInforme = _context.Informes.ToList();
-            var lsInformeDto  =  new List<InformeDto>();
+            var lsInformeDto = new List<InformeDto>();
             foreach (var inf in lsInforme)
             {
                 InformeDto infDto = new InformeDto();
-                infDto.PacienteId= inf.PacienteId;
+                infDto.PacienteId = inf.PacienteId;
                 infDto.PsicologoId = inf.PsicologoId;
                 infDto.TrastornoId = inf.TrastornoId;
                 infDto.Id = inf.Id;
@@ -50,8 +52,8 @@ namespace GabinetePsicologia.Server.Controllers
                 infDto.EvaluacionPsicologica = inf.EvaluacionPsicologica;
                 infDto.UltimaFecha = inf.UltimaFecha;
                 infDto.Severidad = inf.Severidad;
-                Paciente paciente = _context.Pacientes.FirstOrDefault(x=>x.Id == inf.PacienteId);
-                if(paciente != null)
+                Paciente paciente = _context.Pacientes.FirstOrDefault(x => x.Id == inf.PacienteId);
+                if (paciente != null)
                     infDto.PacienteFullName = paciente.FullName;
                 Trastorno trastorno = _context.Trastornos.FirstOrDefault(x => x.Id == inf.TrastornoId);
                 if (trastorno != null)
@@ -59,7 +61,7 @@ namespace GabinetePsicologia.Server.Controllers
                     infDto.TrastornoName = trastorno.Nombre;
                     infDto.TrastornoTipo = trastorno.Tipo;
                 }
-                   
+
                 Psicologo psicologo = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
                 if (psicologo != null)
                     infDto.PsicologoFullName = psicologo.FullName;
@@ -79,7 +81,7 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpPost("Actualizar")]
         public IActionResult Actualizar([FromBody] Informe informe)
         {
-            var inf = _context.Informes.FirstOrDefault(x=> x.Id == informe.Id);
+            var inf = _context.Informes.FirstOrDefault(x => x.Id == informe.Id);
             _context.Informes.Remove(inf);
             _context.Add(informe);
             _context.SaveChanges();
@@ -106,7 +108,35 @@ namespace GabinetePsicologia.Server.Controllers
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
-                       
+
+                    }
+                }
+            }
+            return Ok(filesnames);
+        }
+        [AllowAnonymous]
+        [HttpPost("UploadFilePrivate")]
+        public async Task<IActionResult> UploadPrivate([FromHeader] string InformeId)
+        {
+            List<string> filesnames = new List<string>();
+            var files = Request.Form.Files;
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads"));
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId));
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId, "Private"));
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", InformeId, "Private", fileName);
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        filesnames.Add(fileName);
+                    }
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+
                     }
                 }
             }
@@ -115,12 +145,10 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpGet("Files/{id}")]
         public IActionResult GetFiles(string id)
         {
-            var lsFiles = new List<String[]>();
+            var lsFiles = new List<string[]>();
             string path = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id);
             if (Directory.Exists(path))
             {
-
-
                 DirectoryInfo di = new DirectoryInfo(path);
                 foreach (var f in di.GetFiles())
                 {
@@ -131,9 +159,41 @@ namespace GabinetePsicologia.Server.Controllers
                     };
                     lsFiles.Add(a);
                 }
-                return Ok(lsFiles);
+
             }
-            return BadRequest();
+            path = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id, "Private");
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach (var f in di.GetFiles())
+                {
+                    var a = new String[]
+                    {
+                    f.Name,
+                    "No"
+                    };
+                    lsFiles.Add(a);
+                }
+
+            }
+            return Ok(lsFiles);
+        }
+
+        [HttpGet("Files/Download/{id}")]
+        public HttpResponseMessage Descargar(string id)
+        {
+            string localFilePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id, "CosasTFG.txt");
+            string fileName = "CosasTFG.txt";
+            
+          
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = fileName;
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/*");
+
+            return response;
+
         }
         //[HttpPost("Borrar")]
 

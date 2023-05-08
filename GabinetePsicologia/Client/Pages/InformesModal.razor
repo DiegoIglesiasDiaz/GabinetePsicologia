@@ -95,18 +95,23 @@
                 <div>
                     <div class="d-flex justify-content-center align-items-center">
                         <RadzenButton Icon="description" Text="Archivos" class=@cssButtonArchivo Style="margin-right:3px" Click=clickArchivo />
-                        <RadzenButton Icon="link" Text="Enlace" class=@cssButtonEnlace Click=clickEnlace Style="margin-left:3px" />
+                        <RadzenButton Icon="link" Text="Enlaces" class=@cssButtonEnlace Click=clickEnlace Style="margin-left:3px" />
                     </div>
                     @if (verArchivos)
                     {
-                    <RadzenUpload ChooseText="Subir Archivos" Style="background-color:none" Complete=complete Error=error Auto="true" Multiple="true" Icon="upload" Url="/Informe/UploadFile" class="d-flex justify-content-center align-items-lg-start">
-                            <RadzenUploadHeader Name="InformeId" Value=@Informe.Id.ToString() />
-                        </RadzenUpload>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <RadzenUpload ChooseText="Subir Archivos" Style="background-color:none" Complete=complete Error=error Auto="true" Multiple="true" Icon="upload" Url="/Informe/UploadFile" class="d-flex justify-content-center align-items-lg-start">
+                                <RadzenUploadHeader Name="InformeId" Value=@Informe.Id.ToString() />
+                            </RadzenUpload>
+                            <RadzenUpload ChooseText="Subir Archivos Privados" Style="background-color:none" Complete=completePrivate Error=error Auto="true" Multiple="true" Icon="upload" Url="/Informe/UploadFilePrivate" class="d-flex justify-content-center align-items-lg-start">
+                                <RadzenUploadHeader Name="InformeId" Value=@Informe.Id.ToString() />
+                            </RadzenUpload>
+                        </div>
                     }
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center">
-                    @if (verArchivos)
+                    @if (verArchivos && lsFiles.Count > 0)
                     {
 
                         <table class="content-table">
@@ -114,6 +119,7 @@
                                 <tr>
                                     <th>Archivo</th>
                                     <th>Visible para el usuario</th>
+                                    <th>Descargar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,6 +129,7 @@
                                     <tr>
                                         <td>@x[0]</td>
                                         <td>@x[1]</td>
+                                        <td>   <RadzenButton Icon="download" Click="Descargar" class="BotonLapiz" /></td>
 
                                     </tr>
                                 }
@@ -131,10 +138,12 @@
                     }
                 </div>
 
-                <br /><br />
+                <br />
+
+                <br />
 
                 <div class="d-flex justify-content-evenly">
-                    <RadzenButton Icon="save" Text="Guardar Informe"  ButtonType="ButtonType.Submit" />
+                    <RadzenButton Icon="save" Text="Guardar Informe" ButtonType="ButtonType.Submit" />
                 </div>
                 @if (!isNew)
                 {

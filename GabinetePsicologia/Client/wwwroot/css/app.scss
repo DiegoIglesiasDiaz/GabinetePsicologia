@@ -86,7 +86,8 @@ body {
             .menuPrincipal {
 
                 .active {
-                    font-size: 26px;
+                    /* font-size: 26px;*/
+                    text-decoration: 3px underline;
                 }
             }
 
@@ -403,10 +404,10 @@ body {
     }
 
     .ojo {
-        height:36px;
-        width:36px;
-        padding:5px;
-        opacity:0.65;
+        height: 36px;
+        width: 36px;
+        padding: 5px;
+        opacity: 0.65;
     }
 
     main {
@@ -519,10 +520,16 @@ body {
             width: 46%;
         }
 
+       .rz-menu-toggle-item {
+            display: flex;
+            justify-content: flex-start;
+        }
+
         .menuPrincipal {
 
             .active {
-                font-size: 20px;
+                /* font-size: 20px;*/
+                text-decoration: 3px underline;
             }
 
             position: absolute;
