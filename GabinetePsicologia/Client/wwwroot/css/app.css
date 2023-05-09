@@ -57,7 +57,9 @@ body .header .headerDiv {
 }
 body .header .headerDiv .menuPrincipal .active {
   /* font-size: 26px;*/
-  text-decoration: 3px underline;
+  /*text-decoration: 3px underline;*/
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--rz-primary);
 }
 body .header .headerDiv .rz-menu:not(.rz-profile-menu) {
   background-color: white;
@@ -123,6 +125,13 @@ body .EditTextArea {
   border: 1px solid var(--rz-primary) !important;
   border-radius: var(--rz-border-radius-4);
   margin-left: 20px;
+}
+body .LoginAndRegisterBox {
+  min-width: min-content;
+  flex-flow: row wrap;
+  overflow: hidden;
+  align-items: stretch;
+  width: 40%;
 }
 body .EditTextArea:focus {
   border: 2px solid var(--rz-primary) !important;
@@ -408,7 +417,7 @@ body .top-row::deep .btn-link:hover {
   }
   body .menuPrincipal .active {
     /* font-size: 20px;*/
-    text-decoration: 3px underline;
+    /*   text-decoration: 3px underline;*/
   }
 }
 @media only screen and (max-width: 600px) {
@@ -454,6 +463,9 @@ body .top-row::deep .btn-link:hover {
   body .ConfiguracionBoton {
     margin-top: 4rem;
   }
+  body .LoginAndRegisterBox {
+    width: 100%;
+  }
 }
 @media only screen and (max-width: 800px) {
   body .MisDatosDiv {
@@ -461,6 +473,9 @@ body .top-row::deep .btn-link:hover {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+  body .LoginAndRegisterBox {
+    width: 75%;
   }
 }
 @media (max-width: 1400px) {
@@ -471,10 +486,16 @@ body .top-row::deep .btn-link:hover {
     align-content: center;
     width: 45rem !important;
   }
+  body .LoginAndRegisterBox {
+    width: 50%;
+  }
 }
 @media (max-width: 1100px) {
   body .ConfiguracionDiv {
     width: 80%;
+  }
+  body .LoginAndRegisterBox {
+    width: 62%;
   }
 }
 @media (max-width: 820px) {
@@ -505,6 +526,16 @@ body .top-row::deep .btn-link:hover {
     justify-content: center;
     align-content: center;
     width: 15rem !important;
+  }
+  body .LoginAndRegisterBox {
+    margin: 0px !important;
+  }
+}
+@media (max-width: 841px) {
+  body .accountMenu {
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: flex-end;
   }
 }
 @media (max-width: 260px) {

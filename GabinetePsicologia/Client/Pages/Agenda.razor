@@ -68,7 +68,7 @@
         <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita" Style="width:70%"
                      StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="1" TodayText="Hoy" 
                      SlotRender=@OnSlotRender AppointmentRender=@OnAppointmentRender SlotSelect=@OnSlotSelect AppointmentSelect="OnAppointmentSelect">
-            <RadzenDayView Text="Dia" TimeFormat="H"/>
+            <RadzenDayView Text="Dia" TimeFormat="HH:mm" />
             <RadzenWeekView Text="Semana" TimeFormat="HH" StartTime="StartDate" EndTime="EndDate" />
             <RadzenMonthView Text="Mes"  />
             <RadzenYearView Text="Año" />

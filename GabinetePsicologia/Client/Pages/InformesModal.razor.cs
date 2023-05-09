@@ -28,6 +28,8 @@ namespace GabinetePsicologia.Client.Pages
        
         public string cssClass = "textArea calendar";
         public bool isEdit = false;
+        public bool isPsicologo = false;
+      
         List<Trastorno> lsTrastornos = new List<Trastorno>();
         List<Paciente> lsPacientes = new List<Paciente>();
         RadzenUpload upload = new RadzenUpload();
@@ -64,12 +66,14 @@ namespace GabinetePsicologia.Client.Pages
             {
                 var pac =  await PacientesServices.GetPacienteByUsername(user.Identity.Name);
                 Informe.PacienteId = pac.Id;
+              
             }
             if (user.IsInRole("Psicologo"))
             {
                 var ps = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
                 Informe.PsicologoId = ps.Id;
                 Informe.PacienteId = Guid.Empty;
+                isPsicologo = true;
             }
 
             lsTrastornos = await TrastornosServices.getTrastornos();
@@ -83,6 +87,11 @@ namespace GabinetePsicologia.Client.Pages
         }
         public void Guardar()
         {
+            if(Informe.PacienteId == Guid.Empty || Informe.TrastornoId == Guid.Empty) {
+                NotificationService.Notify(NotificationSeverity.Error,"Error","Debes de seleccionar al menos un Paciente y un Trastorno");
+                return;
+            }
+
             Informe.UltimaFecha = DateTime.Now;
             Informe.Id = Guid.NewGuid();
             InformesServices.CrearOActalizarInforme(Informe,isNew);
@@ -95,7 +104,15 @@ namespace GabinetePsicologia.Client.Pages
         }
         public void changeTrastorno(object args)
         {
-            Informe.TrastornoId = Guid.Parse(args.ToString());
+            if(args == null)
+            {
+                Informe.TrastornoId = Guid.Empty;
+            }
+            else
+            {
+                Informe.TrastornoId = Guid.Parse(args.ToString());
+            }
+          
         }
         public async void complete(UploadCompleteEventArgs args)
         {
@@ -151,9 +168,37 @@ namespace GabinetePsicologia.Client.Pages
             cssButtonArchivo = "BotonPrincipal";
             verArchivos = false;
         }
-        public void Descargar()
+        public void Descargar(string[] file)
         {
-             InformesServices.Descargar(Informe.Id.ToString());
+            string fileName = file[0];
+            string folder = Informe.Id.ToString();
+            if (file[1] == "No")
+            {
+                folder += "//Private";
+            }
+
+            InformesServices.Descargar(folder, fileName);
+        }
+        public async void Borrar(string[] file)
+        {
+            
+            string fileName = file[0];
+            string folder = Informe.Id.ToString();
+            if (file[1] == "No")
+            {
+                folder += "//Private";
+            }
+            bool? a = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar {fileName}?");
+            if (a!= null && a == true)
+            {
+                lsFiles.Remove(file);
+                InformesServices.BorrarArchivo(folder, fileName);
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Archivo Borrado Correctamente");
+
+            }
+
+            
+
         }
 
     }

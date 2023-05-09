@@ -87,7 +87,9 @@ body {
 
                 .active {
                     /* font-size: 26px;*/
-                    text-decoration: 3px underline;
+                    /*text-decoration: 3px underline;*/
+                    padding-bottom: 5px;
+                    border-bottom: 2px solid var(--rz-primary);
                 }
             }
 
@@ -176,6 +178,13 @@ body {
         margin-left: 20px;
     }
 
+    .LoginAndRegisterBox {
+        min-width: min-content;
+        flex-flow: row wrap;
+        overflow: hidden;
+        align-items: stretch;
+        width: 40%;
+    }
 
     .EditTextArea:focus {
         border: 2px solid var(--rz-primary) !important;
@@ -520,7 +529,7 @@ body {
             width: 46%;
         }
 
-       .rz-menu-toggle-item {
+        .rz-menu-toggle-item {
             display: flex;
             justify-content: flex-start;
         }
@@ -529,7 +538,7 @@ body {
 
             .active {
                 /* font-size: 20px;*/
-                text-decoration: 3px underline;
+                /*   text-decoration: 3px underline;*/
             }
 
             position: absolute;
@@ -590,6 +599,10 @@ body {
         .ConfiguracionBoton {
             margin-top: 4rem;
         }
+
+        .LoginAndRegisterBox {
+            width: 100%;
+        }
     }
 
     @media only screen and (max-width: 800px) {
@@ -598,6 +611,10 @@ body {
             align-items: center;
             justify-content: center;
             flex-direction: column;
+        }
+
+        .LoginAndRegisterBox {
+            width: 75%;
         }
     }
 
@@ -609,12 +626,20 @@ body {
             align-content: center;
             width: 45rem !important;
         }
+
+        .LoginAndRegisterBox {
+            width: 50%;
+        }
     }
 
     @media (max-width: 1100px) {
 
         .ConfiguracionDiv {
             width: 80%;
+        }
+
+        .LoginAndRegisterBox {
+            width: 62%;
         }
     }
 
@@ -648,7 +673,21 @@ body {
             align-content: center;
             width: 15rem !important;
         }
+
+        .LoginAndRegisterBox {
+            margin: 0px !important;
+        }
     }
+
+
+    @media (max-width: 841px) {
+        .accountMenu {
+            flex-direction: column !important;
+            justify-content: center;
+            align-items: flex-end;
+        }
+    }
+
 
     @media (max-width: 260px) {
         .InformeModalTextArea {

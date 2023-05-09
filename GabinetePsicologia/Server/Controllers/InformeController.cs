@@ -71,12 +71,91 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok(lsInformeDto);
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> getInformesById(Guid id)
+        {
+            var lsInforme = _context.Informes.ToList();
+            var lsInformeDto = new List<InformeDto>();
+
+            Psicologo? psicologo = _context.Psicologos.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
+            Paciente? paciente  = _context.Pacientes.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
+
+            if(psicologo == null && paciente == null) return Ok(lsInformeDto);
+
+            foreach (var inf in lsInforme)
+            {
+                bool volver = true;
+                if(psicologo != null && psicologo.Id == inf.PsicologoId)
+                {
+                    volver = false;
+                }
+                if (paciente != null && paciente.Id == inf.PacienteId)
+                {
+                    volver = false;
+                }
+
+                if(volver)continue;
+
+                InformeDto infDto = new InformeDto();
+                infDto.PacienteId = inf.PacienteId;
+                infDto.PsicologoId = inf.PsicologoId;
+                infDto.TrastornoId = inf.TrastornoId;
+                infDto.Id = inf.Id;
+                infDto.Resultados = inf.Resultados;
+                infDto.PlandDeTratamiento = inf.PlandDeTratamiento;
+                infDto.AntecendentesPersonales = inf.AntecendentesPersonales;
+                infDto.EvaluacionPsicologica = inf.EvaluacionPsicologica;
+                infDto.UltimaFecha = inf.UltimaFecha;
+                infDto.Severidad = inf.Severidad;
+                Paciente pacienteInforme = _context.Pacientes.FirstOrDefault(x => x.Id == inf.PacienteId);
+                if (pacienteInforme != null)
+                    infDto.PacienteFullName = pacienteInforme.FullName;
+                Trastorno trastorno = _context.Trastornos.FirstOrDefault(x => x.Id == inf.TrastornoId);
+                if (trastorno != null)
+                {
+                    infDto.TrastornoName = trastorno.Nombre;
+                    infDto.TrastornoTipo = trastorno.Tipo;
+                }
+
+                Psicologo psicologoInforme = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
+                if (psicologoInforme != null)
+                    infDto.PsicologoFullName = psicologoInforme.FullName;
+                lsInformeDto.Add(infDto);
+            }
+
+            return Ok(lsInformeDto);
+        }
+
+
+
         [HttpPost]
         public IActionResult Register([FromBody] Informe trastorno)
         {
             _context.Informes.Add(trastorno);
             _context.SaveChanges();
             return Ok("Informe Añadido");
+        }
+        [HttpPost("Borrar")]
+        public IActionResult Borrar([FromBody] IList<InformeDto> Informes)
+        {
+            foreach (var inf in Informes)
+            {
+                string folder = inf.Id.ToString();
+              
+                string DirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", folder);
+                if (Directory.Exists(DirectoryPath))
+                {
+                    DirectoryInfo di = new DirectoryInfo(DirectoryPath);
+                    di.Delete(true);
+
+                }
+
+                var i = _context.Informes.FirstOrDefault(x => x.Id == inf.Id);
+                if (i != null)
+                    _context.Informes.Remove(i);
+            }
+            _context.SaveChanges();
+            return Ok("Informe Eliminado");
         }
         [HttpPost("Actualizar")]
         public IActionResult Actualizar([FromBody] Informe informe)
@@ -179,11 +258,13 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok(lsFiles);
         }
 
-        [HttpGet("Files/Download/{id}")]
-        public HttpResponseMessage Descargar(string id)
+        [HttpPost("Files/Download")]
+        public HttpResponseMessage Descargar([FromBody]string[] file)
         {
-            string localFilePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id, "CosasTFG.txt");
-            string fileName = "CosasTFG.txt";
+            string folder = file[0];
+            string fileName = file[1];
+            string localFilePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", folder, fileName);
+            
             
           
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -195,27 +276,31 @@ namespace GabinetePsicologia.Server.Controllers
             return response;
 
         }
-        //[HttpPost("Borrar")]
+        [HttpPost("Files/Borrar")]
+        public IActionResult BorrarFiles([FromBody] string[] file)
+        {
+            string folder = file[0];
+            string fileName = file[1];
+            string DirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", folder);
+            if (Directory.Exists(DirectoryPath))
+            {
+                DirectoryInfo di = new DirectoryInfo(DirectoryPath);
+                foreach (var f in di.GetFiles())
+                {
+                    if (f.Name == fileName)
+                    {
+                        f.Delete();
+                        return Ok();
+                    }
+                        
+                }
 
-        //public IActionResult Borrar([FromBody] IList<Trastorno> trastornos)
-        //{
-        //    foreach (var a in trastornos)
-        //    {
-        //        if (_context.Trastornos.Where(x => x.Id != Guid.Empty && x.Id == a.Id).Any())
-        //            _context.Trastornos.Remove(a);
-        //    }
-        //    _context.SaveChanges();
-        //    return Ok("Trastornos Eliminados Correctamente");
-        //}
+            }
 
-        //[HttpPost("Editar")]
+            return Ok();
 
-        //public IActionResult Editar([FromBody] Trastorno trastorno)
-        //{
-        //    _context.Trastornos.Update(trastorno);
-        //    _context.SaveChanges();
-        //    return Ok("Trastorno editado Correctamente");
-        //}
+        }
+      
 
     }
 }

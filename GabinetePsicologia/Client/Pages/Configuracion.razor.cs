@@ -57,8 +57,8 @@ namespace GabinetePsicologia.Client.Pages
             var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", correo } });
             if (chckPasswd != null && chckPasswd)
             {
-                var result = await DialogService.Confirm("¿Quieres Borrar la Cuenta?", "Borrar Cuenta");
-                if(result != null && result==true)
+                bool? result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar tu Cuenta?");
+                if (result != null && result==true)
                 {
                     var claims = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
                     if (claims != null)

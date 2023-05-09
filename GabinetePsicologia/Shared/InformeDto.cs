@@ -27,7 +27,7 @@ namespace GabinetePsicologia.Shared
         public string PacienteFullName { get; set; }
       
         public Guid PsicologoId { get; set; }
-        public string PsicologoFullName { get; set; }
+        public string? PsicologoFullName { get; set; }
         public string EvaluacionPsicologica { get; set; }
         public string PlandDeTratamiento { get; set; }
         public string Resultados { get; set; }

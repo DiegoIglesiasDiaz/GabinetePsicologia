@@ -5,10 +5,13 @@
 @if (isInRole)
 {
     <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
-        <div class="DivBotonTrastornos DivBotonesTop">
-            <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" Click=@(args => { var a = new InformeDto();AbrirModal(new InformeDto(),true); }) class="BotonPrincipal BotonTrastornos" />
-            <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" Click=BorrarInforme class="BotonDelete BotonTrastornos"  />
-        </div>
+        @if (isPsicologo)
+        {
+            <div class="DivBotonTrastornos DivBotonesTop">
+                <RadzenButton Text="Añadir Informe" ButtonStyle="ButtonStyle.Primary" Click=@(args => { var a = new InformeDto();AbrirModal(new InformeDto(),true); }) class="BotonPrincipal BotonTrastornos" />
+                <RadzenButton Text="Borrar Informe" ButtonStyle="ButtonStyle.Primary" Click=BorrarInforme class="BotonDelete BotonTrastornos" />
+            </div>
+        }
         @if (LsInformes != null && LsInformes.Count > 0)
         {
             <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="8"
@@ -26,12 +29,12 @@
                         </Template>
                     </RadzenDataGridColumn>
 
-                    <RadzenDataGridColumn TItem="InformeDto" Property="PacienteFullName" Title="Paciente" />
-                    <RadzenDataGridColumn TItem="InformeDto" Property="PsicologoFullName" Title="Psicólogo" />
-                    <RadzenDataGridColumn TItem="InformeDto" Property="Severidad" Title="Severidad" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="PacienteFullName" Title="Paciente" Visible=isPsicologo />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="PsicologoFullName" Title="Psicólogo" Visible=isPaciente />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="Severidad" Title="Severidad" Visible=isPsicologo />
                     <RadzenDataGridColumn TItem="InformeDto" Property="NombreTipoTrastorno" Title="Trastorno" />
                     <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFechaString2" Title="Última Fecha de Modificación" />
-                    <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false" Visible=isPsicologo>
+                    <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false" Visible=@(isPsicologo || isPaciente)>
                         <Template Context="data">
                             <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data,false); }) class="BotonLapiz" />
                         </Template>

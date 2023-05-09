@@ -4,7 +4,7 @@
 @layout LoginDisplay
 
 <div class="col-12 d-flex p-3 login">
-    <RadzenCard class="d-flex m-5 p-0 rz-border-radius-6 rz-shadow-10" Style="min-width:min-content;flex-flow: row wrap; overflow: hidden; align-items: stretch;">
+    <RadzenCard class="d-flex m-5 p-0 rz-border-radius-6 rz-shadow-10 LoginAndRegisterBox">
         <RadzenCard class="rz-shadow-0 rz-border-radius-0 p-5" style="flex: 1 14rem;">
             <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="mb-4">
                 Registrarse
@@ -12,7 +12,7 @@
             <RadzenTemplateForm Data="@PersonaForm" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
                 <RadzenSteps NextText="Siguiente" PreviousText="Volver">
                     <Steps>
-                        <RadzenStepsItem Text="Creación Usuario">
+                        <RadzenStepsItem Text="">
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Correo</RadzenText>
                                 <RadzenTextBox @bind-Value=PersonaForm.Email Name="name" class="w-100" />
@@ -50,7 +50,7 @@
                             </RadzenCard>
                         </RadzenStepsItem>
 
-                        <RadzenStepsItem Text="Nombre y Apellidos">
+                        <RadzenStepsItem Text=" " >
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nombre</RadzenText>
                                 <RadzenTextBox @bind-Value=PersonaForm.Nombre Name="name" class="w-100" />
@@ -66,7 +66,7 @@
                                 <RadzenTextBox @bind-Value=PersonaForm.Apellido2 Name="Apellido2" class="w-100" />
                             </RadzenCard>
                         </RadzenStepsItem>
-                        <RadzenStepsItem Text="Datos Usuario">
+                        <RadzenStepsItem Text="">
                             <RadzenCard>
                                 <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">NIF</RadzenText>
                                 <RadzenTextBox @bind-Value=PersonaForm.NIF Name="NIF" class="w-100" />

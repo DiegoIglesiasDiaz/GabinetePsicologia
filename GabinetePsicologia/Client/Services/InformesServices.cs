@@ -1,5 +1,6 @@
 ﻿using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 using System.Net.Http.Json;
 
 namespace GabinetePsicologia.Client.Services
@@ -19,6 +20,13 @@ namespace GabinetePsicologia.Client.Services
         public async Task<List<InformeDto>> GetInformes()
         {
             var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>("/Informe");
+            return inf;
+
+        }
+        public async Task<List<InformeDto>> GetInformesById(Guid id)
+        {
+
+            var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>($"/Informe/{id}");
             return inf;
 
         }
@@ -56,10 +64,23 @@ namespace GabinetePsicologia.Client.Services
             return inf;
 
         }
-        public async void Descargar(string InformeId)
+        public async void BorrarInforme(IList<InformeDto> inf)
         {
-            await _httpClient.GetFromJsonAsync<object>($"/Informe/Files/Download/{InformeId}");
-           
+            await _httpClient.PostAsJsonAsync("/Informe/Borrar", inf);
+
+        }
+        public async void Descargar(string InformeId, string fileName)
+        {
+
+            var fileInfo = new string[] { InformeId, fileName };
+            await _httpClient.PostAsJsonAsync($"/Informe/Files/Download",fileInfo);
+
+        }
+        public async void BorrarArchivo(string InformeId, string fileName)
+        {
+
+            var fileInfo = new string[] { InformeId, fileName };
+            await _httpClient.PostAsJsonAsync($"/Informe/Files/Borrar", fileInfo);
 
         }
     }

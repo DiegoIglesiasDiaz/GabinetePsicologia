@@ -15,38 +15,36 @@ namespace GabinetePsicologia.Client.Pages
         IList<InformeDto> LsInformes;
         IList<InformeDto> selectedInforme;
         [Inject] private NotificationService NotificationService { get; set; } 
+        [Inject] private UsuarioServices UsuarioServices { get; set; } 
         [Inject] private DialogService DialogService { get; set; } 
-        [Inject] NavigationManager NavigationManager { get; set; }
-        [Inject] PsicologoServices PsicologoServices { get; set; }
-        [Inject] PacientesServices PacientesServices { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-        [Inject] UsuarioServices UsuarioServices { get; set; }
         [Inject] InformesServices InformesServices { get; set; }
         public bool isInRole = false;
         public bool isPsicologo = false;
+        public bool isPaciente = false;
         RadzenDataGrid<InformeDto> grid;
-        List<Psicologo> lsPsicologos = new List<Psicologo>();
-        List<Paciente> lsPacientes = new List<Paciente>();
-        Psicologo SelectedPsciologo;
-        Paciente SelectedPaciente;
+
         ClaimsPrincipal? user;
-        List<InformeDto> data = new List<InformeDto>();
-        List<InformeDto> allListInforme = new List<InformeDto>();
+     
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user.IsInRole("Paciente") || user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
             {
+                PersonaDto Persona = await  UsuarioServices.getPersonaByUsername(user.Identity.Name);
                 if (user.IsInRole("Psicologo"))
                 {
                     isPsicologo = true;
+                   
                 }
+                if (user.IsInRole("Paciente"))
+                {
+                    isPaciente = true;
+                    
+                }            
                 isInRole = true;
-
-                lsPsicologos = await PsicologoServices.getPsicologos();
-                lsPacientes = await PacientesServices.getPacientes();
-                LsInformes = await InformesServices.GetInformes();
+                LsInformes = await InformesServices.GetInformesById(Persona.Id);
             } 
         }
       
@@ -67,13 +65,23 @@ namespace GabinetePsicologia.Client.Pages
                     NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Creado Correctamente");
                 }
                 await grid.Reload();
-
-
             }
         }
         public void BorrarInforme()
         {
-
+             if (selectedInforme  == null|| selectedInforme.Count == 0)
+            {
+                NotificationService.Notify(NotificationSeverity.Warning, "", "No has seleccionado ningún Informe.");
+                return;
+            }
+            InformesServices.BorrarInforme(selectedInforme);
+            foreach(var inf in selectedInforme)
+            {
+                LsInformes.Remove(inf);
+            }
+            selectedInforme.Clear();
+            grid.Reload();
+            NotificationService.Notify(NotificationSeverity.Success, "Ok", "Borrado correctamente.");
         }
 
     }
