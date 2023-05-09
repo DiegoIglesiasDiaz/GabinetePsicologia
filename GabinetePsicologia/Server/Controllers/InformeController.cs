@@ -78,14 +78,14 @@ namespace GabinetePsicologia.Server.Controllers
             var lsInformeDto = new List<InformeDto>();
 
             Psicologo? psicologo = _context.Psicologos.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
-            Paciente? paciente  = _context.Pacientes.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
+            Paciente? paciente = _context.Pacientes.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
 
-            if(psicologo == null && paciente == null) return Ok(lsInformeDto);
+            if (psicologo == null && paciente == null) return Ok(lsInformeDto);
 
             foreach (var inf in lsInforme)
             {
                 bool volver = true;
-                if(psicologo != null && psicologo.Id == inf.PsicologoId)
+                if (psicologo != null && psicologo.Id == inf.PsicologoId)
                 {
                     volver = false;
                 }
@@ -94,7 +94,7 @@ namespace GabinetePsicologia.Server.Controllers
                     volver = false;
                 }
 
-                if(volver)continue;
+                if (volver) continue;
 
                 InformeDto infDto = new InformeDto();
                 infDto.PacienteId = inf.PacienteId;
@@ -141,7 +141,7 @@ namespace GabinetePsicologia.Server.Controllers
             foreach (var inf in Informes)
             {
                 string folder = inf.Id.ToString();
-              
+
                 string DirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", folder);
                 if (Directory.Exists(DirectoryPath))
                 {
@@ -259,21 +259,20 @@ namespace GabinetePsicologia.Server.Controllers
         }
 
         [HttpPost("Files/Download")]
-        public HttpResponseMessage Descargar([FromBody]string[] file)
+        public IActionResult Descargar([FromBody] string[] file)
         {
             string folder = file[0];
             string fileName = file[1];
             string localFilePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", folder, fileName);
-            
-            
-          
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            response.Content.Headers.ContentDisposition.FileName = fileName;
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/*");
+            if(System.IO.File.Exists(localFilePath))
+            {
+                var bytes = System.IO.File.ReadAllBytes(localFilePath);
+                //FileStream fs = new FileStream(localFilePath, FileMode.Open);
+                return File(bytes, "application/octec-stream", fileName);
+            }
 
-            return response;
+            return Content("Archivo No Encotrado");
+
 
         }
         [HttpPost("Files/Borrar")]
@@ -292,7 +291,7 @@ namespace GabinetePsicologia.Server.Controllers
                         f.Delete();
                         return Ok();
                     }
-                        
+
                 }
 
             }
@@ -300,7 +299,7 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok();
 
         }
-      
+
 
     }
 }
