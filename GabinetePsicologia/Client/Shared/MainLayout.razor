@@ -4,8 +4,8 @@
 <RadzenContextMenu />
 <RadzenTooltip />
 <style>
-    .afoot{
-        padding-right:25px;
+    .afoot {
+        padding-right: 25px;
     }
 </style>
 <RadzenLayout id="@(@NavigationManager.Uri.Equals(@NavigationManager.BaseUri) ? "Home" : Path.GetFileName(NavigationManager.Uri))">
@@ -90,11 +90,14 @@
                                     <span class="rz-navigation-item-text">AGENDA</span>
                                 </Template>
                             </RadzenMenuItem>
-                            <RadzenMenuItem Path="/Informes">
-                                <Template>
-                                    <span class="rz-navigation-item-text">INFORMES</span>
-                                </Template>
-                            </RadzenMenuItem>
+                            @if (context.User.IsInRole("Psicologo"))
+                            {
+                                <RadzenMenuItem Path="/Informes">
+                                    <Template>
+                                        <span class="rz-navigation-item-text">INFORMES</span>
+                                    </Template>
+                                </RadzenMenuItem>
+                            }
                             <RadzenMenuItem Path="/Usuarios">
                                 <Template>
                                     <span class="rz-navigation-item-text">USUARIOS</span>
@@ -111,7 +114,7 @@
             </RadzenMenu>
 
 
-            <RadzenMenu class="accountMenu" Responsive=false >
+            <RadzenMenu class="accountMenu" Responsive=false>
                 <AuthorizeView>
                     <Authorized>
                         @if (Name == null)
