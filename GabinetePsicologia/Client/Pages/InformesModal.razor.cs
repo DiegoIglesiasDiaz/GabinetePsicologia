@@ -66,7 +66,7 @@ namespace GabinetePsicologia.Client.Pages
             {
                 var pac =  await PacientesServices.GetPacienteByUsername(user.Identity.Name);
                 Informe.PacienteId = pac.Id;
-              
+                lsFiles = await InformesServices.ListFilesPaciente(Informe.Id.ToString());
             }
             if (user.IsInRole("Psicologo"))
             {
@@ -74,11 +74,12 @@ namespace GabinetePsicologia.Client.Pages
                 Informe.PsicologoId = ps.Id;
                 Informe.PacienteId = Guid.Empty;
                 isPsicologo = true;
+                lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
             }
 
             lsTrastornos = await TrastornosServices.getTrastornos();
             lsPacientes = await PacientesServices.getPacientes();
-            lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
+           
         }
 
         protected async override void OnParametersSet()
@@ -87,15 +88,19 @@ namespace GabinetePsicologia.Client.Pages
         }
         public void Guardar()
         {
-            if(Informe.PacienteId == Guid.Empty || Informe.TrastornoId == Guid.Empty) {
-                NotificationService.Notify(NotificationSeverity.Error,"Error","Debes de seleccionar al menos un Paciente y un Trastorno");
-                return;
+            if (isNew)
+            {
+                if (Informe.PacienteId == Guid.Empty || Informe.TrastornoId == Guid.Empty)
+                {
+                    NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar al menos un Paciente y un Trastorno");
+                    return;
+                }
             }
+            
 
             Informe.UltimaFecha = DateTime.Now;
             Informe.Id = Guid.NewGuid();
             InformesServices.CrearOActalizarInforme(Informe,isNew);
-           
             DialogService.Close(Informe);
         }
         public void changePaciente(object args)

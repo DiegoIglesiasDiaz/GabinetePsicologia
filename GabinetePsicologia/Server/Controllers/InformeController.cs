@@ -257,6 +257,28 @@ namespace GabinetePsicologia.Server.Controllers
             }
             return Ok(lsFiles);
         }
+        [HttpGet("FilesPaciente/{id}")]
+        public IActionResult GetFilesPaciente(string id)
+        {
+            var lsFiles = new List<string[]>();
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id);
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach (var f in di.GetFiles())
+                {
+                    var a = new String[]
+                    {
+                    f.Name,
+                    "Si"
+                    };
+                    lsFiles.Add(a);
+                }
+
+            }
+            
+            return Ok(lsFiles);
+        }
 
         [HttpPost("Files/Download")]
         public IActionResult Descargar([FromBody] string[] file)

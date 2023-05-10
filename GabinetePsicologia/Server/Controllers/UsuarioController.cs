@@ -5,6 +5,10 @@ using GabinetePsicologia.Server.Data;
 using GabinetePsicologia.Server.Data.Migrations;
 using GabinetePsicologia.Server.Models;
 using GabinetePsicologia.Shared;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Services;
 using MessagePack;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -535,7 +539,47 @@ namespace GabinetePsicologia.Server.Controllers
                 return BadRequest("Contraseña Incorrecta");
             }
         }
-      
+
+        [HttpGet("GoogleCalendar")]
+        public async Task<IActionResult> EventGoogleCalendar()
+        {
+            var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    new ClientSecrets { ClientId = "488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com"
+                                        , ClientSecret = "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"
+                    },
+                    new[] { CalendarService.Scope.Calendar },
+                    "diegoiglesiasdiaz11@gmail.com",
+                    CancellationToken.None);
+
+            var service = new CalendarService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "GabinetePsicologia"
+            });
+
+            var myEvent = new Event
+            {
+                Summary = "Prueba",
+                Location = "Madrid",
+                Start = new EventDateTime
+                {
+                    DateTime = DateTime.Now.AddHours(1),
+                    TimeZone = "Europe/Madrid"
+                },
+                End = new EventDateTime
+                {
+                    DateTime = DateTime.Now.AddHours(2),
+                    TimeZone = "Europe/Madrid"
+                },
+                Description = "This is a test event"
+            };
+
+            var calendarId = "primary";
+            var request = service.Events.Insert(myEvent, calendarId);
+            var result = await request.ExecuteAsync();
+
+            return Ok("Biuen");
+        }
 
     }
 }

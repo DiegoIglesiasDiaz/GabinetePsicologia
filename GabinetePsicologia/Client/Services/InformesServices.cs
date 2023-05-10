@@ -1,4 +1,5 @@
-﻿using GabinetePsicologia.Shared;
+﻿using GabinetePsicologia.Client.Pages;
+using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Net.Http.Json;
@@ -64,6 +65,12 @@ namespace GabinetePsicologia.Client.Services
             return inf;
 
         }
+        public async Task<List<string[]>> ListFilesPaciente(string InformeId)
+        {
+            var inf = await _httpClient.GetFromJsonAsync<List<string[]>>($"/Informe/FilesPaciente/{InformeId}");
+            return inf;
+
+        }
         public async void BorrarInforme(IList<InformeDto> inf)
         {
             await _httpClient.PostAsJsonAsync("/Informe/Borrar", inf);
@@ -82,6 +89,11 @@ namespace GabinetePsicologia.Client.Services
             var fileInfo = new string[] { InformeId, fileName };
             await _httpClient.PostAsJsonAsync($"/Informe/Files/Borrar", fileInfo);
 
+        }
+
+        internal async Task GoogleCalendarAsync()
+        {
+            var a = await _httpClient.GetFromJsonAsync<string>($"/Usuario/GoogleCalendar");
         }
     }
 }

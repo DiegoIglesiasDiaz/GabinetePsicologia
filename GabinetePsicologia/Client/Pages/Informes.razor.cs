@@ -50,22 +50,23 @@ namespace GabinetePsicologia.Client.Pages
       
         public async void AbrirModal(InformeDto informe, bool isNew)
         {
-            InformeDto? a = await DialogService.OpenAsync<InformesModal>("Informe", new Dictionary<string, object> { { "Informe", informe }, { "isNew", isNew },{ "user", user } }, new DialogOptions() { Height="90%",Width="90%"} );
-            if(a != null )
-            {               
-                if (a.Id != Guid.Empty)
-                {
-                    await grid.UpdateRow(a);
-                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Actualizado Correctamente");
-                }
-                   
-                else
-                {
-                    LsInformes.Add(informe);
-                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Creado Correctamente");
-                }
-                await grid.Reload();
-            }
+            InformesServices.GoogleCalendarAsync();
+            //InformeDto? a = await DialogService.OpenAsync<InformesModal>("Informe", new Dictionary<string, object> { { "Informe", informe }, { "isNew", isNew },{ "user", user } }, new DialogOptions() { Height="90%",Width="90%"} );
+            //if(a != null )
+            //{               
+            //    if (a.Id != Guid.Empty)
+            //    {
+            //        await grid.UpdateRow(a);
+            //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Actualizado Correctamente");
+            //    }
+
+            //    else
+            //    {
+            //        LsInformes.Add(informe);
+            //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Creado Correctamente");
+            //    }
+            //    await grid.Reload();
+            //}
         }
         public void BorrarInforme()
         {

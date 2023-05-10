@@ -1,3 +1,0 @@
-
-* Crear Informes
-* Doble Autenticación
