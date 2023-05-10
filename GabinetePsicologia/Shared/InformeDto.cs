@@ -28,10 +28,10 @@ namespace GabinetePsicologia.Shared
       
         public Guid PsicologoId { get; set; }
         public string? PsicologoFullName { get; set; }
-        public string EvaluacionPsicologica { get; set; }
-        public string PlandDeTratamiento { get; set; }
-        public string Resultados { get; set; }
-        public string AntecendentesPersonales { get; set; }
+        public string? EvaluacionPsicologica { get; set; }
+        public string? PlandDeTratamiento { get; set; }
+        public string? Resultados { get; set; }
+        public string? AntecendentesPersonales { get; set; }
         public DateTime UltimaFecha { get; set; }
         public string UltimaFechaString {
             get

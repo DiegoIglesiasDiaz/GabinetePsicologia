@@ -50,6 +50,7 @@ namespace GabinetePsicologia.Client.Services
             };
             if (isNew)
             {
+               
                 await _httpClient.PostAsJsonAsync("/Informe", inf);
             }
             else

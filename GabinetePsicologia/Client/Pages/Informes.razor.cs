@@ -14,6 +14,7 @@ namespace GabinetePsicologia.Client.Pages
         bool allowRowSelectOnRowClick = false;
         IList<InformeDto> LsInformes;
         IList<InformeDto> selectedInforme;
+        [Inject] private NavigationManager NavigationManager { get; set; } 
         [Inject] private NotificationService NotificationService { get; set; } 
         [Inject] private UsuarioServices UsuarioServices { get; set; } 
         [Inject] private DialogService DialogService { get; set; } 
@@ -56,16 +57,23 @@ namespace GabinetePsicologia.Client.Pages
             {
                 if (a.Id != Guid.Empty)
                 {
+                   
                     await grid.UpdateRow(a);
                     NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Actualizado Correctamente");
+                    await grid.Reload();
                 }
-
                 else
                 {
+                    a.Id = Guid.NewGuid();
+                    InformesServices.CrearOActalizarInforme(a, true);
                     LsInformes.Add(informe);
                     NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Creado Correctamente");
-                }
-                await grid.Reload();
+                    if (LsInformes.Count == 1)
+                        NavigationManager.NavigateTo("/Informes", true);
+                    else
+                        await grid.Reload();
+                }    
+                 
             }
         }
         public void BorrarInforme()

@@ -65,16 +65,26 @@ namespace GabinetePsicologia.Client.Pages
             if (user.IsInRole("Paciente"))
             {
                 var pac =  await PacientesServices.GetPacienteByUsername(user.Identity.Name);
-                Informe.PacienteId = pac.Id;
-                lsFiles = await InformesServices.ListFilesPaciente(Informe.Id.ToString());
+                if (isNew)
+                {
+                    Informe.PacienteId = pac.Id;
+                    Informe.PsicologoFullName = pac.FullName;
+                }
+                 if(!isNew)
+                    lsFiles = await InformesServices.ListFilesPaciente(Informe.Id.ToString());
             }
             if (user.IsInRole("Psicologo"))
             {
                 var ps = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
-                Informe.PsicologoId = ps.Id;
-                Informe.PacienteId = Guid.Empty;
+                if (isNew)
+                {
+                    Informe.PsicologoId = ps.Id;
+                    Informe.PacienteId = Guid.Empty;
+                }
+                    
                 isPsicologo = true;
-                lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
+                if(!isNew)
+                    lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
             }
 
             lsTrastornos = await TrastornosServices.getTrastornos();
@@ -95,13 +105,15 @@ namespace GabinetePsicologia.Client.Pages
                     NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar al menos un Paciente y un Trastorno");
                     return;
                 }
-                Informe.Id = Guid.NewGuid();
+                Informe.PacienteFullName = lsPacientes.FirstOrDefault(x => x.Id == Informe.PacienteId).FullName;
+                Informe.TrastornoName = lsTrastornos.FirstOrDefault(x => x.Id == Informe.TrastornoId).Nombre;
+                Informe.TrastornoTipo = lsTrastornos.FirstOrDefault(x => x.Id == Informe.TrastornoId).Tipo;
             }
-            
 
+           
             Informe.UltimaFecha = DateTime.Now;
-            
-            InformesServices.CrearOActalizarInforme(Informe,isNew);
+            if(!isNew)
+                InformesServices.CrearOActalizarInforme(Informe,isNew);
             DialogService.Close(Informe);
         }
         public void changePaciente(object args)
