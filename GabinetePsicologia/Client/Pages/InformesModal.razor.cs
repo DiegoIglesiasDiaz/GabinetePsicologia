@@ -95,11 +95,12 @@ namespace GabinetePsicologia.Client.Pages
                     NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar al menos un Paciente y un Trastorno");
                     return;
                 }
+                Informe.Id = Guid.NewGuid();
             }
             
 
             Informe.UltimaFecha = DateTime.Now;
-            Informe.Id = Guid.NewGuid();
+            
             InformesServices.CrearOActalizarInforme(Informe,isNew);
             DialogService.Close(Informe);
         }

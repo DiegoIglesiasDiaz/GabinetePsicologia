@@ -91,9 +91,5 @@ namespace GabinetePsicologia.Client.Services
 
         }
 
-        internal async Task GoogleCalendarAsync()
-        {
-            var a = await _httpClient.GetFromJsonAsync<string>($"/Usuario/GoogleCalendar");
-        }
     }
 }
