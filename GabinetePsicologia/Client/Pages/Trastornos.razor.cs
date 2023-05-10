@@ -16,6 +16,7 @@ namespace GabinetePsicologia.Client.Pages
         RadzenDataGrid<Trastorno> grid;
         Trastorno formTrastorno = new Trastorno();
         public bool isInRole;
+        [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private TrastornosServices TrastornosServices { get; set; }
         [Inject] private DialogService DialogService { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider{ get; set; }
@@ -40,6 +41,7 @@ namespace GabinetePsicologia.Client.Pages
                 formTrastorno.Id = Guid.NewGuid();
                 TrastornosServices.AñadirTrastorno(formTrastorno);
                 LsTrastornos.Add(formTrastorno);
+                if (LsTrastornos.Count == 1) NavigationManager.NavigateTo("/Trastornos", true);
                 NotificationService.Notify(NotificationSeverity.Success, "Ok", "Trastorno añadido correctamente.");
             }
             else{

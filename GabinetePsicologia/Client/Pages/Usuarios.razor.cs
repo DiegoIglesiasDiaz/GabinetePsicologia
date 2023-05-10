@@ -177,7 +177,10 @@ namespace GabinetePsicologia.Client.Pages
                 if (await UsuarioServices.RegisterPersona(data))
                 {
                     LsUsuarios.Add(data);
-                    grid.Reload();
+                    if (LsUsuarios.Count == 1) 
+                        NavigationManager.NavigateTo("/Usuarios", true);
+                    else
+                        grid.Reload();
                     NotificationService.Notify(NotificationSeverity.Success, "Ok", "Usuario creado correctamente.");
 
                 }
