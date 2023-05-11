@@ -471,7 +471,7 @@ body .top-row::deep .btn-link:hover {
     width: 100%;
   }
   body .marginTop1em {
-    margin-top: 1em;
+    margin-top: 1em !important;
   }
 }
 @media only screen and (max-width: 800px) {
