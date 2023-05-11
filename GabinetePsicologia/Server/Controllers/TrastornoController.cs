@@ -20,18 +20,18 @@ namespace GabinetePsicologia.Server.Controllers
     [Authorize]
     [Route("[controller]")]
     [ApiController]
-  
+
     public class TrastornoController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-       
+
         public TrastornoController(ApplicationDbContext context)
         {
             _context = context;
-            
+
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> get()
         {
@@ -48,13 +48,23 @@ namespace GabinetePsicologia.Server.Controllers
 
         [HttpPost("Borrar")]
 
-        public IActionResult Borrar([FromBody]IList<Trastorno> trastornos)
+        public IActionResult Borrar([FromBody] IList<Trastorno> trastornos)
         {
             foreach (var a in trastornos)
             {
-             if(_context.Trastornos.Where(x=> x.Id!=Guid.Empty && x.Id == a.Id).Any())
-                _context.Trastornos.Remove(a);
+                if (_context.Trastornos.Where(x => x.Id != Guid.Empty && x.Id == a.Id).Any())
+                {
+                    _context.Trastornos.Remove(a);
+                    var LsinfTrst = _context.InformeTrastorno.Where(x => x.TrastornoId == a.Id).ToList();
+                    foreach (var infTrst in LsinfTrst)
+                    {
+                        _context.Remove(infTrst);
+                    }
+                }
+
+
             }
+
             _context.SaveChanges();
             return Ok("Trastornos Eliminados Correctamente");
         }

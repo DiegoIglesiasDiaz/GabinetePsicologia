@@ -81,6 +81,10 @@ body .btn-primary {
   background-color: #1543f6;
   border-color: #1543f6;
 }
+body .Buttonfileupload {
+  background-color: var(--rz-upload-choose-background-color) !important;
+  color: var(--rz-upload-choose-color) !important;
+}
 body .rz-fileupload-buttonbar {
   background-color: none;
   margin-top: 1rem;

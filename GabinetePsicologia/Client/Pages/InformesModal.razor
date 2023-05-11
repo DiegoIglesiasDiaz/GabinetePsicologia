@@ -52,21 +52,53 @@
                     </div>
                     <hr />
                     <div class="m-2">
-                        <div class="field-container">
+                        <div class="field-container flex-column">
                             @if (!user.IsInRole("Paciente"))
                             {
-                                if (isNew)
-                                {
+                                <div class="d-flex flex-column justify-content-center align-items-center ">
                                     <RadzenDropDown TValue="GabinetePsicologia.Shared.Trastorno" Data=@lsTrastornos FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
-                                        TextProperty="NombreTipo" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Trastorno" Change="@(args => changeTrastorno(args))" />
-                                }
-                                else
+                                            @ref=DropDownTrastorno TextProperty="NombreTipo" Style="margin:10px" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Trastorno" Change="@(args => changeTrastorno(args))" />
+                                    <div class="d-flex justify-content-evenly align-items-center " s>
+                                        <RadzenLabel Text="Severidad:" />
+                                        <RadzenNumeric Min="1" Max="5" Visible=isPsicologo @bind-Value=@NewSeveridad Style="border: 1px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;margin:10px;width:20%" />
+                                    </div>
+                                    <RadzenButton Click="GuardarTrastorno" Icon="save" class="Buttonfileupload" Text="Guardar Trastorno" Style="margin:10px" />
+                                </div>
+                                @if (Informe.lsInformeTrastornos.Count > 0)
                                 {
-                                    <RadzenText Style="margin: 0px;" TextStyle="TextStyle.Body1">Trastorno: &nbsp; &nbsp; @Informe.TrastornoName &nbsp; (@Informe.TrastornoTipo)</RadzenText>
+                                    <div>
+                                        <table class="content-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Trastorno</th>
+                                                    <th>Tipo</th>
+                                                    <th>Severidad</th>
+                                                    <th>Editar</th>
+                                                    <th>Eliminar</th>
 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (var x in Informe.lsInformeTrastornos)
+                                                {
+                                                    <tr>
+                                                        <td>@x.TrastornoName</td>
+                                                        <td>@x.TrastornoTipo</td>
+                                                        @if(isEditSeveridad && IdTrastornoEdit == x.Id){
+                                                            <td><RadzenNumeric Min="1" Max="5" Visible=isPsicologo @bind-Value=@x.Severidad Style="border: 1px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;width:30%;margin-top: 10px;" /></td>
+                                                            <td><RadzenButton Icon="save" Click="() => GuardarSeveridad(x.Id)" class="BotonLapiz" /></td>
+                                                        }else{
+                                                              <td>@x.Severidad</td>
+                                                         <td><RadzenButton Icon="edit" Click="() => EditSeveridad(x.Id)" class="BotonLapiz" /></td>
+                                                        }
+                                                        <td><RadzenButton Icon="delete" Click="() =>BorrarTrastorno(x) " class="BotonLapiz" /></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 }
-                                <p style="margin: 0;">&nbsp; &nbsp; Severidad:&nbsp; &nbsp;</p>
-                                <RadzenNumeric Min="1" Max="5" Visible=isPsicologo @bind-Value=@Informe.Severidad Style="border: 1px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;" />
                             }
                         </div>
                     </div>
@@ -134,7 +166,7 @@
                         }
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center flex-column">
                         @if (verArchivos && lsFiles.Count > 0)
                         {
 
@@ -175,23 +207,79 @@
                                 </tbody>
                             </table>
                         }
+                        @if (!verArchivos)
+                        {
+                            <div style="margin:1em">
+                                <RadzenTextBox @bind-Value=EnlaceTextBox />
+                                <RadzenButton Click="subirEnlace" Icon="upload" class="Buttonfileupload" Text="Subir Enlace" />
+                            </div>
+                            @if (isPsicologo)
+                            {
+                                <div style="margin:1em">
+                                    <RadzenTextBox @bind-Value=EnlacePrivateTextBox />
+                                    <RadzenButton Click="subirEnlacePrivate" Icon="upload" class="Buttonfileupload" Text="Subir Enlace Privado" />
+                                </div>
+                            }
+                            @if (lsEnlaces.Count > 0)
+                            {
+                                <table class="content-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Enlace</th>
+                                            @if (isPsicologo)
+                                            {
+                                                <th>Visible para el usuario</th>
+                                            }
+                                            <th>Enlace</th>
+                                            @if (isPsicologo)
+                                            {
+                                                <th>Eliminar</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var x in lsEnlaces)
+                                        {
+                                            <tr>
+                                                <td>@x[0]</td>
+                                                @if (isPsicologo)
+                                                {
+                                                    <td>@x[1]</td>
+                                                }
+                                                <td>   <a href=@x[0] target="_blank"><RadzenButton Icon="link" class="BotonLapiz" /></a></td>
+                                                @if (isPsicologo)
+                                                {
+                                                    <td>   <RadzenButton Icon="delete" Click="() => BorrarEnlace(x)" class=" BotonLapiz" /></td>
+                                                }
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        }
                     </div>
                 }
                 else
                 {
                     <div class="d-flex justify-content-center align-items-center">
-                        <p>para añadir archivos tienes que guardar antes el Informe</p>
+                        <p>para añadir archivos o enlaces tienes que guardar antes el Informe</p>
                     </div>
                 }
                 <br />
 
                 <br />
-                @if (isPsicologo)
-                {
-                    <div class="d-flex justify-content-evenly">
-                        <RadzenButton Icon="save" Text="Guardar Informe" ButtonType="ButtonType.Submit" />
-                    </div>
-                }
+
+                <div class="d-flex justify-content-evenly">
+                    <RadzenButton Text="Cerrar Informe" Click="CloseModal" class="BotonDelete" />
+                    @if (isPsicologo)
+                    {
+                        <RadzenButton Text="Guardar Informe" class="BotonPrincipal" ButtonType="ButtonType.Submit" />
+                    }
+                </div>
+
                 @if (!isNew)
                 {
                     <br />

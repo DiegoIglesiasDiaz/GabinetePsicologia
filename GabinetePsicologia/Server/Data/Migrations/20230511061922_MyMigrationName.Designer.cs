@@ -4,6 +4,7 @@ using GabinetePsicologia.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GabinetePsicologia.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230511061922_MyMigrationName")]
+    partial class MyMigrationName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,9 +306,6 @@ namespace GabinetePsicologia.Server.Data.Migrations
                     b.Property<string>("Enlaces")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EnlacesPrivate")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EvaluacionPsicologica")
                         .HasColumnType("nvarchar(max)");
 
@@ -322,40 +321,18 @@ namespace GabinetePsicologia.Server.Data.Migrations
                     b.Property<string>("Resultados")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UltimaFecha")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Informes");
-                });
-
-            modelBuilder.Entity("GabinetePsicologia.Shared.InformeTrastorno", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InformeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Severidad")
                         .HasColumnType("int");
 
                     b.Property<Guid>("TrastornoId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TrastornoName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TrastornoTipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("UltimaFecha")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("InformeTrastorno");
+                    b.ToTable("Informes");
                 });
 
             modelBuilder.Entity("GabinetePsicologia.Shared.Paciente", b =>

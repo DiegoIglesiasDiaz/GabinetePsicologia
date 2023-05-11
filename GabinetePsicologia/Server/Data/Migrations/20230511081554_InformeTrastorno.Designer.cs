@@ -4,6 +4,7 @@ using GabinetePsicologia.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GabinetePsicologia.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230511081554_InformeTrastorno")]
+    partial class InformeTrastorno
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,6 +324,12 @@ namespace GabinetePsicologia.Server.Data.Migrations
                     b.Property<string>("Resultados")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Severidad")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("TrastornoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("UltimaFecha")
                         .HasColumnType("datetime2");
 
@@ -344,14 +352,6 @@ namespace GabinetePsicologia.Server.Data.Migrations
 
                     b.Property<Guid>("TrastornoId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TrastornoName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TrastornoTipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

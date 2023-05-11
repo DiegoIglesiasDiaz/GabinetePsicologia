@@ -31,8 +31,7 @@
 
                     <RadzenDataGridColumn TItem="InformeDto" Property="PacienteFullName" Title="Paciente" Visible=isPsicologo />
                     <RadzenDataGridColumn TItem="InformeDto" Property="PsicologoFullName" Title="Psicólogo" Visible=isPaciente />
-                    <RadzenDataGridColumn TItem="InformeDto" Property="Severidad" Title="Severidad" Visible=isPsicologo />
-                    <RadzenDataGridColumn TItem="InformeDto" Property="NombreTipoTrastorno" Title="Trastorno" />
+                    <RadzenDataGridColumn TItem="InformeDto" Property="NombreTrastornos" Title="Trastorno" />
                     <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFechaString2" Title="Última Fecha de Modificación" />
                     <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false" Visible=@(isPsicologo || isPaciente)>
                         <Template Context="data">

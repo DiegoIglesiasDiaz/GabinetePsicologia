@@ -120,6 +120,11 @@ body {
         border-color: $prim-color;
     }
 
+    .Buttonfileupload {
+        background-color: var(--rz-upload-choose-background-color) !important;
+        color: var(--rz-upload-choose-color) !important;
+    }
+
     .rz-fileupload-buttonbar {
         background-color: none;
         margin-top: 1rem;

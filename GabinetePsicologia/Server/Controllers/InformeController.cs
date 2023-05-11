@@ -13,7 +13,7 @@ using Radzen;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-
+using InformeTrastorno = GabinetePsicologia.Shared.InformeTrastorno;
 using Paciente = GabinetePsicologia.Shared.Paciente;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -44,23 +44,18 @@ namespace GabinetePsicologia.Server.Controllers
                 InformeDto infDto = new InformeDto();
                 infDto.PacienteId = inf.PacienteId;
                 infDto.PsicologoId = inf.PsicologoId;
-                infDto.TrastornoId = inf.TrastornoId;
                 infDto.Id = inf.Id;
                 infDto.Resultados = inf.Resultados;
                 infDto.PlandDeTratamiento = inf.PlandDeTratamiento;
                 infDto.AntecendentesPersonales = inf.AntecendentesPersonales;
                 infDto.EvaluacionPsicologica = inf.EvaluacionPsicologica;
                 infDto.UltimaFecha = inf.UltimaFecha;
-                infDto.Severidad = inf.Severidad;
+                infDto.Enlaces = inf.Enlaces;
+                infDto.EnlacesPrivate = inf.EnlacesPrivate;
                 Paciente paciente = _context.Pacientes.FirstOrDefault(x => x.Id == inf.PacienteId);
                 if (paciente != null)
                     infDto.PacienteFullName = paciente.FullName;
-                Trastorno trastorno = _context.Trastornos.FirstOrDefault(x => x.Id == inf.TrastornoId);
-                if (trastorno != null)
-                {
-                    infDto.TrastornoName = trastorno.Nombre;
-                    infDto.TrastornoTipo = trastorno.Tipo;
-                }
+                infDto.lsInformeTrastornos = _context.InformeTrastorno.Where(x => x.InformeId == infDto.Id).ToList();
 
                 Psicologo psicologo = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
                 if (psicologo != null)
@@ -99,23 +94,20 @@ namespace GabinetePsicologia.Server.Controllers
                 InformeDto infDto = new InformeDto();
                 infDto.PacienteId = inf.PacienteId;
                 infDto.PsicologoId = inf.PsicologoId;
-                infDto.TrastornoId = inf.TrastornoId;
                 infDto.Id = inf.Id;
                 infDto.Resultados = inf.Resultados;
                 infDto.PlandDeTratamiento = inf.PlandDeTratamiento;
                 infDto.AntecendentesPersonales = inf.AntecendentesPersonales;
                 infDto.EvaluacionPsicologica = inf.EvaluacionPsicologica;
                 infDto.UltimaFecha = inf.UltimaFecha;
-                infDto.Severidad = inf.Severidad;
+                infDto.Enlaces = inf.Enlaces;
+                infDto.EnlacesPrivate = inf.EnlacesPrivate;
                 Paciente pacienteInforme = _context.Pacientes.FirstOrDefault(x => x.Id == inf.PacienteId);
                 if (pacienteInforme != null)
                     infDto.PacienteFullName = pacienteInforme.FullName;
-                Trastorno trastorno = _context.Trastornos.FirstOrDefault(x => x.Id == inf.TrastornoId);
-                if (trastorno != null)
-                {
-                    infDto.TrastornoName = trastorno.Nombre;
-                    infDto.TrastornoTipo = trastorno.Tipo;
-                }
+
+                infDto.lsInformeTrastornos = _context.InformeTrastorno.Where(x => x.InformeId == infDto.Id).ToList();
+              
 
                 Psicologo psicologoInforme = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
                 if (psicologoInforme != null)
@@ -149,10 +141,15 @@ namespace GabinetePsicologia.Server.Controllers
                     di.Delete(true);
 
                 }
-
                 var i = _context.Informes.FirstOrDefault(x => x.Id == inf.Id);
                 if (i != null)
                     _context.Informes.Remove(i);
+
+                var LsinfTrst = _context.InformeTrastorno.Where(x=> x.InformeId == inf.Id).ToList();
+                foreach (var item in LsinfTrst)
+                {
+                    _context.InformeTrastorno.Remove(item);
+                }
             }
             _context.SaveChanges();
             return Ok("Informe Eliminado");
@@ -276,7 +273,7 @@ namespace GabinetePsicologia.Server.Controllers
                 }
 
             }
-            
+
             return Ok(lsFiles);
         }
 
@@ -286,7 +283,7 @@ namespace GabinetePsicologia.Server.Controllers
             string folder = file[0];
             string fileName = file[1];
             string localFilePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", folder, fileName);
-            if(System.IO.File.Exists(localFilePath))
+            if (System.IO.File.Exists(localFilePath))
             {
                 var bytes = System.IO.File.ReadAllBytes(localFilePath);
                 //FileStream fs = new FileStream(localFilePath, FileMode.Open);
@@ -321,7 +318,70 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok();
 
         }
+        [HttpPost("Enlaces")]
+        public IActionResult setEnlaces([FromBody] string[] file)
+        {
+            string InformeId = file[0];
+            string enlaces = file[1];
+            if (enlaces == "") enlaces = null;
+            var Informe = _context.Informes.FirstOrDefault(x => x.Id == Guid.Parse(InformeId));
+            if (Informe != null)
+            {
+                Informe.Enlaces = enlaces;
+                _context.SaveChanges();
+            }
 
+            return Ok("Se ha actualizado Correctamente");
 
+        }
+        [HttpPost("EnlacesPrivate")]
+        public IActionResult setEnlacesPrivate([FromBody] string[] file)
+        {
+            string InformeId = file[0];
+            string enlaces = file[1];
+            if (enlaces == "") enlaces = null;
+            var Informe = _context.Informes.FirstOrDefault(x => x.Id == Guid.Parse(InformeId));
+            if (Informe != null)
+            {
+                Informe.EnlacesPrivate = enlaces;
+                _context.SaveChanges();
+            }
+
+            return Ok("Se ha actualizado Correctamente");
+
+        }
+        [HttpPost("InformeTrastorno/Insertar")]
+        public IActionResult InformeTrastornoInsertar([FromBody] List<InformeTrastorno> infTrst)
+        {
+            foreach (var item in infTrst)
+            {
+                _context.InformeTrastorno.Add(item);
+            }
+            _context.SaveChanges();
+            return Ok("Insertado Correctamenre");
+        }
+        [HttpPost("InformeTrastorno/Delete")]
+        public IActionResult InformeTrastornoDelete([FromBody] Informe inf)
+        {
+            var lsInfTrst = _context.InformeTrastorno.Where(x => x.InformeId == inf.Id).ToList();
+            if(lsInfTrst == null) return Ok("Eliminado Correctamente");
+            foreach (var infTrst in lsInfTrst)
+            {
+                _context.InformeTrastorno.Remove(infTrst);
+            }
+            _context.SaveChanges();
+            return Ok("Eliminado Correctamente");
+        }
+        [HttpPost("Severidad")]
+        public IActionResult setSeveridad([FromBody] string[] data)
+        {
+            string Id = data[0];
+            int Severidad = Int16.Parse(data[1]);
+            var a = _context.InformeTrastorno.FirstOrDefault(x => x.Id == Guid.Parse(Id));
+            if (a != null) 
+                a.Severidad = Severidad;
+            _context.SaveChanges();
+            return Ok("Actualizado Correctamente");
+        }
     }
 }
