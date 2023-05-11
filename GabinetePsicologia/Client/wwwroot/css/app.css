@@ -470,6 +470,9 @@ body .top-row::deep .btn-link:hover {
   body .LoginAndRegisterBox {
     width: 100%;
   }
+  body .marginTop1em {
+    margin-top: 1em;
+  }
 }
 @media only screen and (max-width: 800px) {
   body .MisDatosDiv {

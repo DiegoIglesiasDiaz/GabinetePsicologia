@@ -13,6 +13,10 @@
         body .invalid {
             outline: none;
         }
+
+
+
+
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center ">
         <RadzenTemplateForm Data="@Informe" TItem="InformeDto" method="post" Submit="Guardar">
@@ -58,7 +62,7 @@
                                 <div class="d-flex flex-column justify-content-center align-items-center ">
                                     <RadzenDropDown TValue="GabinetePsicologia.Shared.Trastorno" Data=@lsTrastornos FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
                                             @ref=DropDownTrastorno TextProperty="NombreTipo" Style="margin:10px" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Trastorno" Change="@(args => changeTrastorno(args))" />
-                                    <div class="d-flex justify-content-evenly align-items-center " s>
+                                    <div class="d-flex justify-content-evenly align-items-center " >
                                         <RadzenLabel Text="Severidad:" />
                                         <RadzenNumeric Min="1" Max="5" Visible=isPsicologo @bind-Value=@NewSeveridad Style="border: 1px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;margin:10px;width:20%" />
                                     </div>
@@ -67,7 +71,7 @@
                                 @if (Informe.lsInformeTrastornos.Count > 0)
                                 {
                                     <div>
-                                        <table class="content-table">
+                                        <table class="content-table table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Trastorno</th>
@@ -145,13 +149,13 @@
                 @if (!isNew)
                 {
                     <div>
-                        <div class="d-flex justify-content-center align-items-center" style="margin-top:10px;">
+                        <div class="d-flex justify-content-center align-items-center DivBotonUsuarios" style="margin-top:10px;">
                             <RadzenButton Icon="description" Text="Archivos" class=@cssButtonArchivo Style="margin-right:3px" Click=clickArchivo />
-                            <RadzenButton Icon="link" Text="Enlaces" class=@cssButtonEnlace Click=clickEnlace Style="margin-left:3px" />
+                            <RadzenButton Icon="link" Text="Enlaces" class=@(cssButtonEnlace+ " marginTop1em") Click=clickEnlace Style="margin-left:3px;" />
                         </div>
                         @if (verArchivos)
                         {
-                            <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex justify-content-center align-items-center DivBotonUsuarios">
                                 <RadzenUpload ChooseText="Subir Archivos" Style="background-color:none" Complete=complete Error=error Auto="true" Multiple="true" Icon="upload" Url="/Informe/UploadFile" class="d-flex justify-content-center align-items-lg-start">
                                     <RadzenUploadHeader Name="InformeId" Value=@Informe.Id.ToString() />
                                 </RadzenUpload>
@@ -170,7 +174,7 @@
                         @if (verArchivos && lsFiles.Count > 0)
                         {
 
-                            <table class="content-table">
+                            <table class="content-table table-responsive">
                                 <thead>
                                     <tr>
                                         <th>Archivo</th>
@@ -211,18 +215,18 @@
                         {
                             <div style="margin:1em">
                                 <RadzenTextBox @bind-Value=EnlaceTextBox />
-                                <RadzenButton Click="subirEnlace" Icon="upload" class="Buttonfileupload" Text="Subir Enlace" />
+                                <RadzenButton Click="subirEnlace" Icon="upload" class="Buttonfileupload" Text="Subir Enlace"  />
                             </div>
                             @if (isPsicologo)
                             {
                                 <div style="margin:1em">
                                     <RadzenTextBox @bind-Value=EnlacePrivateTextBox />
-                                    <RadzenButton Click="subirEnlacePrivate" Icon="upload" class="Buttonfileupload" Text="Subir Enlace Privado" />
+                                    <RadzenButton Click="subirEnlacePrivate" Icon="upload" class="Buttonfileupload" Text="Subir Enlace Privado"  />
                                 </div>
                             }
                             @if (lsEnlaces.Count > 0)
                             {
-                                <table class="content-table">
+                                <table class="content-table table-responsive">
                                     <thead>
                                         <tr>
                                             <th>Enlace</th>
@@ -272,11 +276,11 @@
 
                 <br />
 
-                <div class="d-flex justify-content-evenly">
+                <div class="d-flex justify-content-evenly DivBotonUsuarios">
                     <RadzenButton Text="Cerrar Informe" Click="CloseModal" class="BotonDelete" />
                     @if (isPsicologo)
                     {
-                        <RadzenButton Text="Guardar Informe" class="BotonPrincipal" ButtonType="ButtonType.Submit" />
+                        <RadzenButton Text="Guardar Informe" class="BotonPrincipal marginTop1em" ButtonType="ButtonType.Submit" />
                     }
                 </div>
 
