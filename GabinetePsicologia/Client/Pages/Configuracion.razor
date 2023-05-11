@@ -51,24 +51,27 @@
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
 
-        <div class="field-container d-flex align-items-center">
-            <RadzenText TextStyle="TextStyle.Body2">Correo:&nbsp;&nbsp; </RadzenText>
-            <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.Body1">@correo</RadzenText>
+        <div class="field-container d-flex align-items-center flex-column">
+            <div class="FlexColumn300 d-flex justify-content-center align-items-center ">
+                <RadzenText TextStyle="TextStyle.Body2">Correo:&nbsp;&nbsp; </RadzenText>
+                <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.Body1">@correo</RadzenText>
+            </div>
+            <RadzenText TextStyle="TextStyle.Body2" Style="margin-top:1em; text-align:center">(Es Posible que se requiera refrescar la página despúes de hacer cambios)</RadzenText>
         </div>
 
         <div class="ConfiguracionDiv">
-            <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" Click="CambiarCorreo" Style="margin:0.5em"/>
-            <RadzenButton Icon="password" class="BotonPrincipal ConfiguracionBoton" Style="margin:0.5em"  Text="Cambiar Contraseña" Click="CambiarContrasenia" />
+            <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" Click="CambiarCorreo" Style="margin:0.5em" />
+            <RadzenButton Icon="password" class="BotonPrincipal ConfiguracionBoton" Style="margin:0.5em" Text="Cambiar Contraseña" Click="CambiarContrasenia" />
         </div>
         <div class="ConfiguracionDiv ConfiguracionDobleAutenticacion">
             <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-                </label>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
         </div>
         <div class="ConfiguracionDiv">
-            <RadzenButton Icon="logout" class="BotonPrincipal " Text="Cerrar Sesión" Style="margin:0.5em"  Click="Logout" />
+            <RadzenButton Icon="logout" class="BotonPrincipal " Text="Cerrar Sesión" Style="margin:0.5em" Click="Logout" />
             <RadzenButton Icon="delete" class="BotonDelete ConfiguracionBoton" Text="Borrar Cuenta" Style="margin:0.5em" Click="BorrarCuenta" />
         </div>
     </div>

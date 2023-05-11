@@ -15,20 +15,11 @@
     </style>
     <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
 
-        @*@if (!isEdit)
-        {
-            <div class="d-flex justify-content-between align-items-center" style="width:90vh;">
-                <div class="field-container d-flex align-items-center">
-                    <RadzenText TextStyle="TextStyle.DisplayH5">Correo:&nbsp;&nbsp; </RadzenText>
-                    <RadzenText Style="color:var(--rz-primary);" TextStyle="TextStyle.DisplayH5">@userDto.Email</RadzenText>
-                </div>
-                <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" />
-            </div>
-        }*@
+        <RadzenText TextStyle="TextStyle.Body2" Style="margin-top:1em; text-align:center">(Es Posible que se requiera refrescar la página despúes de hacer cambios)</RadzenText>
         <RadzenTemplateForm Data="@userDto" TItem="PersonaDto" method="post" Submit="@((PersonaDto args) => { GuardarPersona(args); })">
             <div>
 
-                <div class="MisDatosDiv">
+                <div class="MisDatosDiv marginLeft350 ">
 
                     <div class="m-5">
                         <div class="field-container">

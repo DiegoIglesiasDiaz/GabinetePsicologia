@@ -123,6 +123,7 @@ body {
     .Buttonfileupload {
         background-color: var(--rz-upload-choose-background-color) !important;
         color: var(--rz-upload-choose-color) !important;
+        width: fit-content !important;
     }
 
     .rz-fileupload-buttonbar {
@@ -610,7 +611,33 @@ body {
         }
 
         .marginTop1em {
-            margin-top:1em !important;
+            margin-top: 1em !important;
+        }
+    }
+
+    @media only screen and (max-width: 450px) and (min-width: 350px) {
+        .TablaResponsive {
+            width: 80% !important;
+        }
+    }
+
+    @media only screen and (max-width: 350px) and (min-width: 300px) {
+        .TablaResponsive {
+            width: 70% !important;
+        }
+
+        .marginLeft350 {
+            margin-left: 3em;
+        }
+
+        .marginRight350 {
+            margin-right: 3em;
+        }
+    }
+
+    @media only screen and (max-width: 300px) and (min-width: 260px) {
+        .TablaResponsive {
+            width: 60% !important;
         }
     }
 
@@ -652,6 +679,24 @@ body {
         }
     }
 
+    @media only screen and (max-width: 300px) {
+
+        .FlexColumn300 {
+            flex-direction: column !important
+        }
+    }
+
+    @media only screen and (max-width: 350px) {
+
+        .marginLeft350 {
+            margin-left: 5em;
+        }
+
+        .marginRight350 {
+            margin-right: 5em;
+        }
+    }
+
     @media (max-width: 820px) {
         .InformeModalTextArea {
             display: flex;
@@ -674,7 +719,7 @@ body {
         }
     }
 
-    @media (max-width: 400px) {
+    @media only screen and (max-width: 400px) {
         .InformeModalTextArea {
             display: flex;
             flex-direction: column;
@@ -686,7 +731,12 @@ body {
         .LoginAndRegisterBox {
             margin: 0px !important;
         }
+
+        .textResponsive {
+            flex-direction: column !important;
+        }
     }
+
 
 
     @media (max-width: 841px) {
@@ -705,6 +755,10 @@ body {
             justify-content: center;
             align-content: center;
             width: 9rem !important;
+        }
+
+        .TablaResponsive {
+            width: 50% !important;
         }
     }
 

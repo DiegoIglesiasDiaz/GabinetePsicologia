@@ -84,6 +84,7 @@ body .btn-primary {
 body .Buttonfileupload {
   background-color: var(--rz-upload-choose-background-color) !important;
   color: var(--rz-upload-choose-color) !important;
+  width: fit-content !important;
 }
 body .rz-fileupload-buttonbar {
   background-color: none;
@@ -474,6 +475,27 @@ body .top-row::deep .btn-link:hover {
     margin-top: 1em !important;
   }
 }
+@media only screen and (max-width: 450px) and (min-width: 350px) {
+  body .TablaResponsive {
+    width: 80% !important;
+  }
+}
+@media only screen and (max-width: 350px) and (min-width: 300px) {
+  body .TablaResponsive {
+    width: 70% !important;
+  }
+  body .marginLeft350 {
+    margin-left: 3em;
+  }
+  body .marginRight350 {
+    margin-right: 3em;
+  }
+}
+@media only screen and (max-width: 300px) and (min-width: 260px) {
+  body .TablaResponsive {
+    width: 60% !important;
+  }
+}
 @media only screen and (max-width: 800px) {
   body .MisDatosDiv {
     display: flex;
@@ -505,6 +527,19 @@ body .top-row::deep .btn-link:hover {
     width: 62%;
   }
 }
+@media only screen and (max-width: 300px) {
+  body .FlexColumn300 {
+    flex-direction: column !important;
+  }
+}
+@media only screen and (max-width: 350px) {
+  body .marginLeft350 {
+    margin-left: 5em;
+  }
+  body .marginRight350 {
+    margin-right: 5em;
+  }
+}
 @media (max-width: 820px) {
   body {
     /* Ajusta el ancho del contenido del menú en la vista móvil */
@@ -526,7 +561,7 @@ body .top-row::deep .btn-link:hover {
     display: flex !important;
   }
 }
-@media (max-width: 400px) {
+@media only screen and (max-width: 400px) {
   body .InformeModalTextArea {
     display: flex;
     flex-direction: column;
@@ -536,6 +571,9 @@ body .top-row::deep .btn-link:hover {
   }
   body .LoginAndRegisterBox {
     margin: 0px !important;
+  }
+  body .textResponsive {
+    flex-direction: column !important;
   }
 }
 @media (max-width: 841px) {
@@ -552,6 +590,9 @@ body .top-row::deep .btn-link:hover {
     justify-content: center;
     align-content: center;
     width: 9rem !important;
+  }
+  body .TablaResponsive {
+    width: 50% !important;
   }
 }
 body .InformeModalTextArea {
