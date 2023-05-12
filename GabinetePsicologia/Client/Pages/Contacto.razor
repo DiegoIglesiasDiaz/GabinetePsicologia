@@ -104,7 +104,7 @@
 		</div>
 		<div class="contact-form">
 			
-			<RadzenTemplateForm TItem="Mensaje" Data="mensaje" Action="/Mensajes" Method="Post" class="d-flex justify-content-center align-items-center flex-column" Submit="Enviado">
+			<RadzenTemplateForm TItem="Mensaje" Data="mensaje" class="d-flex justify-content-center align-items-center flex-column" Submit="Enviado">
 				<div class="d-flex flex-column">
 					<RadzenLabel Text="Asunto:" />
 					<RadzenTextBox Name="Asunto" class="ContactoTextArea" @bind-Value=mensaje.Asunto/>
