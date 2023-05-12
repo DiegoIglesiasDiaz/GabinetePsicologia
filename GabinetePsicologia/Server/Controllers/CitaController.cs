@@ -30,11 +30,30 @@ namespace GabinetePsicologia.Server.Controllers
         {
             return Ok(_context.Citas.ToList());
         }
+        [HttpGet("Psicologo/{id:guid}")]
+        public async Task<ActionResult<List<Cita>>> GetCitasByPsicologoId(Guid id)
+        {
+            return Ok(_context.Citas.Where(x => x.PsicologoId == id).ToList());
+        }
+        [HttpGet("Paciente/{id:guid}")]
+        public async Task<ActionResult<List<Cita>>> GetCitasByPacienteId(Guid id)
+        {
+           
+            return Ok(_context.Citas.Where(x => x.PacienteId == id).ToList());
+        }
         [HttpPost]
         public async Task<ActionResult> InsertCita(Cita cita)
         {
 
             if(cita == null) return BadRequest();
+
+            var psicologo = _context.Psicologos.FirstOrDefault(x => x.Id == cita.PsicologoId);
+            if(psicologo != null)
+                cita.PsicologoFullName = psicologo.FullName;
+            var paciente = _context.Pacientes.FirstOrDefault(x => x.Id == cita.PacienteId);
+            if (paciente != null)
+                cita.PacienteFullName = paciente.FullName;
+
             _context.Citas.Add(cita);
             _context.SaveChanges();
             return Ok();
@@ -42,8 +61,15 @@ namespace GabinetePsicologia.Server.Controllers
         [HttpPost("Actualizar")]
         public async Task<ActionResult> ActualizarCita([FromBody] Cita cita)
         {
-
             if (cita == null) return BadRequest();
+
+            var psicologo = _context.Psicologos.FirstOrDefault(x => x.Id == cita.PsicologoId);
+            if (psicologo != null)
+                cita.PsicologoFullName = psicologo.FullName;
+            var paciente = _context.Pacientes.FirstOrDefault(x => x.Id == cita.PacienteId);
+            if (paciente != null)
+                cita.PacienteFullName = paciente.FullName;
+
             _context.Citas.Update(cita);
             _context.SaveChanges();
             return Ok();

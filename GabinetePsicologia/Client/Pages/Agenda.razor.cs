@@ -5,6 +5,7 @@ using Radzen;
 using Microsoft.AspNetCore.Components.Authorization;
 using GabinetePsicologia.Client.Services;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Claims;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -26,7 +27,7 @@ namespace GabinetePsicologia.Client.Pages
         bool isPaciente = false;
         bool isPsicologo = false;
         bool isAdmin = false;
-
+        ClaimsPrincipal? user;
         List<Cita> allList = new List<Cita>();
         List<Cita> data = new List<Cita>();
         List<Cita> ProximasCitas = new List<Cita>();
@@ -35,22 +36,20 @@ namespace GabinetePsicologia.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user.IsInRole("Psicologo") || user.IsInRole("Administrador") || user.IsInRole("Paciente"))
             {
                 isInRole = true;
             }
             else return;
-            lsPsicologos = await PsicologoServices.getPsicologos();
-            lsPacientes = await PacientesServices.getPacientes();
-            data = await CitasServices.GetCitas();
-            allList = await CitasServices.GetCitas();
-            ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
-           
+            if (!user.IsInRole("Paciente"))
+            {
+                lsPacientes = await PacientesServices.getPacientes();
+            }
             if (user.IsInRole("Psicologo"))
             {
                 SelectedPsciologo = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
-                allList = allList.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
+                allList = await CitasServices.GetCitasByPsicologoId(SelectedPsciologo.Id);
                 data = allList;
                 isPsicologo = true;
                 ProximasCitas = ProximasCitas.Where(x => x.PsicologoId == SelectedPsciologo.Id).ToList();
@@ -58,7 +57,7 @@ namespace GabinetePsicologia.Client.Pages
             else if (user.IsInRole("Paciente"))
             {
                 SelectedPaciente = await PacientesServices.GetPacienteByUsername(user.Identity.Name);
-                allList = allList.Where(x => x.PacienteId == SelectedPaciente.Id).ToList();
+                allList = await CitasServices.GetCitasByPacienteId(SelectedPaciente.Id);
                 data = allList;
                 isPaciente = true;
                 if (user.IsInRole("Psicologo"))
@@ -73,9 +72,11 @@ namespace GabinetePsicologia.Client.Pages
             }
             if (user.IsInRole("Administrador"))
             {
+                lsPsicologos = await PsicologoServices.getPsicologos();
                 ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
                 isAdmin = true;
             }
+            ProximasCitas = allList.Where(x => x.FecInicio > DateTime.Now).ToList();
             ProximasCitas = ProximasCitas.OrderBy(x=> x.FecInicio).ToList();
             if (ProximasCitas.Count > 5)
             {
@@ -106,7 +107,7 @@ namespace GabinetePsicologia.Client.Pages
             //}
 
             var citaArgs = new Cita() { FecInicio = args.Start, FecFin = args.Start.AddHours(1) };
-            var Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo ?? new Psicologo()}, { "Paciente", SelectedPaciente ?? new Paciente() },{ "isPaciente", false }, { "isEdit", false } });
+            var Cita = await DialogService.OpenAsync<CalendarModal>("Añadir Cita", new Dictionary<string, object> { { "Appointment", citaArgs }, { "Psicologo", SelectedPsciologo ?? new Psicologo()}, { "Paciente", SelectedPaciente ?? new Paciente() },{ "isPaciente", false }, { "isEdit", false }, { "User", user } });
 
             if (Cita != null && Cita is Cita)
             {
@@ -138,7 +139,7 @@ namespace GabinetePsicologia.Client.Pages
             {
                 isPacienteForModal = true;
             }
-            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo ?? new Psicologo() }, { "Paciente", paciente ?? new Paciente() }, { "isPaciente", isPacienteForModal }, { "isEdit", true } });
+            var result = await DialogService.OpenAsync<CalendarModal>("Editar Cita", new Dictionary<string, object> { { "Appointment", args.Data }, { "Psicologo", psicologo ?? new Psicologo() }, { "Paciente", paciente ?? new Paciente() }, { "isPaciente", isPacienteForModal }, { "isEdit", true },{ "User", user } });
             if (result == null || !(result is Cita)) return;
             Cita = result;
             if ( Cita is Cita && Cita.Id != Guid.Empty )
@@ -214,13 +215,6 @@ namespace GabinetePsicologia.Client.Pages
                 scheduler.Reload();
             }
         }
-        public string PsicologoName(Guid id)
-        {
-            var a = lsPsicologos.FirstOrDefault(x => x.Id == id).FullName;
-            if(a == null)
-                return "";
-            else
-                return a;
-        }
+        
     }
 }

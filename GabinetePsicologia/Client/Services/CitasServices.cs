@@ -28,7 +28,18 @@ namespace GabinetePsicologia.Client.Services
             return paciente;
 
         }
-   
+        public async Task<List<Cita>> GetCitasByPsicologoId(Guid id)
+        {
+            var paciente = await _httpClient.GetFromJsonAsync<List<Cita>>($"/Cita/Psicologo/{id}");
+            return paciente;
+
+        }
+        public async Task<List<Cita>> GetCitasByPacienteId(Guid id)
+        {
+            var paciente = await _httpClient.GetFromJsonAsync<List<Cita>>($"/Cita/Paciente/{id}");
+            return paciente;
+
+        }
         public async void InsertCita(Cita cita)
         {
             await _httpClient.PostAsJsonAsync("/Cita", cita);

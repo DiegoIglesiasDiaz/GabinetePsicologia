@@ -44,5 +44,6 @@ namespace GabinetePsicologia.Client.Services
             var psicologo = await _httpClient.GetFromJsonAsync<Psicologo>($"/Psicologo/{id}");
             return psicologo;
         }
+      
     }
 }

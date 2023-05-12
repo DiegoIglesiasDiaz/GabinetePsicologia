@@ -2,6 +2,7 @@
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using Radzen;
+using System.Security.Claims;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -17,6 +18,10 @@ namespace GabinetePsicologia.Client.Pages
         public bool isPaciente { get; set; }
         [Parameter]
         public bool isEdit { get; set; }
+        [Parameter]
+        public ClaimsPrincipal User { get; set; }
+
+
         Cita cita = new Cita();
         [Inject] private PacientesServices PacientesServices { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }
@@ -29,8 +34,16 @@ namespace GabinetePsicologia.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            lsPacientes = await PacientesServices.getPacientes();
-            lsPsicologo = await PsicologoServices.getPsicologos();
+            if (!User.IsInRole("Paciente") && !isEdit)
+            {
+                lsPacientes = await PacientesServices.getPacientes();
+               
+            }
+            if (User.IsInRole("Administrador"))
+            {
+                lsPsicologo = await PsicologoServices.getPsicologos();
+            }
+           
         }
 
         protected async override void OnParametersSet()
@@ -111,6 +124,7 @@ namespace GabinetePsicologia.Client.Pages
         }
         private async Task<bool> comprobarDisponibilidad()
         {
+            if (User.IsInRole("Paciente")) return false;
             var lsCitas = await CitasServices.GetCitas();
             var citaExiste = lsCitas.FirstOrDefault(x => x.Id == cita.Id);
             if (citaExiste != null)

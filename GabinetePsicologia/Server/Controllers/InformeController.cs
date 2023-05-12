@@ -93,21 +93,22 @@ namespace GabinetePsicologia.Server.Controllers
 
                 InformeDto infDto = new InformeDto();
                 infDto.PacienteId = inf.PacienteId;
-                infDto.PsicologoId = inf.PsicologoId;
-                infDto.Id = inf.Id;
                 infDto.Resultados = inf.Resultados;
                 infDto.PlandDeTratamiento = inf.PlandDeTratamiento;
+                infDto.Id = inf.Id;
                 infDto.AntecendentesPersonales = inf.AntecendentesPersonales;
                 infDto.EvaluacionPsicologica = inf.EvaluacionPsicologica;
+                infDto.PsicologoId = inf.PsicologoId;
+                infDto.EnlacesPrivate = inf.EnlacesPrivate;
+                infDto.lsInformeTrastornos = _context.InformeTrastorno.Where(x => x.InformeId == infDto.Id).ToList();
+
+
                 infDto.UltimaFecha = inf.UltimaFecha;
                 infDto.Enlaces = inf.Enlaces;
-                infDto.EnlacesPrivate = inf.EnlacesPrivate;
+
                 Paciente pacienteInforme = _context.Pacientes.FirstOrDefault(x => x.Id == inf.PacienteId);
                 if (pacienteInforme != null)
                     infDto.PacienteFullName = pacienteInforme.FullName;
-
-                infDto.lsInformeTrastornos = _context.InformeTrastorno.Where(x => x.InformeId == infDto.Id).ToList();
-              
 
                 Psicologo psicologoInforme = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
                 if (psicologoInforme != null)
@@ -118,7 +119,50 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok(lsInformeDto);
         }
 
+        [HttpGet("GetInformePaciente/{id:guid}")]
+        public async Task<IActionResult> getInformesPacienteById(Guid id)
+        {
+            var lsInforme = _context.Informes.ToList();
+            var lsInformeDto = new List<InformeDto>();
 
+            Psicologo? psicologo = _context.Psicologos.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
+            Paciente? paciente = _context.Pacientes.FirstOrDefault(x => x.ApplicationUserId == id.ToString());
+
+            if (psicologo == null && paciente == null) return Ok(lsInformeDto);
+
+            foreach (var inf in lsInforme)
+            {
+                bool volver = true;
+                if (psicologo != null && psicologo.Id == inf.PsicologoId)
+                {
+                    volver = false;
+                }
+                if (paciente != null && paciente.Id == inf.PacienteId)
+                {
+                    volver = false;
+                }
+
+                if (volver) continue;
+
+                InformeDto infDto = new InformeDto();
+                infDto.PacienteId = inf.PacienteId;
+                infDto.Resultados = inf.Resultados;
+                infDto.PlandDeTratamiento = inf.PlandDeTratamiento;
+                infDto.UltimaFecha = inf.UltimaFecha;
+                infDto.Enlaces = inf.Enlaces;
+
+                Paciente pacienteInforme = _context.Pacientes.FirstOrDefault(x => x.Id == inf.PacienteId);
+                if (pacienteInforme != null)
+                    infDto.PacienteFullName = pacienteInforme.FullName;
+
+                Psicologo psicologoInforme = _context.Psicologos.FirstOrDefault(x => x.Id == inf.PsicologoId);
+                if (psicologoInforme != null)
+                    infDto.PsicologoFullName = psicologoInforme.FullName;
+                lsInformeDto.Add(infDto);
+            }
+
+            return Ok(lsInformeDto);
+        }
 
         [HttpPost]
         public IActionResult Register([FromBody] Informe trastorno)
@@ -145,7 +189,7 @@ namespace GabinetePsicologia.Server.Controllers
                 if (i != null)
                     _context.Informes.Remove(i);
 
-                var LsinfTrst = _context.InformeTrastorno.Where(x=> x.InformeId == inf.Id).ToList();
+                var LsinfTrst = _context.InformeTrastorno.Where(x => x.InformeId == inf.Id).ToList();
                 foreach (var item in LsinfTrst)
                 {
                     _context.InformeTrastorno.Remove(item);
@@ -364,7 +408,7 @@ namespace GabinetePsicologia.Server.Controllers
         public IActionResult InformeTrastornoDelete([FromBody] Informe inf)
         {
             var lsInfTrst = _context.InformeTrastorno.Where(x => x.InformeId == inf.Id).ToList();
-            if(lsInfTrst == null) return Ok("Eliminado Correctamente");
+            if (lsInfTrst == null) return Ok("Eliminado Correctamente");
             foreach (var infTrst in lsInfTrst)
             {
                 _context.InformeTrastorno.Remove(infTrst);
@@ -378,7 +422,7 @@ namespace GabinetePsicologia.Server.Controllers
             string Id = data[0];
             int Severidad = Int16.Parse(data[1]);
             var a = _context.InformeTrastorno.FirstOrDefault(x => x.Id == Guid.Parse(Id));
-            if (a != null) 
+            if (a != null)
                 a.Severidad = Severidad;
             _context.SaveChanges();
             return Ok("Actualizado Correctamente");

@@ -41,6 +41,7 @@ namespace GabinetePsicologia.Server.Controllers
         {
             return _context.Psicologos.FirstOrDefault(x=> x.Id == id) ?? new Psicologo();
         }
+        
         [HttpPost]
         public async Task<ActionResult> RegisterPsicologo(Psicologo psicologo)
         {

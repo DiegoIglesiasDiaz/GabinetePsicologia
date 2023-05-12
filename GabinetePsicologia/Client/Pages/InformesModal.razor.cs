@@ -32,10 +32,10 @@ namespace GabinetePsicologia.Client.Pages
         public bool isEdit = false;
         public bool isPsicologo = false;
         public int NewSeveridad = 1;
-        public Trastorno selectedTrastorno ;
+        public Trastorno selectedTrastorno;
         public bool isEditSeveridad = false;
         public Guid IdTrastornoEdit = Guid.Empty;
-        RadzenDropDown<Trastorno> DropDownTrastorno; 
+        RadzenDropDown<Trastorno> DropDownTrastorno;
         List<Trastorno> lsTrastornos = new List<Trastorno>();
         List<Paciente> lsPacientes = new List<Paciente>();
         RadzenUpload upload = new RadzenUpload();
@@ -43,11 +43,10 @@ namespace GabinetePsicologia.Client.Pages
         List<string[]> lsEnlaces = new List<string[]>();
         string cssButtonArchivo = "";
         string cssButtonEnlace = "BotonPrincipal";
-        bool verArchivos = true;
+        bool verArchivos = false;
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            lsTrastornos = await TrastornosServices.getTrastornos();
             if (Informe.Id != Guid.Empty)
             {
                 Paciente paciente = await PacientesServices.GetPacienteByid(Informe.PacienteId);
@@ -110,25 +109,26 @@ namespace GabinetePsicologia.Client.Pages
                     Informe.PacienteId = pac.Id;
                     Informe.PsicologoFullName = pac.FullName;
                 }
-                if (!isNew)
-                    lsFiles = await InformesServices.ListFilesPaciente(Informe.Id.ToString());
+                //if (!isNew)
+                // lsFiles = await InformesServices.ListFilesPaciente(Informe.Id.ToString());
             }
             if (user.IsInRole("Psicologo"))
             {
+
+                lsTrastornos = await TrastornosServices.getTrastornos();
                 var ps = await PsicologoServices.GetPsicologoByUsername(user.Identity.Name);
                 if (isNew)
                 {
                     Informe.PsicologoId = ps.Id;
                     Informe.PacienteId = Guid.Empty;
+                    lsPacientes = await PacientesServices.getPacientes();
                 }
 
                 isPsicologo = true;
-                if (!isNew)
-                    lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
+                //  if (!isNew)
+                // lsFiles = await InformesServices.ListFiles(Informe.Id.ToString());
             }
 
-            lsTrastornos = await TrastornosServices.getTrastornos();
-            lsPacientes = await PacientesServices.getPacientes();
 
         }
 
@@ -140,7 +140,7 @@ namespace GabinetePsicologia.Client.Pages
         {
             if (isNew)
             {
-                if (Informe.PacienteId == Guid.Empty || Informe.lsInformeTrastornos.Count<1)
+                if (Informe.PacienteId == Guid.Empty || Informe.lsInformeTrastornos.Count < 1)
                 {
                     NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar al menos un Paciente y un Trastorno");
                     return;
@@ -156,7 +156,11 @@ namespace GabinetePsicologia.Client.Pages
         }
         public void changePaciente(object args)
         {
-            Informe.PacienteId = Guid.Parse(args.ToString());
+            Guid Id = Guid.Empty;
+            if (args != null && Guid.TryParse(args.ToString(),out Id))
+            {
+                Informe.PacienteId = Id;
+            }
         }
         public void changeTrastorno(object args)
         {
@@ -167,20 +171,20 @@ namespace GabinetePsicologia.Client.Pages
             }
             else
             {
-               var trst = lsTrastornos.FirstOrDefault(x=> x.Id == Guid.Parse(args.ToString()));
+                var trst = lsTrastornos.FirstOrDefault(x => x.Id == Guid.Parse(args.ToString()));
                 selectedTrastorno = trst;
-                
+
             }
 
         }
         public void GuardarTrastorno()
         {
-            if(selectedTrastorno == null)
+            if (selectedTrastorno == null)
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Error", "No has seleccionado nigún Trastorno");
                 return;
             }
-            if(Informe.lsInformeTrastornos.Where(x=> x.TrastornoId == selectedTrastorno.Id).Any())
+            if (Informe.lsInformeTrastornos.Where(x => x.TrastornoId == selectedTrastorno.Id).Any())
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "", "Ya has seleccionado este Trastorno");
                 return;
@@ -324,18 +328,18 @@ namespace GabinetePsicologia.Client.Pages
         }
         public void subirEnlace()
         {
-            if(String.IsNullOrWhiteSpace(EnlaceTextBox) || String.IsNullOrWhiteSpace(EnlaceTextBox))
+            if (String.IsNullOrWhiteSpace(EnlaceTextBox) || String.IsNullOrWhiteSpace(EnlaceTextBox))
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Error", "No has introducido ningún Enlace");
                 return;
             }
-            Informe.Enlaces += EnlaceTextBox+";";
+            Informe.Enlaces += EnlaceTextBox + ";";
             lsEnlaces.Add(new string[]
                         {
                         EnlaceTextBox,
                         "Si"
                         });
-            InformesServices.setEnlaces(Informe.Id.ToString(),Informe.Enlaces);
+            InformesServices.setEnlaces(Informe.Id.ToString(), Informe.Enlaces);
             EnlaceTextBox = "";
 
         }
@@ -379,8 +383,8 @@ namespace GabinetePsicologia.Client.Pages
             NotificationService.Notify(NotificationSeverity.Success, "Ok", "Guardado Correctamente");
             isEditSeveridad = false;
             IdTrastornoEdit = Guid.Empty;
-                
+
         }
-       
+
     }
 }

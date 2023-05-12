@@ -18,16 +18,23 @@ namespace GabinetePsicologia.Client.Services
             _navigationManager = navigationManager;
 
         }
-        public async Task<List<InformeDto>> GetInformes()
-        {
-            var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>("/Informe");
-            return inf;
+        //public async Task<List<InformeDto>> GetInformes()
+        //{
+        //    var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>("/Informe");
+        //    return inf;
 
-        }
+        //}
         public async Task<List<InformeDto>> GetInformesById(Guid id)
         {
 
             var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>($"/Informe/{id}");
+            return inf;
+
+        }
+        public async Task<List<InformeDto>> GetInformesPacienteById(Guid id)
+        {
+
+            var inf = await _httpClient.GetFromJsonAsync<List<InformeDto>>($"/Informe/GetInformePaciente/{id}");
             return inf;
 
         }

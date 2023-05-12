@@ -4,7 +4,7 @@
 @if (isInRole)
 {
     <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
-        
+
         @if (ProximasCitas.Count > 0)
         {
             <h5>Próximas Citas</h5>
@@ -33,11 +33,21 @@
                                 <td>@x.FecInicio.ToString("HH:mm") -  @x.FecFin.ToString("HH:mm")</td>
                                 @if (isPsicologo || isAdmin)
                                 {
-                                    <td>@x.Nombre</td>
+                                    <td>
+                                        @if (x.PacienteFullName != null)
+                                        {
+                                            @x.PacienteFullName
+                                        }
+                                    </td>
                                 }
                                 @if (isPaciente || isAdmin)
                                 {
-                                    <td>@PsicologoName(x.PsicologoId)</td>
+                                    <td>
+                                        @if (x.PsicologoFullName != null)
+                                        {
+                                            @x.PsicologoFullName
+                                        }
+                                    </td>
                                 }
                             </tr>
                         }
@@ -60,17 +70,17 @@
             @if (isPsicologo || isAdmin)
             {
                 <RadzenDropDown TValue="GabinetePsicologia.Shared.Paciente" Data=@lsPacientes FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
-                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Paciente" Change="@changePaciente"  />
+                        TextProperty="FullName" ValueProperty="Id" AllowClear=true Placeholder="Selecciona un Paciente" Change="@changePaciente" />
             }
 
         </div>
         <br /><br />
         <RadzenScheduler @ref=@scheduler Data="@data" TItem="Cita" Style="width:70%"
-                     StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="1" TodayText="Hoy" 
+                     StartProperty="FecInicio" EndProperty="FecFin" TextProperty="Nombre" SelectedIndex="1" TodayText="Hoy"
                      SlotRender=@OnSlotRender AppointmentRender=@OnAppointmentRender SlotSelect=@OnSlotSelect AppointmentSelect="OnAppointmentSelect">
             <RadzenDayView Text="Dia" TimeFormat="HH:mm" />
             <RadzenWeekView Text="Semana" TimeFormat="HH" StartTime="StartDate" EndTime="EndDate" />
-            <RadzenMonthView Text="Mes"  />
+            <RadzenMonthView Text="Mes" />
             <RadzenYearView Text="Año" />
         </RadzenScheduler>
         <br>
@@ -80,5 +90,5 @@
 else
 {
     <_403 />
-   
+
 }

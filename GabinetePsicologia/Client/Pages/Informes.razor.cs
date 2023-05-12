@@ -45,7 +45,10 @@ namespace GabinetePsicologia.Client.Pages
 
                 }
                 isInRole = true;
-                LsInformes = await InformesServices.GetInformesById(Persona.Id);
+                if (user.IsInRole("Paciente"))
+                    LsInformes = await InformesServices.GetInformesPacienteById(Persona.Id);
+                else
+                    LsInformes = await InformesServices.GetInformesById(Persona.Id);
             }
         }
 
@@ -67,7 +70,7 @@ namespace GabinetePsicologia.Client.Pages
                 {
                     a.Id = Guid.NewGuid();
 
-                  
+
                     LsInformes.Add(informe);
                     NotificationService.Notify(NotificationSeverity.Success, "Ok", "Informe Creado Correctamente");
                     if (LsInformes.Count == 1)

@@ -245,6 +245,15 @@ body .content-table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
+body .RadzenNumericTableSeveridad {
+  border: 1px solid var(--rz-primary) !important;
+  border-radius: var(--rz-border-radius-4) !important;
+  margin-top: 10px;
+  width: 30%;
+}
+body .RadzenNumericTableSeveridad:first-child {
+  text-align: center;
+}
 body .content-table thead tr {
   background-color: var(--rz-primary);
   color: #ffffff;
@@ -429,6 +438,9 @@ body .top-row::deep .btn-link:hover {
   body .AgendaFilter {
     display: flex;
     flex-direction: column;
+  }
+  body .RadzenNumericTableSeveridad {
+    width: 100% !important;
   }
   body .AgendaFilter1 {
     margin-bottom: 2em;

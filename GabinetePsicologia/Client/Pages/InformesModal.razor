@@ -86,7 +86,7 @@
                                                     <td>@x.TrastornoTipo</td>
                                                     @if (isEditSeveridad && IdTrastornoEdit == x.Id)
                                                     {
-                                                        <td><RadzenNumeric Min="1" Max="5" Visible=isPsicologo @bind-Value=@x.Severidad Style="border: 1px solid var(--rz-primary) !important;border-radius: var(--rz-border-radius-4) !important;width:30%;margin-top: 10px;" /></td>
+                                                        <td><RadzenNumeric Min="1" Max="5" Visible=isPsicologo @bind-Value=@x.Severidad class="RadzenNumericTableSeveridad" /></td>
                                                         <td><RadzenButton Icon="save" Click="() => GuardarSeveridad(x.Id)" class="BotonLapiz" /></td>
                                                     }
                                                     else
@@ -144,12 +144,14 @@
                     <RadzenTextArea @bind-Value=Informe.Resultados class="TextArea" />
                 </div>
             </div>
-            @if (!isNew)
+          @*  @if (!isNew)*@
+            @if (true)
             {
                 <div>
                     <div class="d-flex justify-content-center align-items-center DivBotonUsuarios" style="margin-top:10px;">
-                        <RadzenButton Icon="description" Text="Archivos" class=@cssButtonArchivo Style="margin-right:3px" Click=clickArchivo />
-                        <RadzenButton Icon="link" Text="Enlaces" class=@(cssButtonEnlace+ " marginTop1em") Click=clickEnlace Style="margin-left:3px;" />
+                       @* <RadzenButton Icon="description" Text="Archivos" class=@cssButtonArchivo Style="margin-right:3px" Click=clickArchivo />
+                        <RadzenButton Icon="link" Text="Enlaces" class=@(cssButtonEnlace+ " marginTop1em") Click=clickEnlace Style="margin-left:3px;" />*@
+                        <RadzenText TextStyle="TextStyle.DisplayH6" Text="Enlaces" />
                     </div>
                     @if (verArchivos)
                     {
