@@ -25,6 +25,7 @@ builder.Services.AddScoped<PacientesServices>();
 builder.Services.AddScoped<CitasServices>();
 builder.Services.AddScoped<InformesServices>();
 builder.Services.AddScoped<ContextMenuService>();
+builder.Services.AddScoped<MensajesServices>();
 builder.Services.AddApiAuthorization();
 
 

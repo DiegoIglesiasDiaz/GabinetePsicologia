@@ -1,7 +1,9 @@
 ﻿@page "/Contacto"
+@using GabinetePsicologia.Client.Services;
 @using Radzen;
 @using GabinetePsicologia.Shared
 @inject NotificationService NotificationService
+@inject MensajesServices MensajesServices
 <PageTitle>Contacto</PageTitle>
 <style>
 		body {
@@ -132,6 +134,7 @@
 	Mensaje mensaje = new Mensaje();
 	public void Enviado()
 	{
+		MensajesServices.Enviar(mensaje);
 		NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
 	}
 }
