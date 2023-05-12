@@ -126,6 +126,10 @@ body .MisDatosTextArea {
   border-radius: var(--rz-border-radius-4) !important;
   margin-left: 20px;
 }
+body .ContactoTextArea {
+  border: 1px solid var(--rz-primary) !important;
+  border-radius: var(--rz-border-radius-4) !important;
+}
 body .EditTextArea {
   border: 1px solid var(--rz-primary) !important;
   border-radius: var(--rz-border-radius-4);

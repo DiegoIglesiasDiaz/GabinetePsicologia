@@ -1,6 +1,7 @@
 ﻿@page "/Contacto"
-@using System.Net.Mail
-@using System.Net
+@using Radzen;
+@using GabinetePsicologia.Shared
+@inject NotificationService NotificationService
 <PageTitle>Contacto</PageTitle>
 <style>
 		body {
@@ -101,59 +102,37 @@
 		</div>
 		<div class="contact-form">
 			
-			<form method="post" action="enviar.php">
-				<label for="name">Nombre:</label>
-				<input type="text" id="name" name="name" required>
-				<label for="email">Correo electrónico:</label>
-				<input type="email" id="email" name="email" required>
-
-				<label for="message">Mensaje:</label>
-				<textarea id="message" name="message" required></textarea>
-
-				<input type="submit" value="Enviar">
-			</form>
+			<RadzenTemplateForm TItem="Mensaje" Data="mensaje" Action="/Mensajes" Method="Post" class="d-flex justify-content-center align-items-center flex-column" Submit="Enviado">
+				<div class="d-flex flex-column">
+					<RadzenLabel Text="Asunto:" />
+					<RadzenTextBox Name="Asunto" class="ContactoTextArea" @bind-Value=mensaje.Asunto/>
+					<RadzenRequiredValidator Style="position:relative;width: fit-content;" Component="Asunto" Popup=true Text="Debes de completar este campo" />
+				</div>
+			
+				<div style="margin-top:1em;" class="d-flex flex-column">
+					<RadzenLabel Text="Correo:" />
+					<RadzenTextBox Name="correo" class="ContactoTextArea" @bind-Value=mensaje.Correo />
+					<RadzenRequiredValidator Style="position:relative;width: fit-content;" Component="correo" Popup=true Text="Debes de completar este campo" />
+					<RadzenEmailValidator Popup=true Style="position:relative;width: fit-content;" Component="correo" Text="Este no es un Correo valido"></RadzenEmailValidator>
+				</div>
+				<div style="margin-top:1em;" class="d-flex flex-column">
+					<RadzenLabel Text="Mensaje:" />
+					<RadzenTextArea Name="Mensaje" class="ContactoTextArea" Rows="10" Cols="100" @bind-Value=mensaje.MensajeCuerpo />
+					<RadzenRequiredValidator Style="position:relative;z-index:2;width: fit-content;" Component="Mensaje" Popup=true Text="Debes de completar este campo" />
+				</div>
+				<RadzenButton Icon="eject" ButtonType="ButtonType.Submit" class="BotonPrincipal" Text="Enviar" />
+			</RadzenTemplateForm>
 		</div>
 		<div class="map">
 			<iframe width="100%" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=madrid+(Mi%20nombre%20de%20egocios)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
 		</div>
 </div>
 </Page>
-
-@code {
-    string name;
-    string email;
-    string message;
-
-    void SendMessage()
-    {
-        // Configuración del servidor de correo
-        SmtpClient client = new SmtpClient("smtp.example.com", 587);
-        client.UseDefaultCredentials = false;
-        client.Credentials = new NetworkCredential("tu_correo@example.com", "tu_contraseña");
-        client.EnableSsl = true;
-
-        // Creación del mensaje de correo electrónico
-        MailMessage mailMessage = new MailMessage();
-        mailMessage.From = new MailAddress("tu_correo@example.com");
-        mailMessage.To.Add("destinatario@example.com");
-        mailMessage.Subject = "Nuevo mensaje de la clínica de psicología";
-        mailMessage.Body = "Nombre: " + name + "\n" +
-                           "Correo electrónico: " + email + "\n" +
-                           "Mensaje: " + message;
-
-        // Envío del correo electrónico
-        try
-        {
-            client.Send(mailMessage);
-            // Mensaje de éxito
-            //MessageBox.Show("El mensaje ha sido enviado con éxito");
-        }
-        catch (Exception ex)
-        {
-            // Mensaje de error
-            //MessageBox.Show("No se pudo enviar el mensaje. Error: " + ex.Message);
-        }
-    }
-
+@code{
+	Mensaje mensaje = new Mensaje();
+	public void Enviado()
+	{
+		NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
+	}
 }
 

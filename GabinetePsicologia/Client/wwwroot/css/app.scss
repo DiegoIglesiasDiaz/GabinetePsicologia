@@ -178,6 +178,12 @@ body {
         margin-left: 20px;
     }
 
+    .ContactoTextArea {
+        border: 1px solid var(--rz-primary) !important;
+        border-radius: var(--rz-border-radius-4) !important;
+     
+    }
+
     .EditTextArea {
         border: 1px solid var(--rz-primary) !important;
         border-radius: var(--rz-border-radius-4);
@@ -327,10 +333,10 @@ body {
         width: 30%;
     }
 
-    .RadzenNumericTableSeveridad:first-child{
-        text-align:center;
+    .RadzenNumericTableSeveridad:first-child {
+        text-align: center;
     }
-    
+
     .content-table thead tr {
         background-color: var(--rz-primary);
         color: #ffffff;

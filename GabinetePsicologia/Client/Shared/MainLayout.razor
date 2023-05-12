@@ -108,6 +108,14 @@
                                     <span class="rz-navigation-item-text">TRASTORNOS</span>
                                 </Template>
                             </RadzenMenuItem>
+                            @if (context.User.IsInRole("Administrador"))
+                            {
+                                <RadzenMenuItem Path="/Mensajes">
+                                    <Template>
+                                    <span class="rz-navigation-item-text">MENSAJES</span>
+                                </Template>
+                            </RadzenMenuItem>
+                            }
                         }
                     </Authorized>
                 </AuthorizeView>
