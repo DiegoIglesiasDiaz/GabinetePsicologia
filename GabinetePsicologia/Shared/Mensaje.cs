@@ -15,5 +15,6 @@ namespace GabinetePsicologia.Shared
         public string Asunto { get; set; }
         public string Correo { get; set; }
         public string MensajeCuerpo { get; set; }
+        public bool Visto { get; set; }
     }
 }

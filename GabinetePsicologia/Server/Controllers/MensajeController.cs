@@ -7,7 +7,7 @@ namespace GabinetePsicologia.Server.Controllers
 {
 	[Route("[controller]")]
 	[ApiController]
-	[AllowAnonymous]
+	
 	public class MensajeController : Controller
 	{
 		private readonly ApplicationDbContext _context;
@@ -18,11 +18,34 @@ namespace GabinetePsicologia.Server.Controllers
 
 		}
 		[HttpPost]
+		[AllowAnonymous]
 		public IActionResult Insertar(Mensaje mensaje)
 		{
 			_context.Mensajes.Add(mensaje);
 			_context.SaveChanges();
 			return Ok("Insertado Correctamente");
+		}
+		[HttpPost("Actualizar")]
+		public IActionResult Actualizar(Mensaje mensaje)
+		{
+			_context.Mensajes.Update(mensaje);
+			_context.SaveChanges();
+			return Ok("Actualizado Correctamente");
+		}
+		[HttpPost("Delete")]
+		public IActionResult Delete(List<Mensaje> mensajes)
+		{
+			foreach(var m in mensajes)
+			{
+				_context.Mensajes.Remove(m);
+			}
+			_context.SaveChanges();
+			return Ok("Eliminado Correctamente");
+		}
+		[HttpGet]
+		public IActionResult Get()
+		{			
+			return Ok(_context.Mensajes.ToList());
 		}
 	}
 }

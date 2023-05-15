@@ -110,13 +110,15 @@
 					<RadzenTextBox Name="Asunto" class="ContactoTextArea" @bind-Value=mensaje.Asunto/>
 					<RadzenRequiredValidator Style="position:relative;width: fit-content;" Component="Asunto" Popup=true Text="Debes de completar este campo" />
 				</div>
-			
-				<div style="margin-top:1em;" class="d-flex flex-column">
-					<RadzenLabel Text="Correo:" />
-					<RadzenTextBox Name="correo" class="ContactoTextArea" @bind-Value=mensaje.Correo />
-					<RadzenRequiredValidator Style="position:relative;width: fit-content;" Component="correo" Popup=true Text="Debes de completar este campo" />
-					<RadzenEmailValidator Popup=true Style="position:relative;width: fit-content;" Component="correo" Text="Este no es un Correo valido"></RadzenEmailValidator>
-				</div>
+				@if (!isInRole)
+				{
+					<div style="margin-top:1em;" class="d-flex flex-column">
+						<RadzenLabel Text="Correo:" />
+						<RadzenTextBox Name="correo" class="ContactoTextArea" @bind-Value=mensaje.Correo />
+						<RadzenRequiredValidator Style="position:relative;width: fit-content;" Component="correo" Popup=true Text="Debes de completar este campo" />
+						<RadzenEmailValidator Popup=true Style="position:relative;width: fit-content;" Component="correo" Text="Este no es un Correo valido"></RadzenEmailValidator>
+					</div>
+				}
 				<div style="margin-top:1em;" class="d-flex flex-column">
 					<RadzenLabel Text="Mensaje:" />
 					<RadzenTextArea Name="Mensaje" class="ContactoTextArea" Rows="10" Cols="100" @bind-Value=mensaje.MensajeCuerpo />
@@ -130,12 +132,5 @@
 		</div>
 </div>
 </Page>
-@code{
-	Mensaje mensaje = new Mensaje();
-	public void Enviado()
-	{
-		MensajesServices.Enviar(mensaje);
-		NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
-	}
-}
+
 
