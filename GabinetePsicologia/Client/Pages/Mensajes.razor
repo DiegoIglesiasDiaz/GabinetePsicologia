@@ -2,45 +2,65 @@
 @using GabinetePsicologia.Shared
 
 <PageTitle>Mensajes</PageTitle>
-@if(isAdmin){
-    <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="12"
-                AllowSorting="true" Data="@lsMensajes" TItem="Mensaje" ColumnWidth="200px" AllowRowSelectOnRowClick=false
-                SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedMensajes class="m-4" Style="color:white;width: 100%;">
-        <Columns>
-            <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
-                <HeaderTemplate>
-                    <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedMensajes != null && lsMensajes.Count().Equals(selectedMensajes.Count()))"
-                                Change="@(args => selectedMensajes = args ? lsMensajes.ToList() : null)" />
-                </HeaderTemplate>
-                <Template Context="data">
-                    <RadzenCheckBox TriState="false" Value="@(selectedMensajes != null && selectedMensajes.Contains(data))"
-                                TValue="bool" Change=@(args => { if(!false) { grid.SelectRow(data); }}) />
-                </Template>
-            </RadzenDataGridColumn>
-
-            <RadzenDataGridColumn TItem="Mensaje" Property="Correo" Title="Correo" />
-            <RadzenDataGridColumn TItem="Mensaje" Property="Asunto" Title="Asunto" />
-            <RadzenDataGridColumn TItem="Mensaje" Width="60px" Title="Visto" >
-                <Template Context="data">
-                    @if(data.Visto){
-                        <RadzenText Text="Si" />
-                    }else{
-                        <RadzenText Text="No" />
-                    }
-                     
-                </Template>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
-                <Template Context="data">
-                    <RadzenButton Icon="mail"  class="BotonLapiz" />
-                </Template>
-            </RadzenDataGridColumn>
+@if (isAdmin)
+{
+    @if (lsMensajes.Count > 0)
+    {
+        <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
+            <div style="width:100%">
+                <RadzenButton Text="Borrar" Click="Borrar" class="BotonDelete" />
+            </div>
+            
 
 
-        </Columns>
-    </RadzenDataGrid>
+            <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="12"
+                    AllowSorting="true" Data="@lsMensajes" TItem="Mensaje" ColumnWidth="200px" AllowRowSelectOnRowClick=false
+                    SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedMensajes class="m-4" Style="color:white;width: 100%;">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
+                        <HeaderTemplate>
+                            <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedMensajes != null && lsMensajes.Count().Equals(selectedMensajes.Count()))"
+                                    Change="@(args => selectedMensajes = args ? lsMensajes.ToList() : null)" />
+                        </HeaderTemplate>
+                        <Template Context="data">
+                            <RadzenCheckBox TriState="false" Value="@(selectedMensajes != null && selectedMensajes.Contains(data))"
+                                    TValue="bool" Change=@(args => { if(!false) { grid.SelectRow(data); }}) />
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="Mensaje" Property="Correo" Title="Correo" />
+                    <RadzenDataGridColumn TItem="Mensaje" Property="Asunto" Title="Asunto" />
+                    <RadzenDataGridColumn TItem="Mensaje" Width="60px" Title="Visto">
+                        <Template Context="data">
+                            @if (data.Visto)
+                            {
+                                <RadzenText Text="Si" />
+                            }
+                            else
+                            {
+                                <RadzenText Text="No" />
+                            }
+
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
+                        <Template Context="data">
+                            <RadzenButton Icon="mail" Click="() => abrirModal(data)" class="BotonLapiz" />
+                        </Template>
+                    </RadzenDataGridColumn>
 
 
-}else{
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    }
+    else
+    {
+        <p>No hay Mensajes.</p>
+    }
+
+}
+else
+{
     <_403 />
 }

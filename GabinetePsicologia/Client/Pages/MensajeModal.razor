@@ -1,0 +1,27 @@
+﻿@inject DialogService DialogService
+@using GabinetePsicologia.Shared
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex justify-content-between" style="width:100%">
+        <RadzenButton Text="Borrar" Click="Borrar" class="BotonDelete" />
+        <a href="@mailto"><RadzenButton Text="Contestar" class="BotonPrincipal" /></a>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <RadzenLabel Text="Correo:" />
+        <RadzenTextBox class="MisDatosTextArea calendar" @bind-Value=Mensaje.Correo ReadOnly=true />
+    </div>
+    <div class="d-flex flex-column  justify-content-center align-items-center">
+
+        <RadzenLabel Text="Asunto:" />
+        <RadzenTextBox class="MisDatosTextArea calendar" @bind-Value=Mensaje.Asunto ReadOnly=true />
+
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center" style="width:80%">
+
+        <RadzenLabel Text="Mensaje:" />
+        <RadzenTextArea class="TextArea" @bind-Value=Mensaje.MensajeCuerpo ReadOnly=true Style="border: 1px solid grey !important" />
+
+    </div>
+    <RadzenButton Text="Cerrar" class="BotonPrincipal" Click="DialogService.Close" Style="margin-top:1em;" />
+   
+</div>

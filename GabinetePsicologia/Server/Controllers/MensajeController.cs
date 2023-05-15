@@ -28,8 +28,11 @@ namespace GabinetePsicologia.Server.Controllers
 		[HttpPost("Actualizar")]
 		public IActionResult Actualizar(Mensaje mensaje)
 		{
-			_context.Mensajes.Update(mensaje);
-			_context.SaveChanges();
+			if(_context.Mensajes.Where(x=> x.Id == mensaje.Id).Any())
+			{
+				_context.Mensajes.Update(mensaje);
+				_context.SaveChanges();
+			}		
 			return Ok("Actualizado Correctamente");
 		}
 		[HttpPost("Delete")]
