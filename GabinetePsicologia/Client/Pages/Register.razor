@@ -89,8 +89,11 @@
                                 <RadzenTextBox @bind-Value=PersonaForm.Direccion Name="Direccion" class="w-100" />
                                 <RadzenRequiredValidator Style="position:relative" Popup=true Component="Direccion" Text="*Direccion requerido"></RadzenRequiredValidator>
                             </RadzenCard><br><br>
-                            <div style="display:flex;align-items:center;justify-content:center">
-
+                            <div style="display:flex;align-items:center;justify-content:center;flex-direction:column">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <RadzenCheckBox TValue="bool" Value="ConfirmCondicionesYTerminos" Change="CondicionesYTerminosChange" />
+                                    <p style="text-align:center;margin-left:1em;">Marcando esta casilla aceptas las <RadzenButton Text="Condiciones de Servico" Click="CondicionesYTerminos" class="BotonLapiz" />.</p>
+                                </div>
                                 <RadzenButton style="margin:10px" Text="Registrar" ButtonType="ButtonType.Submit" class="me-1" />
                             </div>
 

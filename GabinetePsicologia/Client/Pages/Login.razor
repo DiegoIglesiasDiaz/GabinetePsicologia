@@ -8,7 +8,11 @@
                 Iniciar Sesión
             </RadzenText>
             <RadzenTemplateForm Data=@("SimpleLogin")>
-                <RadzenLogin RegisterMessageText="¿No tienes una Cuenta?" RegisterText="REGISTRATE" Register="OnRegister" AutoComplete="true" AllowRegister="true" AllowResetPassword="false" AllowRememberMe="true" UserText="Correo" RememberMeText="¿Recuerdame el Usuario?" Login=@(args => OnLoginAsync(args, "Simple login")) />
+                <RadzenLogin RegisterMessageText="¿No tienes una Cuenta?" RegisterText="REGÍSTRATE" Register="OnRegister" AutoComplete="true" AllowRegister="true" AllowResetPassword="false" AllowRememberMe="true" UserText="Correo" RememberMeText="¿Recuerdame el Usuario?" Login=@(args => OnLoginAsync(args, "Simple login")) />
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p>¿Has olvidado la Contraseña?</p>
+                    <RadzenButton class="BotonPrincipal" Text="Recuperar Contraseña" Click="RecuperarContraseña" />
+                    </div>
             </RadzenTemplateForm>
         </RadzenCard>
         <div class="col-12 d-flex flex-column p-3 login ">

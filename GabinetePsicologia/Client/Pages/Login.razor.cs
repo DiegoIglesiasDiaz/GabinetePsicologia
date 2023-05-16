@@ -10,6 +10,7 @@ namespace GabinetePsicologia.Client.Pages
     {
         [Inject] private UsuarioServices UsuarioServices { get; set; }
         [Inject] private NavigationManager _navigationManager { get; set; }
+        [Inject] private DialogService DialogService { get; set; }
         [Inject] private NotificationService _notificationService { get; set; }
 
         async Task OnLoginAsync(LoginArgs args, string name)
@@ -38,6 +39,10 @@ namespace GabinetePsicologia.Client.Pages
         {
             UsuarioServices.ExternalLogin("Google");
             
+        }
+        public async void RecuperarContraseña()
+        {
+            await DialogService.OpenAsync<RecuperarContraseña>("Recuperar Contraseña");
         }
     }
 }

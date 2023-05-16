@@ -18,9 +18,11 @@ namespace GabinetePsicologia.Client.Pages
         public bool isAdmin;
         public bool isPiscologo;
         public bool isEdit;
+        public bool ConfirmCondicionesYTerminos = false;
         public bool verPasswd = false;
         public bool verRePasswd = false;
         [Inject] private UsuarioServices UsuarioServices { get; set; }
+        [Inject] private DialogService DialogService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }
         [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -32,6 +34,11 @@ namespace GabinetePsicologia.Client.Pages
         }
         private async void GuardarPersona(PersonaDto data)
         {
+            if(!ConfirmCondicionesYTerminos)
+            {
+				NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de Aceptar las Condiciones de Servicio para Continuar");
+				return;
+			}
             if (data.FecNacim < DateTime.Now.AddYears(-100) || data.FecNacim > DateTime.Now)
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Error", "Debes de seleccionar una Fecha de Naciemiento válido");
@@ -71,5 +78,15 @@ namespace GabinetePsicologia.Client.Pages
         {
             verRePasswd = !verRePasswd;
         }
-    }
+        public void CondicionesYTerminosChange()
+        {
+            ConfirmCondicionesYTerminos = !ConfirmCondicionesYTerminos ;
+			
+		}
+		public async void CondicionesYTerminos()
+		{
+            await DialogService.Alert("Al registrarte, aceptas que tus datos personales sean almacenados y procesados de acuerdo con nuestra política de privacidad.\r\nSolo se permite un registro por persona. Si se descubre que tienes múltiples cuentas, podemos suspender o cancelar todas ellas sin previo aviso.\r\nEs responsabilidad del usuario mantener su información de cuenta actualizada y segura. Si se sospecha de cualquier actividad sospechosa, debes notificarlo inmediatamente a nuestro equipo de soporte.\r\nNos reservamos el derecho de suspender o cancelar cualquier cuenta que infrinja nuestras políticas o términos de servicio en cualquier momento, sin previo aviso.\r\nAl registrarte, aceptas recibir comunicaciones de nuestra parte relacionadas con el servicio que ofrecemos.\r\nCualquier contenido que publiques o compartas a través de nuestra plataforma es tu responsabilidad y debes asegurarte de que cumpla con todas las leyes y regulaciones aplicables. Nos reservamos el derecho de eliminar cualquier contenido que infrinja nuestras políticas o términos de servicio en cualquier momento.\r\nAl registrarte, aceptas cumplir con todas nuestras políticas y términos de servicio, y cualquier cambio que hagamos en ellos en el futuro.", "Condiciones de Servicio", new AlertOptions() { Width="300",OkButtonText="Cerrar" });
+
+		}
+	}
 }
