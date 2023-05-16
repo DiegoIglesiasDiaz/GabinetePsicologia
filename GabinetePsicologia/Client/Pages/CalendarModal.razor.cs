@@ -118,9 +118,14 @@ namespace GabinetePsicologia.Client.Pages
                 selectedPsicologo = lsPsicologo.FirstOrDefault(x => x.Id == Id);
             }
         }
-        void Borrar()
+        async void Borrar()
         {
-            DialogService.Close(new Cita());
+			bool? result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar esta Cita?");
+            if(result != null && result == true)
+            {
+				DialogService.Close(new Cita());
+			}
+			
         }
         private async Task<bool> comprobarDisponibilidad()
         {

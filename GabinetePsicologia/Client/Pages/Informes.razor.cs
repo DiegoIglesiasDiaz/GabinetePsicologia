@@ -98,21 +98,31 @@ namespace GabinetePsicologia.Client.Pages
         }
 
 
-        public void BorrarInforme()
+        public async void BorrarInforme()
         {
-            if (selectedInforme == null || selectedInforme.Count == 0)
+            bool? result = false;
+
+			if (selectedInforme == null || selectedInforme.Count == 0)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "", "No has seleccionado ningún Informe.");
                 return;
             }
-            InformesServices.BorrarInforme(selectedInforme);
-            foreach (var inf in selectedInforme)
+            if(selectedInforme.Count == 1)
+			    result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar este Informe?");
+            else
+				result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar estos Informes?");
+
+            if (result != null && result == true)
             {
-                LsInformes.Remove(inf);
+                InformesServices.BorrarInforme(selectedInforme);
+                foreach (var inf in selectedInforme)
+                {
+                    LsInformes.Remove(inf);
+                }
+                selectedInforme.Clear();
+                grid.Reload();
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Borrado correctamente.");
             }
-            selectedInforme.Clear();
-            grid.Reload();
-            NotificationService.Notify(NotificationSeverity.Success, "Ok", "Borrado correctamente.");
         }
 
     }

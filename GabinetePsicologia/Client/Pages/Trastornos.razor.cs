@@ -60,14 +60,24 @@ namespace GabinetePsicologia.Client.Pages
             
             DialogService.Close();
         }
-        private  void  BorrarTrastorno()
+        private async void  BorrarTrastorno()
         {
             if (selectedTrastornos  == null|| selectedTrastornos.Count == 0)
             {
                 NotificationService.Notify(NotificationSeverity.Warning, "", "No has seleccionado ningún trastorno.");
                 return;
             }
-            TrastornosServices.BorrarTrastornos(selectedTrastornos);
+            bool? result = false;
+            if(selectedTrastornos.Count == 1)
+			    result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar el Trastorno seleccionado?");
+            else
+				result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar los Trastornos Seleccionados?");
+
+			if ( result == false)
+			{
+				return;
+			}
+			TrastornosServices.BorrarTrastornos(selectedTrastornos);
             foreach(var trast in selectedTrastornos)
             {
                 LsTrastornos.Remove(trast);

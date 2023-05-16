@@ -47,11 +47,10 @@ namespace GabinetePsicologia.Client.Pages
             LoginUser = user.Identity.Name;
         }
         
-        private void BorrarPersona()
+        private async void BorrarPersona()
         {
             if (selectedUsuarios != null)
             {
-
 
                 var remove = selectedUsuarios.FirstOrDefault(x => x.Email == LoginUser);
                 if (remove != null)
@@ -64,7 +63,19 @@ namespace GabinetePsicologia.Client.Pages
                 NotificationService.Notify(NotificationSeverity.Warning, "", "No has seleccionado ningún Usuario.");
                 return;
             }
-            UsuarioServices.BorrarUsuarios(selectedUsuarios);
+			bool? result = false;
+			if (selectedUsuarios.Count == 1)
+				result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar el Usuario seleccionado?");
+			else
+				result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar los Usuarios Seleccionados?");
+
+			if (result == false)
+			{
+				return;
+			}
+
+
+			UsuarioServices.BorrarUsuarios(selectedUsuarios);
             foreach (var user in selectedUsuarios)
             {
                 LsUsuarios.Remove(user);

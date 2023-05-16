@@ -271,8 +271,13 @@ namespace GabinetePsicologia.Client.Pages
         }
         public async void Borrar(string[] file)
         {
-
-            string fileName = file[0];
+			bool? result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar este Archivo?");
+            if (result == null || result == false)
+            {
+				return;
+			}
+             
+			string fileName = file[0];
             string folder = Informe.Id.ToString();
             if (file[1] == "No")
             {
@@ -290,8 +295,12 @@ namespace GabinetePsicologia.Client.Pages
         }
         public async void BorrarEnlace(string[] enlace)
         {
-
-            bool? a = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar el Enlace?");
+			bool? result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar este Enlace?");
+			if (result == null || result == false)
+			{
+				return;
+			}
+			bool? a = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar el Enlace?");
             if (a == null || a == false)
                 return;
 
@@ -360,9 +369,14 @@ namespace GabinetePsicologia.Client.Pages
             EnlacePrivateTextBox = "";
 
         }
-        public void BorrarTrastorno(InformeTrastorno inf)
+        public async void BorrarTrastorno(InformeTrastorno inf)
         {
-            Informe.lsInformeTrastornos.Remove(inf);
+			//bool? result = await DialogService.OpenAsync<ConfirmModal>($"¿Desea Borrar este Trastorno?");
+			//if (result == null || result == false)
+			//{
+			//	return;
+			//}
+			Informe.lsInformeTrastornos.Remove(inf);
         }
         public void CloseModal()
         {
