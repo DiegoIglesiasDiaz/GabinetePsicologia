@@ -42,7 +42,7 @@ namespace GabinetePsicologia.Client.Pages
                 TrastornosServices.AñadirTrastorno(formTrastorno);
                 LsTrastornos.Add(formTrastorno);
                 if (LsTrastornos.Count == 1) NavigationManager.NavigateTo("/Trastornos", true);
-                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Trastorno añadido correctamente.");
+                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Trastorno añadido correctamente.");
             }
             else{
                 TrastornosServices.EditarTrastornos(formTrastorno);
@@ -53,8 +53,11 @@ namespace GabinetePsicologia.Client.Pages
                 NotificationService.Notify(NotificationSeverity.Success, "Ok", "Trastorno editado correctamente.");
             }
 
-  
-            grid.Reload();
+            if(LsTrastornos.Count > 1)
+            {
+				grid.Reload();
+			}
+            
             DialogService.Close();
         }
         private  void  BorrarTrastorno()

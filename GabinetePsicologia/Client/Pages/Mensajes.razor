@@ -4,59 +4,67 @@
 <PageTitle>Mensajes</PageTitle>
 @if (isAdmin)
 {
-    @if (lsMensajes.Count > 0)
+    @if (lsMensajes != null)
     {
         <div class="d-flex flex-column align-items-center justify-content-center " style="padding-top:1em">
-            <div style="width:100%">
-                <RadzenButton Text="Borrar" Click="Borrar" class="BotonDelete" />
+            <div style="width:100%" class="d-flex justify-content-end">
+                <RadzenButton Text="Borrar" Click="Borrar" class="BotonDelete" Style="margin-right: 1.5em;" />
             </div>
-            
 
 
-            <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="12"
+            @if (lsMensajes.Count > 0)
+            {
+
+
+                <RadzenDataGrid @ref="grid" AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="12"
                     AllowSorting="true" Data="@lsMensajes" TItem="Mensaje" ColumnWidth="200px" AllowRowSelectOnRowClick=false
                     SelectionMode="DataGridSelectionMode.Multiple" @bind-Value=@selectedMensajes class="m-4" Style="color:white;width: 100%;">
-                <Columns>
-                    <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
-                        <HeaderTemplate>
-                            <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedMensajes != null && lsMensajes.Count().Equals(selectedMensajes.Count()))"
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
+                            <HeaderTemplate>
+                                <RadzenCheckBox TriState="false" TValue="bool" Value="@( selectedMensajes != null && lsMensajes.Count().Equals(selectedMensajes.Count()))"
                                     Change="@(args => selectedMensajes = args ? lsMensajes.ToList() : null)" />
-                        </HeaderTemplate>
-                        <Template Context="data">
-                            <RadzenCheckBox TriState="false" Value="@(selectedMensajes != null && selectedMensajes.Contains(data))"
+                            </HeaderTemplate>
+                            <Template Context="data">
+                                <RadzenCheckBox TriState="false" Value="@(selectedMensajes != null && selectedMensajes.Contains(data))"
                                     TValue="bool" Change=@(args => { if(!false) { grid.SelectRow(data); }}) />
-                        </Template>
-                    </RadzenDataGridColumn>
+                            </Template>
+                        </RadzenDataGridColumn>
 
-                    <RadzenDataGridColumn TItem="Mensaje" Property="Correo" Title="Correo" />
-                    <RadzenDataGridColumn TItem="Mensaje" Property="Asunto" Title="Asunto" />
-                    <RadzenDataGridColumn TItem="Mensaje" Width="60px" Title="Visto">
-                        <Template Context="data">
-                            @if (data.Visto)
-                            {
-                                <RadzenText Text="Si" />
-                            }
-                            else
-                            {
-                                <RadzenText Text="No" />
-                            }
+                        <RadzenDataGridColumn TItem="Mensaje" Property="Correo" Title="Correo" />
+                        <RadzenDataGridColumn TItem="Mensaje" Property="Asunto" Title="Asunto" />
+                        <RadzenDataGridColumn TItem="Mensaje" Width="60px" Title="Visto">
+                            <Template Context="data">
+                                @if (data.Visto)
+                                {
+                                    <RadzenText Text="Si" />
+                                }
+                                else
+                                {
+                                    <RadzenText Text="No" />
+                                }
 
-                        </Template>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
-                        <Template Context="data">
-                            <RadzenButton Icon="mail" Click="() => abrirModal(data)" class="BotonLapiz" />
-                        </Template>
-                    </RadzenDataGridColumn>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Mensaje" Width="60px" Sortable="false" Filterable="false">
+                            <Template Context="data">
+                                <RadzenButton Icon="mail" Click="() => abrirModal(data)" class="BotonLapiz" />
+                            </Template>
+                        </RadzenDataGridColumn>
 
 
-                </Columns>
-            </RadzenDataGrid>
+                    </Columns>
+                </RadzenDataGrid>
+            }
+            else
+            {
+                <p>No hay Mensajes.</p>
+            }
         </div>
     }
     else
     {
-        <p>No hay Mensajes.</p>
+        <Loading />
     }
 
 }

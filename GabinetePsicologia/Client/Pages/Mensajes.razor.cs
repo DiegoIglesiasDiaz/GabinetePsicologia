@@ -16,7 +16,7 @@ namespace GabinetePsicologia.Client.Pages
 		[Inject] NotificationService NotificationService { get; set; }
 		[Inject] MensajesServices MensajesServices { get; set; }
 		IList<Mensaje> selectedMensajes;
-		IList<Mensaje> lsMensajes = new List<Mensaje>();
+		IList<Mensaje> lsMensajes ;
 		RadzenDataGrid<Mensaje> grid;
 		public bool isAdmin = false;
 		protected override async Task OnInitializedAsync()
