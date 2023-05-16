@@ -430,14 +430,7 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok("Contraseña Cambiada");
         }
 
-		[AllowAnonymous]
-		[HttpGet("signin-microsoft")]
-		public async Task<IActionResult> ExternalErrorLogin()
-        {
-			return LocalRedirect("/");
-		}
-
-
+	
 		[AllowAnonymous]
         [HttpPost("ExternalLogin/{provider}")]
         public IActionResult ExternalLogin(string provider)
