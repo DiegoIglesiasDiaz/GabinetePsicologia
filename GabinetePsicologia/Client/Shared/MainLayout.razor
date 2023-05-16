@@ -125,7 +125,7 @@
             <RadzenMenu class="accountMenu" Responsive=false>
                 <AuthorizeView>
                     <Authorized>
-                        @if (Name == null)
+                        @if (String.IsNullOrWhiteSpace(Name))
                         {
                             <RadzenMenuItem class="account-menu-item" style="margin-right:0px" Text="@context.User?.Identity?.Name" Icon="account_circle">
                                 <RadzenMenuItem Text="Mis Datos" Path="/MisDatos" />

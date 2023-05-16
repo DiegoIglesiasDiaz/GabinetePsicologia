@@ -429,7 +429,16 @@ namespace GabinetePsicologia.Server.Controllers
             await _userManager.SetPhoneNumberAsync(user, telefono);
             return Ok("Contraseña Cambiada");
         }
-        [AllowAnonymous]
+
+		[AllowAnonymous]
+		[HttpGet("signin-microsoft")]
+		public async Task<IActionResult> ExternalErrorLogin()
+        {
+			return LocalRedirect("/");
+		}
+
+
+		[AllowAnonymous]
         [HttpPost("ExternalLogin/{provider}")]
         public IActionResult ExternalLogin(string provider)
         {
@@ -456,8 +465,10 @@ namespace GabinetePsicologia.Server.Controllers
             var SurnamesSplit = splitSurames(SurNames);
             Apellido1 = SurnamesSplit[0];
             Apellido2 = SurnamesSplit[1];
-
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            Name = Name.Substring(0, 1).ToUpper() + Name.Substring(1).ToLower();
+            Apellido1 = Apellido1.Substring(0, 1).ToUpper() + Apellido1.Substring(1).ToLower();
+            Apellido2 = Apellido2.Substring(0, 1).ToUpper() + Apellido2.Substring(1).ToLower();
+			var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
             if (!result.Succeeded)
             {
