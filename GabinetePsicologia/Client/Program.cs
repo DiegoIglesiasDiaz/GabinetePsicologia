@@ -26,6 +26,7 @@ builder.Services.AddScoped<CitasServices>();
 builder.Services.AddScoped<InformesServices>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<MensajesServices>();
+builder.Services.AddScoped<TwoFactorServices>();
 builder.Services.AddApiAuthorization();
 
 

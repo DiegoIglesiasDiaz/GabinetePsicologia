@@ -1,0 +1,57 @@
+﻿@inject DialogService DialogService
+@using GabinetePsicologia.Shared
+@using Radzen
+
+<div>
+    <h5>Configurar Aplicación Doble Autenticación</h5>
+    <p>Sigue los siguientes pasos:</p>
+    <ol class="list">
+        <li>
+            <p>
+                Descargue una aplicación de autenticación de dos factores como Microsoft Authenticator para
+                <a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a> o
+                <a href="https://go.microsoft.com/fwlink/?Linkid=825073">IOS</a> or
+                Google Authenticator for
+                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</a> and
+                <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">IOS</a>.
+            </p>
+        </li>
+        <li>
+            <p>Escanea el QR o ingresa la siguiente clave: <kbd>@SharedKey</kbd> en su aplicación de autenticación de dos factores.</p>
+            @*<div class="alert alert-info">Learn how to <a href="https://go.microsoft.com/fwlink/?Linkid=852423">enable QR code generation</a>.</div>*@
+            <div id="qrCode" class="d-flex justify-content-center">
+                @if (model != "")
+                {
+                    <img src="data:image/png;base64,@model" alt="Código QR" style="padding-right: 2rem;width: 70% !important;" />
+                }
+                else
+                {
+                    <p>Cargando..</p>
+                }
+
+            </div>
+
+        </li>
+        <li>
+            <p>
+                Una vez que haya escaneado el código QR o ingresado la clave anterior, su aplicación de autenticación de dos factores le proporcionará
+                con un código único.
+            </p>
+
+            <div class="d-flex justify-content-center flex-column align-items-center">
+
+                <div class=" d-flex justify-content-center flex-row align-items-center" style="margin-bottom:1em">
+                    <RadzenLabel Text="Verificar Pin" />
+                    <RadzenTextBox @bind-Value=VerificarPin Style="margin-left:1em"/>
+                </div>
+                <div> 
+                    <RadzenButton Text="Verificar" Click="Verificar" class="BotonPrincipal" />
+                </div>
+               
+
+            </div>
+
+        </li>
+    </ol>
+</div>
+

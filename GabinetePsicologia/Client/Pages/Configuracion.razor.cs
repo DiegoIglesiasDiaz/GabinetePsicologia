@@ -5,6 +5,7 @@ using Radzen;
 using Microsoft.AspNetCore.Components.Authorization;
 using GabinetePsicologia.Client.Services;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Claims;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -17,10 +18,11 @@ namespace GabinetePsicologia.Client.Pages
         [Inject] UsuarioServices UsuarioServices { get; set; }
         public bool isInRole = false;
         public string correo = "";
+        private ClaimsPrincipal? user;
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             correo = user.Identity.Name;
             if (user.IsInRole("Paciente") || user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
             {
@@ -73,6 +75,16 @@ namespace GabinetePsicologia.Client.Pages
             }
 
         }
+        public async void Verficar2fa()
+        {
+			var result = await DialogService.OpenAsync<Enable2Fa>($"Activar 2FA",new Dictionary<string, object> { {"Correo", user.Identity.Name } });
+            if(result!= null && result == true)
+            {
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Doble Autenticación Habilitada");
+            }
+            
+		}
 
-    }
+
+	}
 }

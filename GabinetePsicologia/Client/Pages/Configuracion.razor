@@ -65,10 +65,11 @@
         </div>
         <div class="ConfiguracionDiv ConfiguracionDobleAutenticacion">
             <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
-            <label class="switch">
+            @*<label class="switch">
                 <input type="checkbox">
                 <span class="slider round"></span>
-            </label>
+            </label>*@
+            <RadzenButton Text="Habilitar" class="BotonPrincipal" Click="Verficar2fa" />
         </div>
         <div class="ConfiguracionDiv">
             <RadzenButton Icon="logout" class="BotonPrincipal " Text="Cerrar Sesión" Style="margin:0.5em" Click="Logout" />

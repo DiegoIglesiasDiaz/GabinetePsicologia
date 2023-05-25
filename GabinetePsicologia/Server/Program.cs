@@ -60,6 +60,7 @@ builder.Services.AddScoped<PacienteController>();
 builder.Services.AddScoped<InformeController>();
 builder.Services.AddScoped<CitaController>();
 builder.Services.AddScoped<MensajeController>();
+builder.Services.AddScoped<TwoFactorController>();
 
 builder.Services.AddCors(options =>
 {
