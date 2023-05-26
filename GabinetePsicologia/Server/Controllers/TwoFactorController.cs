@@ -39,11 +39,11 @@ namespace GabinetePsicologia.Server.Controllers
 		public string AuthenticatorUri { get; set; }
 
 
-		[HttpGet]
-		public async Task<IActionResult> a()
-		{
-			return Ok();
-		}
+		//[HttpGet]
+		//public async Task<IActionResult> a()
+		//{
+		//	return Ok();
+		//}
 		[HttpGet("{correo}")]
 		public async Task<string[]> OnGetAsync(string correo)
 		{

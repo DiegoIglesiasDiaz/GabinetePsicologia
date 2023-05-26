@@ -36,8 +36,8 @@ namespace GabinetePsicologia.Client.Services
         }
 		public async Task<string[]> GetSharedAndQr(string correo)
 		{
-			//var result = await _httpClient.GetFromJsonAsync<string[]>($"/TwoFactor/{correo}");
-			var result = await _httpClient.GetFromJsonAsync<string[]>($"/TwoFactor");
+			var result = await _httpClient.GetFromJsonAsync<string[]>($"/TwoFactor/{correo}");
+			//var result = await _httpClient.GetFromJsonAsync<string[]>($"/TwoFactor");
             return result;
 		}
 	}
