@@ -15,20 +15,20 @@ using Cita = GabinetePsicologia.Shared.Cita;
 
 namespace GabinetePsicologia.Server.Controllers
 {
-    [Authorize]
-    [Route("[controller]")]
-    [ApiController]
-  
-    public class TwoFactorController : ControllerBase
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly UrlEncoder _urlEncoder;
+	[Authorize]
+	[Route("[controller]")]
+	[ApiController]
+
+	public class TwoFactorController : ControllerBase
+	{
+		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly UrlEncoder _urlEncoder;
 		private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 		public TwoFactorController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, UrlEncoder urlEncoder)
-        {
-            _context = context;
-            _userManager = userManager;
+		{
+			_context = context;
+			_userManager = userManager;
 			_urlEncoder = urlEncoder;
 
 		}
@@ -39,18 +39,22 @@ namespace GabinetePsicologia.Server.Controllers
 		public string AuthenticatorUri { get; set; }
 
 
-
+		[HttpGet]
+		public async Task<IActionResult> a()
+		{
+			return Ok();
+		}
 		[HttpGet("{correo}")]
 		public async Task<string[]> OnGetAsync(string correo)
 		{
-			
-			var user =  _context.Users.FirstOrDefault(x=> x.UserName.ToLower() == correo.ToLower());
+
+			var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == correo.ToLower());
 			if (user == null)
 			{
 				return new string[0];
 			}
 
-			
+
 
 			return await LoadSharedKeyAndQrCodeUriAsync(user);
 		}
@@ -60,7 +64,7 @@ namespace GabinetePsicologia.Server.Controllers
 			var split = codeEmail.Split(";");
 			var code = split[0];
 			var correo = split[1];
-			
+
 			var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == correo.ToLower());
 			if (user == null)
 			{
@@ -83,8 +87,8 @@ namespace GabinetePsicologia.Server.Controllers
 
 			await _userManager.SetTwoFactorEnabledAsync(user, true);
 			var userId = await _userManager.GetUserIdAsync(user);
-			
-		
+
+
 			if (await _userManager.CountRecoveryCodesAsync(user) == 0)
 			{
 				var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
@@ -113,7 +117,7 @@ namespace GabinetePsicologia.Server.Controllers
 
 			var email = await _userManager.GetEmailAsync(user);
 			AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
-			return new string[] {SharedKey,AuthenticatorUri};
+			return new string[] { SharedKey, AuthenticatorUri };
 		}
 
 		private string FormatKey(string unformattedKey)
