@@ -29,6 +29,7 @@ builder.Services.AddIdentityServer()
         options.ApiResources.Single().UserClaims.Add("role");
     });
 
+//sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
 	options.TokenValidationParameters = new TokenValidationParameters
