@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Radzen;
 using GabinetePsicologia.Server.Controllers;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +29,19 @@ builder.Services.AddIdentityServer()
         options.ApiResources.Single().UserClaims.Add("role");
     });
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt()
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true,
+		ValidIssuer = "https://app.diegoiglesiasdiaz.com",
+		ValidAudience = "your_audience",
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+	};
+}).AddIdentityServerJwt()
     .AddGoogle(googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
