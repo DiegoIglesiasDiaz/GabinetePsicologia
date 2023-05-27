@@ -23,14 +23,15 @@ namespace GabinetePsicologia.Server.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+		private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UrlEncoder _urlEncoder;
 		private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-		public TwoFactorController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, UrlEncoder urlEncoder)
+		public TwoFactorController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, UrlEncoder urlEncoder, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
 			_urlEncoder = urlEncoder;
-
+			_signInManager = signInManager;
 		}
 
 		public string SharedKey { get; set; }
@@ -41,7 +42,7 @@ namespace GabinetePsicologia.Server.Controllers
 
 
 		[HttpGet("{correo}")]
-		public async Task<string[]> OnGetAsync(string correo)
+		public async Task<string[]> Get2FaCodeAndQR(string correo)
 		{
 			
 			var user =  _context.Users.FirstOrDefault(x=> x.UserName.ToLower() == correo.ToLower());
@@ -54,8 +55,27 @@ namespace GabinetePsicologia.Server.Controllers
 
 			return await LoadSharedKeyAndQrCodeUriAsync(user);
 		}
+		[HttpGet("ResetCode/{Correo}")]
+		public async Task<bool> Reset2FAc(string Correo)
+		{
+
+			var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == Correo.ToLower());
+			if (user == null)
+			{
+				return false;
+			}
+
+
+			await _userManager.SetTwoFactorEnabledAsync(user, false);
+			await _userManager.ResetAuthenticatorKeyAsync(user);
+			
+			await _signInManager.RefreshSignInAsync(user);
+
+			return true;
+
+		}
 		[HttpGet("code/{codeEmail}")]
-		public async Task<bool> OnPostAsync(string codeEmail)
+		public async Task<bool> Verificar2FA(string codeEmail)
 		{
 			var split = codeEmail.Split(";");
 			var code = split[0];

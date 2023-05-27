@@ -34,6 +34,11 @@ namespace GabinetePsicologia.Client.Services
             return result;
 
         }
+		public async Task<bool> Reset2FA(string correo)
+		{
+			var result = await _httpClient.GetFromJsonAsync<bool>($"/TwoFactor/ResetCode/{correo}");
+            return result;
+		}
 		public async Task<string[]> GetSharedAndQr(string correo)
 		{
 			var result = await _httpClient.GetFromJsonAsync<string[]>($"/TwoFactor/{correo}");

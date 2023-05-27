@@ -84,7 +84,15 @@ namespace GabinetePsicologia.Client.Pages
             }
             
 		}
+		public async void Resetear2fa()
+		{
+			var result = await DialogService.OpenAsync<Reset2Fa>($"Restablecer clave Doble Autenticación", new Dictionary<string, object> { { "Correo", user.Identity.Name } });
+			if (result != null && result == true)
+			{
+				NotificationService.Notify(NotificationSeverity.Success, "Ok", "Clave de doble autenticación Reseteada");
+			}
 
+		}
 
 	}
 }

@@ -63,13 +63,16 @@
             <RadzenButton Icon="mail" class="BotonPrincipal" Text="Cambiar Correo" Click="CambiarCorreo" Style="margin:0.5em" />
             <RadzenButton Icon="password" class="BotonPrincipal ConfiguracionBoton" Style="margin:0.5em" Text="Cambiar Contraseña" Click="CambiarContrasenia" />
         </div>
-        <div class="ConfiguracionDiv ConfiguracionDobleAutenticacion">
-            <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
-            @*<label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-            </label>*@
-            <RadzenButton Text="Habilitar" class="BotonPrincipal" Click="Verficar2fa" />
+        @*<div class="ConfiguracionDiv ConfiguracionDobleAutenticacion">
+    <RadzenText Style="color:var(--rz-primary);margin-bottom:0 !important;" TextStyle="TextStyle.DisplayH6">Doble Autenticación:&nbsp;&nbsp; </RadzenText>
+    <label class="switch">
+    <input type="checkbox">
+    <span class="slider round"></span>
+    </label>
+    </div>*@
+        <div class="ConfiguracionDiv">
+            <RadzenButton Text="Habilitar 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Verficar2fa" />
+            <RadzenButton Text="Resetear código 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Resetear2fa" />
         </div>
         <div class="ConfiguracionDiv">
             <RadzenButton Icon="logout" class="BotonPrincipal " Text="Cerrar Sesión" Style="margin:0.5em" Click="Logout" />
