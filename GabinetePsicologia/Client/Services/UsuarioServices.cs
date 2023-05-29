@@ -104,11 +104,11 @@ namespace GabinetePsicologia.Client.Services
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<bool> Login(LoginDto usuario)
+        public async Task<string> Login(LoginDto usuario)
         {
 
             var result = await _httpClientAnonymous.PostAsJsonAsync("/Usuario/Login", usuario);
-            return result.IsSuccessStatusCode;
+            return await result.Content.ReadAsStringAsync();
         }
         public async Task<bool> CambiarContraseña(string passwd,string correo)
         {

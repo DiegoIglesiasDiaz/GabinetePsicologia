@@ -23,6 +23,7 @@
                     <RadzenButton Text="Añadir Persona" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@(args => { PersonaForm = new PersonaDto();ShowInlineDialog(new PersonaDto()); })/>
                     <RadzenButton Text="Cambiar Correo" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarCorreoModal  />
                     <RadzenButton Text="Cambiar Contraseña" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@CambiarContraseñaModal />
+                    <RadzenButton Text="Deshabilitar 2FA" ButtonStyle="ButtonStyle.Primary" class="BotonPrincipal BotonUsuarios" Click=@Deshabilitar2fa />
                     <RadzenButton Text="Borrar Persona" ButtonStyle="ButtonStyle.Primary" class="BotonDelete BotonUsuarios" Click=@BorrarPersona  />
                 </div>
             }
@@ -52,6 +53,7 @@
                     <RadzenDataGridColumn TItem="PersonaDto" Property="Telefono" Title="Telefono" />
                     <RadzenDataGridColumn TItem="PersonaDto" Property="FecNacim" Title="Fecha de Nacimiento" FormatString="{0:d}" Width="160px" />
                     <RadzenDataGridColumn TItem="PersonaDto" Property="Direccion" Title="Direccion" />
+                    <RadzenDataGridColumn TItem="PersonaDto" Property="TwoFA" Title="2FA" />
                     @if (isAdmin)
                     {
                         <RadzenDataGridColumn TItem="PersonaDto" Width="60px" Sortable="false" Filterable="false">

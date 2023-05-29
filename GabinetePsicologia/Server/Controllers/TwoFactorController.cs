@@ -1,4 +1,5 @@
-﻿using GabinetePsicologia.Server.Data;
+﻿using GabinetePsicologia.Client.Pages;
+using GabinetePsicologia.Server.Data;
 using GabinetePsicologia.Server.Data.Migrations;
 using GabinetePsicologia.Server.Models;
 using GabinetePsicologia.Shared;
@@ -59,6 +60,23 @@ namespace GabinetePsicologia.Server.Controllers
 
 			return await LoadSharedKeyAndQrCodeUriAsync(user);
 		}
+
+		[AllowAnonymous]
+		[HttpPost("Verify")]
+		public async Task<string> Verify(Login2FADto data)
+		{
+			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+			if (user == null)
+			{
+				return "Error";
+			}
+			var result =await  _signInManager.TwoFactorAuthenticatorSignInAsync(data.code, data.rememberAccount, data.rememberMachine);
+			if (result.Succeeded)
+				return "Ok";
+			else
+				return "Error";
+			
+		}
 		[HttpGet("ResetCode/{Correo}")]
 		public async Task<bool> Reset2FA(string Correo)
 		{
@@ -92,6 +110,22 @@ namespace GabinetePsicologia.Server.Controllers
 			await _userManager.SetTwoFactorEnabledAsync(user, false);
 			await _signInManager.RefreshSignInAsync(user);
 
+			return true;
+
+		}
+		[HttpPost("ListDisable")]
+		public async Task<bool> Disable2FA(List<string> Correos)
+		{
+
+			foreach(var Correo in Correos)
+			{
+				var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == Correo.ToLower());
+				if (user == null)
+				{
+					return false;
+				}
+				await _userManager.SetTwoFactorEnabledAsync(user, false);
+			}
 			return true;
 
 		}

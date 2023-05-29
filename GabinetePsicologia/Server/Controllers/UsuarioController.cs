@@ -82,6 +82,8 @@ namespace GabinetePsicologia.Server.Controllers
             foreach (var user in allUser)
             {
                 PersonaDto pers = new PersonaDto();
+                if (await _userManager.GetTwoFactorEnabledAsync(user))
+                    pers.TwoFA = "Si";
                 if (Pacientes.Where(x => x.ApplicationUserId == user.Id).Any())
                 {
                     Paciente? p = Pacientes.FirstOrDefault(x => x.ApplicationUserId == user.Id);
@@ -164,6 +166,8 @@ namespace GabinetePsicologia.Server.Controllers
                 Email = UserName,
                 Id = Guid.Parse(user.Id)
             };
+            if (await _userManager.GetTwoFactorEnabledAsync(user))
+                UserValue.TwoFA = "Si";
             if (await _userManager.IsInRoleAsync(user, "Administrador"))
             {
                 Administrador? a = _context.Administradores.First(x => x.ApplicationUserId == user.Id);
@@ -376,7 +380,7 @@ namespace GabinetePsicologia.Server.Controllers
         }
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<IActionResult> OnPostAsync([FromBody] LoginDto usuario)
+        public async Task<string> OnPostAsync([FromBody] LoginDto usuario)
         {
 
             if (ModelState.IsValid)
@@ -387,12 +391,12 @@ namespace GabinetePsicologia.Server.Controllers
                 if (result.Succeeded)
                 {
                    
-                    return Ok("Usuario Logueado");
+                    return "Ok";
                 }
-                //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                //}
+                if (result.RequiresTwoFactor)
+                {
+					return "2FA";
+				}
                 //if (result.IsLockedOut)
                 //{
                 //    _logger.LogWarning("Cuenta de usuario bloqueada.");
@@ -401,12 +405,12 @@ namespace GabinetePsicologia.Server.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Datos incorrectos.");
-                    return BadRequest("Datos incorrectos.");
+                    return "Error";
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return BadRequest("Datos incorrectos.");
+            return "Error";
         }
         [HttpPost("CambiarContraseña")]
         public async Task<IActionResult> CambiarContraseña([FromBody] string[] data)

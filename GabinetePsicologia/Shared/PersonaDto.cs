@@ -13,4 +13,5 @@ public class PersonaDto : Persona
     public bool isPsicologo { get; set; }
     public bool isPaciente { get; set; }
     public string? Contraseña { get; set; }
+    public string? TwoFA { get; set; } = "No";
 }

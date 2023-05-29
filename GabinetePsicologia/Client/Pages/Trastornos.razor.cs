@@ -42,7 +42,7 @@ namespace GabinetePsicologia.Client.Pages
                 TrastornosServices.AñadirTrastorno(formTrastorno);
                 LsTrastornos.Add(formTrastorno);
                 if (LsTrastornos.Count == 1) NavigationManager.NavigateTo("/Trastornos", true);
-                    NotificationService.Notify(NotificationSeverity.Success, "Ok", "Trastorno añadido correctamente.");
+                NotificationService.Notify(NotificationSeverity.Success, "Ok", "Trastorno añadido correctamente.");
             }
             else{
                 TrastornosServices.EditarTrastornos(formTrastorno);

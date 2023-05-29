@@ -6,6 +6,7 @@ using Radzen;
 using System;
 using Microsoft.AspNetCore.Components.Authorization;
 using Radzen.Blazor;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GabinetePsicologia.Client.Pages
 {
@@ -63,9 +64,14 @@ namespace GabinetePsicologia.Client.Pages
                 user.Email = data.Email;
                 user.Password = data.Contraseña;
                 user.RememberMe = false;
-                if (await UsuarioServices.Login(user))
-                    NavigationManager.NavigateTo("/", true);
 
+                var result = await UsuarioServices.Login(user);
+				if(result.Contains("Ok"))
+					NavigationManager.NavigateTo("/", true);
+                else
+                {
+                    NotificationService.Notify(NotificationSeverity.Error, "Error", "Error al Iniciar Sesión");
+				}
             }
             else
                 NotificationService.Notify(NotificationSeverity.Error, "Error", "Este Correo Ya existe.");

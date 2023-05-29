@@ -26,6 +26,7 @@ namespace GabinetePsicologia.Client.Pages
         IEnumerable<int> values = new int[] { };
         string LoginUser;
         [Inject] private UsuarioServices UsuarioServices { get; set; }
+        [Inject] private TwoFactorServices TwoFactorServices { get; set; }
         [Inject] private DialogService DialogService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private NotificationService NotificationService { get; set; }
@@ -87,59 +88,102 @@ namespace GabinetePsicologia.Client.Pages
             DialogService.Close();
 
         }
-        //private async void CambiarCorreo(string correoAntiguo)
-        //{
-        //    selectedUsuarios = new List<PersonaDto>();
-        //    if (correoAntiguo == NewCorreo)
-        //    {
-        //        NotificationService.Notify(NotificationSeverity.Warning, "", "Has introducido el mismo correo que ya tienes.");
+		private async void Deshabilitar2fa()
+		{
+			if (selectedUsuarios != null)
+			{
 
-        //        return;
-        //    }
-        //    if (!(NewCorreo.Contains('@') && NewCorreo.Contains('.')))
-        //    {
-        //        NotificationService.Notify(NotificationSeverity.Warning, "", "No has Introducido un correo válido.");
+				var remove = selectedUsuarios.FirstOrDefault(x => x.Email == LoginUser);
+				if (remove != null)
+					selectedUsuarios.Remove(remove);
+			}
+			else { selectedUsuarios = new List<PersonaDto>(); }
 
-        //        return;
-        //    }
-        //    if (await UsuarioServices.CambiarCorreo(correoAntiguo, NewCorreo))
-        //    {
-        //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Correo cambiado correctamente.");
-        //        var edit = LsUsuarios.FirstOrDefault(x => x.Email == correoAntiguo);
-        //        if (edit != null)
-        //        {
-        //            LsUsuarios.Remove(edit);
-        //            edit.Email = NewCorreo;
-        //            LsUsuarios.Add(edit);
-        //            await grid.Reload();
-        //        }
+			if (selectedUsuarios == null || selectedUsuarios.Count == 0)
+			{
+				NotificationService.Notify(NotificationSeverity.Warning, "", "No has seleccionado ningún Usuario.");
+				return;
+			}
+            var lsCorreos = new List<string>();
+            foreach(var user in selectedUsuarios)
+            {
+                lsCorreos.Add(user.Email);
+            }
+			var result = await TwoFactorServices.DisableList2FA(lsCorreos);
+		    if(result != null && result == true)
+            {
+				foreach (var user in selectedUsuarios)
+				{
+                    var tmp = LsUsuarios.FirstOrDefault(x=>user.Id == x.Id);
+                    if(tmp != null)
+                    {
+						tmp.TwoFA = "No";
+					}
+				}
+                await grid.Reload();
+				NotificationService.Notify(NotificationSeverity.Success, "Ok", "Doble autenticación deshabilitado correctamente.");
+			}
+			    
+            else
+				NotificationService.Notify(NotificationSeverity.Error, "Error", "Error al deshabilitar la doble autenticación.");
+            
+			selectedUsuarios = new List<PersonaDto>();
+			DialogService.Close();
 
-        //    }
-        //    else
-        //    {
-        //        NotificationService.Notify(NotificationSeverity.Warning, "", "Este Correo ya existe.");
-        //        return;
-        //    }
+		}
+		//private async void CambiarCorreo(string correoAntiguo)
+		//{
+		//    selectedUsuarios = new List<PersonaDto>();
+		//    if (correoAntiguo == NewCorreo)
+		//    {
+		//        NotificationService.Notify(NotificationSeverity.Warning, "", "Has introducido el mismo correo que ya tienes.");
 
-        //    await grid.Reload();
-        //    DialogService.Close();
-        //}
-        //private async void CambiarContraseña(string passwd)
-        //{
-        //    string email = selectedUsuarios.First().Email;
-        //    selectedUsuarios = new List<PersonaDto>();
-        //    if (await UsuarioServices.CambiarContraseña(passwd, email))
-        //   {
-        //        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Contraseña cambiado correctamente.");
+		//        return;
+		//    }
+		//    if (!(NewCorreo.Contains('@') && NewCorreo.Contains('.')))
+		//    {
+		//        NotificationService.Notify(NotificationSeverity.Warning, "", "No has Introducido un correo válido.");
 
-        //   }
-        //   else
-        //   {
-        //        NotificationService.Notify(NotificationSeverity.Warning, "Error", "No se ha podido cambiar la contraseña.");
-        //   }
-        //    DialogService.Close();
-        //}
-        private async void GuardarPersona(PersonaDto data)
+		//        return;
+		//    }
+		//    if (await UsuarioServices.CambiarCorreo(correoAntiguo, NewCorreo))
+		//    {
+		//        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Correo cambiado correctamente.");
+		//        var edit = LsUsuarios.FirstOrDefault(x => x.Email == correoAntiguo);
+		//        if (edit != null)
+		//        {
+		//            LsUsuarios.Remove(edit);
+		//            edit.Email = NewCorreo;
+		//            LsUsuarios.Add(edit);
+		//            await grid.Reload();
+		//        }
+
+		//    }
+		//    else
+		//    {
+		//        NotificationService.Notify(NotificationSeverity.Warning, "", "Este Correo ya existe.");
+		//        return;
+		//    }
+
+		//    await grid.Reload();
+		//    DialogService.Close();
+		//}
+		//private async void CambiarContraseña(string passwd)
+		//{
+		//    string email = selectedUsuarios.First().Email;
+		//    selectedUsuarios = new List<PersonaDto>();
+		//    if (await UsuarioServices.CambiarContraseña(passwd, email))
+		//   {
+		//        NotificationService.Notify(NotificationSeverity.Success, "Ok", "Contraseña cambiado correctamente.");
+
+		//   }
+		//   else
+		//   {
+		//        NotificationService.Notify(NotificationSeverity.Warning, "Error", "No se ha podido cambiar la contraseña.");
+		//   }
+		//    DialogService.Close();
+		//}
+		private async void GuardarPersona(PersonaDto data)
         {
             if (data.FecNacim < DateTime.Now.AddYears(-100) || data.FecNacim > DateTime.Now)
             {

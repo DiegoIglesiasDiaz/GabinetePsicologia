@@ -30,14 +30,19 @@ namespace GabinetePsicologia.Client.Pages
 		}
         public async void Deshabilitar()
         {
-			var result = await DialogService.OpenAsync<ConfirmModal>("¿Desea desactivar la doble autenticación? ");
-			if(result == true)
+			var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", Correo } });
+			if(chckPasswd == null && chckPasswd)
 			{
-				if (await TwoFactorServices.Disable2FA(Correo))
-					DialogService.Close(true);
-				else
-					NotificationService.Notify(NotificationSeverity.Error, "Error", "No se ha podido desactivar la doble autenticación");
+				var result = await DialogService.OpenAsync<ConfirmModal>("¿Desea desactivar la doble autenticación? ");
+				if (result == true)
+				{
+					if (await TwoFactorServices.Disable2FA(Correo))
+						DialogService.Close(true);
+					else
+						NotificationService.Notify(NotificationSeverity.Error, "Error", "No se ha podido desactivar la doble autenticación");
+				}
 			}
+			
 		}
                
 
