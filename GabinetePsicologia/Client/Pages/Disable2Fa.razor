@@ -3,19 +3,19 @@
 @using Radzen
 
 <div>
+
     <div class="alert alert-warning" role="alert">
         <p>
-            <span class="glyphicon glyphicon-warning-sign"></span>
-            <strong>Si restablece su clave de autenticación, su aplicación de autenticación no funcionará hasta que la reconfigure.</strong>
+            <strong>Esta acción solo deshabilita la doble Autenticación.</strong>
         </p>
         <p>
-            Este proceso deshabilita 2FA hasta que verifique su aplicación de autenticación.
-
+            Deshabilitar la doble Autenticación no cambia las claves utilizadas en las aplicaciones de autenticación.
         </p>
     </div>
+
     <div class="d-flex justify-content-evenly align-items-center">
         <RadzenButton Text="Cerrar" class="BotonDelete" Click="() => DialogService.Close(false)" />
-        <RadzenButton Text="Resetear" class="BotonPrincipal" Click="Resetear" />
+        <RadzenButton Text="Deshabilitar" class="BotonPrincipal" Click="Deshabilitar" />
     </div>
 </div>
 

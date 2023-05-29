@@ -26,7 +26,14 @@ namespace GabinetePsicologia.Client.Services
             _navigationManager = navigationManager;
             
         }
-        public async Task<bool> Enable2FA(string code, string correo)
+		public async Task<bool> isEnable2FA( string correo)
+		{
+
+			var result = await _httpClient.GetFromJsonAsync<bool>($"/TwoFactor/IsEnable/{correo}");
+			return result;
+
+		}
+		public async Task<bool> Enable2FA(string code, string correo)
         {
             string query = code + ";" + correo;
 
@@ -38,6 +45,11 @@ namespace GabinetePsicologia.Client.Services
 		{
 			var result = await _httpClient.GetFromJsonAsync<bool>($"/TwoFactor/ResetCode/{correo}");
             return result;
+		}
+		public async Task<bool> Disable2FA(string correo)
+		{
+			var result = await _httpClient.GetFromJsonAsync<bool>($"/TwoFactor/Disable/{correo}");
+			return result;
 		}
 		public async Task<string[]> GetSharedAndQr(string correo)
 		{

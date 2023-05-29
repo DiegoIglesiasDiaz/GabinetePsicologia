@@ -60,7 +60,7 @@ namespace GabinetePsicologia.Server.Controllers
 			return await LoadSharedKeyAndQrCodeUriAsync(user);
 		}
 		[HttpGet("ResetCode/{Correo}")]
-		public async Task<bool> Reset2FAc(string Correo)
+		public async Task<bool> Reset2FA(string Correo)
 		{
 
 			var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == Correo.ToLower());
@@ -76,6 +76,39 @@ namespace GabinetePsicologia.Server.Controllers
 			await _signInManager.RefreshSignInAsync(user);
 
 			return true;
+
+		}
+		[HttpGet("Disable/{Correo}")]
+		public async Task<bool> Disable2FA(string Correo)
+		{
+
+			var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == Correo.ToLower());
+			if (user == null)
+			{
+				return false;
+			}
+
+
+			await _userManager.SetTwoFactorEnabledAsync(user, false);
+			await _signInManager.RefreshSignInAsync(user);
+
+			return true;
+
+		}
+
+		[HttpGet("IsEnable/{Correo}")]
+		public async Task<bool> isEnable2FA(string Correo)
+		{
+
+			var user = _context.Users.FirstOrDefault(x => x.UserName.ToLower() == Correo.ToLower());
+			if (user == null)
+			{
+				return false;
+			}
+
+
+			return await _userManager.GetTwoFactorEnabledAsync(user);
+			
 
 		}
 		[HttpGet("code/{codeEmail}")]

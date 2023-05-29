@@ -70,10 +70,27 @@
     <span class="slider round"></span>
     </label>
     </div>*@
-        <div class="ConfiguracionDiv">
-            <RadzenButton Text="Habilitar 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Verficar2fa" />
-            <RadzenButton Text="Resetear código 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Resetear2fa" />
+        <div style="margin-top:4rem" class="ConfiguracionDiv flex-column">
+            <RadzenText TextStyle="TextStyle.Body2" Style="margin-top:1em;color: var(--rz-primary);" Text="Doble Autenticación:" TextAlign="TextAlign.Left" />
+            @if (is2FA)
+            {
+                <div class="ConfiguracionDiv" style="width:100%;margin-top:0">
+
+                    <RadzenButton Text="Deshabilitar 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Deshabilitar2fa" />
+                    <RadzenButton Text="Resetear código 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Resetear2fa" />
+                </div>
+            }
+            else
+            {
+                <div class="ConfiguracionDiv justify-content-center" style="width:100%;margin-top:0">
+                    <RadzenButton Text="Habilitar 2FA" class="BotonPrincipal" Style="margin:0.5em" Click="Verficar2fa" />
+                </div>
+            }
+
+
+
         </div>
+
         <div class="ConfiguracionDiv">
             <RadzenButton Icon="logout" class="BotonPrincipal " Text="Cerrar Sesión" Style="margin:0.5em" Click="Logout" />
             <RadzenButton Icon="delete" class="BotonDelete ConfiguracionBoton" Text="Borrar Cuenta" Style="margin:0.5em" Click="BorrarCuenta" />

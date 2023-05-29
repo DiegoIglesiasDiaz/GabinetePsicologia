@@ -38,13 +38,14 @@
                 con un código único.
             </p>
 
-            <div class="d-flex justify-content-center flex-column align-items-center"  style="padding-right: 2rem">
+            <div class="d-flex justify-content-center flex-column align-items-center"  style="padding-right: 2rem;">
 
                 <div class=" d-flex justify-content-center flex-row align-items-center" style="margin-bottom:1em">
                     <RadzenLabel Text="Verificar Pin" />
                     <RadzenTextBox @bind-Value=VerificarPin Style="margin-left:1em"/>
                 </div>
-                <div> 
+                <div class="d-flex justify-content-evenly align-items-center" style="width:100%">
+                    <RadzenButton Text="Cerrar" class="BotonDelete" Click="() => DialogService.Close(false)" />
                     <RadzenButton Text="Verificar" Click="Verificar" class="BotonPrincipal" />
                 </div>
                
