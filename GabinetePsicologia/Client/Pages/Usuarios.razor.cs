@@ -107,7 +107,8 @@ namespace GabinetePsicologia.Client.Pages
             var lsCorreos = new List<string>();
             foreach(var user in selectedUsuarios)
             {
-                lsCorreos.Add(user.Email);
+                if(user.TwoFA == "Si")
+                    lsCorreos.Add(user.Email);
             }
 			var result = await TwoFactorServices.DisableList2FA(lsCorreos);
 		    if(result != null && result == true)
