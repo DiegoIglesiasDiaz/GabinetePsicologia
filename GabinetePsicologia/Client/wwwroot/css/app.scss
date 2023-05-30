@@ -179,7 +179,6 @@ body {
     .ContactoTextArea {
         border: 1px solid var(--rz-primary) !important;
         border-radius: var(--rz-border-radius-4) !important;
-     
     }
 
     .EditTextArea {
@@ -484,6 +483,12 @@ body {
         }
     }
 
+    .divFoot {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     @media (max-width: 640.98px) {
         .top-row {
             &:not(.auth) {
@@ -757,6 +762,11 @@ body {
     }
 
 
+    @media only screen and (max-width: 500px) {
+        .divFoot {
+            flex-direction: column;
+        }
+    }
 
     @media (max-width: 841px) {
         .accountMenu {

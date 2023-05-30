@@ -377,6 +377,11 @@ body .top-row::deep .btn-link {
 body .top-row::deep .btn-link:hover {
   text-decoration: underline;
 }
+body .divFoot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media (max-width: 640.98px) {
   body .top-row:not(.auth) {
     display: none;
@@ -588,6 +593,11 @@ body .top-row::deep .btn-link:hover {
   }
   body .textResponsive {
     flex-direction: column !important;
+  }
+}
+@media only screen and (max-width: 500px) {
+  body .divFoot {
+    flex-direction: column;
   }
 }
 @media (max-width: 841px) {

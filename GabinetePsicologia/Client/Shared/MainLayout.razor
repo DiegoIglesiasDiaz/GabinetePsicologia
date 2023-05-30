@@ -6,7 +6,9 @@
 <style>
     .afoot {
         padding-right: 25px;
+        
     }
+    
 </style>
 <RadzenLayout id="@(@NavigationManager.Uri.Equals(@NavigationManager.BaseUri) ? "Home" : Path.GetFileName(NavigationManager.Uri))">
 
@@ -112,9 +114,9 @@
                             {
                                 <RadzenMenuItem Path="/Mensajes">
                                     <Template>
-                                    <span class="rz-navigation-item-text">MENSAJES</span>
-                                </Template>
-                            </RadzenMenuItem>
+                                        <span class="rz-navigation-item-text">MENSAJES</span>
+                                    </Template>
+                                </RadzenMenuItem>
                             }
                         }
                     </Authorized>
@@ -180,14 +182,21 @@
     </RadzenBody>
 
     <RadzenFooter class="Footer">
-        <div>
+
+        <div class="divFoot">
             <div>
                 <a class="afoot" href="/Contacto" alt="" title="">Contáctanos</a>
-                <a class="afoot" href="/QuestionsAndAnswers" alt="" title="">FAQ</a>
-                <a class="afoot" href="/PoliciesAndPrivacy" alt="" title="">LEGAL</a>
-
             </div>
+            <div>
+                <a class="afoot" href="/QuestionsAndAnswers" alt="" title="">Preguntas Frecuentes</a>
+            </div>
+            <div>
+                <a class="afoot" href="/PoliciesAndPrivacy" alt="" title="">Política y Privacidad</a>
+            </div>
+
+
         </div>
+
     </RadzenFooter>
 
 </RadzenLayout>
