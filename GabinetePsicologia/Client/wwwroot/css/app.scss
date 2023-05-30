@@ -12,7 +12,7 @@ $sec-color-dark: #62656d;
 $sec-color-darker: #444548;*/
 
 $color_2: white;
-$background-prim-color: #cbd4fa;
+
 
 $font-family_1: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-family_2: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -44,12 +44,10 @@ body {
 
     html {
         font-family: $font-family_1;
-        background-color: $background-prim-color;
     }
 
     body {
         font-family: $font-family_1;
-        background-color: $background-prim-color;
     }
 
     .rz-button {

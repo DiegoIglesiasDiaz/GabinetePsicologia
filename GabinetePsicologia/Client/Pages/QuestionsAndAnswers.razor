@@ -1,0 +1,66 @@
+﻿@page "/QuestionsAndAnswers"
+<PageTitle>Preguntas Frecuentes</PageTitle>
+
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .faq {
+            margin-top: 4em;
+        }
+
+        hr {
+            margin: 3px 0;
+            border: 0;
+            text-align: center;
+            opacity: 1;
+            color: white;
+        }
+
+            hr:before {
+                content: "\2022 \2022 \2022";
+                font-size: 50px;
+                color: var(--rz-primary);
+            }
+    </style>
+</head>
+<body>
+    <div style="width:70%;margin:auto">
+        <ol style="list-style:none;padding:0">
+            <li style="margin-top:2em">
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4" Text="¿Qué es esta aplicación de administración de citas de psicología?" />
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Body1" Text="Nuestra aplicación de administración de citas de psicología es una plataforma diseñada para facilitar la gestión de citas entre los profesionales de la psicología y sus pacientes. Permite a los psicólogos programar, modificar y cancelar citas." />
+                @*así como comunicarse con sus pacientes de manera eficiente*@
+                <hr />
+            </li>
+            <li class="faq">
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4" Text="¿Cómo puedo registrarme en esta aplicación?" />
+                <p class="rz-text-body1 rz-text-align-center">Para registrarte en nuestra aplicación, debe de crear una cuenta en <a href="/Register">Resgistrarse</a>.</p>
+                <hr />
+            </li>
+            <li class="faq">
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4" Text="¿Puede esta aplicación ver mis citas programadas?" />
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Body1" Text="Si, nuestra aplicación te permite administrar citas." />
+                <hr />
+            </li>
+            <li class="faq">
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4" Text="¿Qué funciones de comunicación están disponibles en la aplicación?" />
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.Body1" Text="La aplicación proporciona diferentes funciones como ver citas programadas, ver nuestros Informe de nuestros profesionales y ponerse en contacto con los administradores." />
+                <hr />
+            </li>
+            @*    <li>
+            <H4>¿Es posible sincronizar esta aplicación con mi calendario personal?</H4>
+            <p>Sí, nuestra aplicación ofrece integración con los principales calendarios personales, como Google Calendar, Apple Calendar y Outlook. Esto te permite sincronizar tus citas profesionales con tu calendario personal para una mejor organización.</p>
+            </li>*@
+            <li class="faq">
+                <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4" Text="¿Cómo puedo solicitar soporte técnico si tengo problemas con la aplicación?" />
+                <p class="rz-text-body1 rz-text-align-center">Si tienes cualquier tipo de problema con la aplicación no dudes em comunicarte con nuestros Administradores en <a href="/Contacto">Contacto</a> Nos aseguraremos de brindarte la asistencia necesaria para resolver cualquier inconveniente que puedas tener.</p>
+            </li>
+        </ol>
+    </div>
+</body>
+
+
+@code {
+
+}

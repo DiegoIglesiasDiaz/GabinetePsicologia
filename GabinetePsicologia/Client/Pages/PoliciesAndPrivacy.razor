@@ -1,0 +1,100 @@
+﻿@page "/PoliciesAndPrivacy"
+@inject DialogService DialogService
+<PageTitle>Políticas y Privacidad</PageTitle>
+
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .pyp {
+            margin-top: 4em;
+        }
+
+        hr {
+            margin: 0 0;
+            border: 0;
+            text-align: center;
+            opacity: 1;
+            color: white;
+        }
+
+            hr:before {
+                content: "\2022 \2022 \2022";
+                font-size: 50px;
+                color: var(--rz-primary);
+            }
+
+    </style>
+</head>
+<body>
+    <div style="width:70%;margin:auto">
+        
+        <ol style="list-style:none; margin-top:2em;padding:0">
+            <div>
+                <p class="rz-text-body1 rz-text-align-center">En nuestro gabinete de psicología, entendemos la importancia de proteger la privacidad y la confidencialidad de nuestros clientes. Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos la información personal que se recopila a través de nuestra aplicación. Al utilizar nuestra aplicación, aceptas los términos y condiciones establecidos en esta política.</p>
+            </div>
+            <hr />
+            <div class="pyp" s>
+                <h4 class="rz-text-display-h4 rz-text-align-center">Condiciones de Servicio al Crear una Cuenta:</h4>
+                <ul style="display:flex; justify-content:center;align-items:center;padding:0;margin-top:2em">
+                    <RadzenButton Text="Condiciones de Servico" Click="CondicionesYTerminos" class="BotonPrincipal" />
+                </ul>
+            </div>
+            <hr />
+            <div class="pyp">
+                <h4 class="rz-text-display-h4 rz-text-align-center">Recopilación de información personal:</h4>
+                <ul>
+                    <p class="rz-text-body1 rz-text-align-center">Recopilamos información personal cuando te registras en nuestra aplicación. Esta información puede incluir tu nombre, dirección de correo electrónico, número de teléfono y cualquier otra información que decidas proporcionar voluntariamente.</p>
+                    <p class="rz-text-body1 rz-text-align-center">Además, podemos recopilar información relacionada con tus sesiones de terapia, como notas y comentarios, para facilitar la prestación de nuestros servicios.</p>
+                </ul>
+            </div>
+            <hr />
+            <div class="pyp">
+                <h4 class="rz-text-display-h4 rz-text-align-center">Uso de la información:</h4>
+                <ul>
+                    <p class="rz-text-body1 rz-text-align-center">Utilizamos la información personal que recopilamos para brindarte servicios de psicología y apoyo de manera efectiva y segura. La información personal también puede ser utilizada para comunicarnos contigo, proporcionarte actualizaciones sobre nuestros servicios y enviar información relevante para tu tratamiento. No compartiremos tu información personal con terceros sin tu consentimiento expreso, a menos que sea necesario para cumplir con las leyes y regulaciones aplicables.</p>
+                </ul>
+            </div>
+            <hr />
+            <div class="pyp">
+                <h4 class="rz-text-display-h4 rz-text-align-center">Protección de la información:</h4>
+                <ul>
+                    <p class="rz-text-body1 rz-text-align-center">Implementamos medidas de seguridad para proteger tu información personal y mantenerla confidencial. Esto incluye el uso de encriptación de datos y controles de acceso adecuados. Sin embargo, ten en cuenta que ninguna transmisión de datos a través de Internet o almacenamiento electrónico puede garantizar una seguridad absoluta. Siempre existe un riesgo inherente en la transmisión de información en línea.</p>
+                </ul>
+            </div>
+            <hr />
+            <div class="pyp">
+                <h4 class="rz-text-display-h4 rz-text-align-center">Retención de información:</h4>
+                <ul>
+                    <p class="rz-text-body1 rz-text-align-center">Mantendremos tu información personal durante el tiempo necesario para cumplir con los propósitos para los que se recopiló, a menos que se requiera o permita una retención más prolongada por ley. Cuando tu información ya no sea necesaria, la eliminaremos de forma segura y permanente.</p>
+                </ul>
+            </div>
+            <hr />
+            <div class="pyp">
+                <h4 class="rz-text-display-h4 rz-text-align-center">Derechos del usuario:</h4>
+                <ul>
+                    <p class="rz-text-body1 rz-text-align-center">Tienes derecho a acceder, corregir, actualizar o eliminar tu información personal que almacenamos, sujeto a las leyes y regulaciones aplicables. Si deseas ejercer alguno de estos derechos, contáctanos a través de los medios proporcionados en nuestra aplicación.</p>
+                </ul>
+            </div>
+            <hr />
+            <div class="pyp">
+                <h4 class="rz-text-display-h4 rz-text-align-center">Cambios en la Política de Privacidad:</h4>
+                <ul>
+                    <p class="rz-text-body1 rz-text-align-center">Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Te notificaremos cualquier cambio importante y publicaremos la versión actualizada en nuestra aplicación.</p>
+                </ul>
+            </div>
+        </ol>
+        
+        <p class="rz-text-body1 rz-text-align-center" style="margin:2em 0">Si tienes alguna pregunta o inquietud sobre nuestra Política de Privacidad, no dudes en comunicarte con nosotros en <a href="/Contacto">Contacto</a>. Apreciamos tu confianza y nos comprometemos a proteger tu privacidad en todo momento.</p>
+
+    </div>
+</body>
+
+
+@code {
+    public async void CondicionesYTerminos()
+    {
+        await DialogService.Alert("Al registrarte, aceptas que tus datos personales sean almacenados y procesados de acuerdo con nuestra política de privacidad.\r\nSolo se permite un registro por persona. Si se descubre que tienes múltiples cuentas, podemos suspender o cancelar todas ellas sin previo aviso.\r\nEs responsabilidad del usuario mantener su información de cuenta actualizada y segura. Si se sospecha de cualquier actividad sospechosa, debes notificarlo inmediatamente a nuestro equipo de soporte.\r\nNos reservamos el derecho de suspender o cancelar cualquier cuenta que infrinja nuestras políticas o términos de servicio en cualquier momento, sin previo aviso.\r\nAl registrarte, aceptas recibir comunicaciones de nuestra parte relacionadas con el servicio que ofrecemos.\r\nCualquier contenido que publiques o compartas a través de nuestra plataforma es tu responsabilidad y debes asegurarte de que cumpla con todas las leyes y regulaciones aplicables. Nos reservamos el derecho de eliminar cualquier contenido que infrinja nuestras políticas o términos de servicio en cualquier momento.\r\nAl registrarte, aceptas cumplir con todas nuestras políticas y términos de servicio, y cualquier cambio que hagamos en ellos en el futuro.", "Condiciones de Servicio", new AlertOptions() { Width = "300", OkButtonText = "Cerrar" });
+
+    }
+}
