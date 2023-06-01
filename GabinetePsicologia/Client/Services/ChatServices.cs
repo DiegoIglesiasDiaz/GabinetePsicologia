@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text;
 using System.Xml.Linq;
+using Radzen;
 
 namespace GabinetePsicologia.Client.Services
 {
@@ -27,10 +28,15 @@ namespace GabinetePsicologia.Client.Services
             
         }
 
-		public async Task<List<ChatDto>> GetMessages(Guid id)
+		public async Task<List<ChatDto>> GetMessages(string id)
 		{
 			var result = await _httpClient.GetFromJsonAsync<List<ChatDto>>($"/Chat/{id}");
             return result;
+		}
+		public async void Send(ChatDto chat)
+		{
+			var result = await _httpClient.PostAsJsonAsync<ChatDto>($"/Chat",chat);
+			
 		}
 	}
 }

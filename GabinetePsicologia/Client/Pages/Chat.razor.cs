@@ -18,33 +18,29 @@ namespace GabinetePsicologia.Client.Pages
 		[Inject] NavigationManager NavigationManager { get; set; }
 		[Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 		[Inject] UsuarioServices UsuarioServices { get; set; }
+		[Inject] ChatServices ChatServices { get; set; }
 		[Inject] TwoFactorServices TwoFactorServices { get; set; }
 		public bool isInRole = false;
 		public string correo = "";
 		public ChatDto NewChat = new ChatDto();
-		private ClaimsPrincipal? user;
-		public List<ChatDto> LsChats = new List<ChatDto> {
-				new ChatDto { Date = DateTime.Now,Message="Te Amo" },
-				new ChatDto { Date = DateTime.Now,Message="Yo a ti más"},
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" },
-				new ChatDto {Date = DateTime.Now,Message="GUAPAAA que te amo micho, hoy nos tatuamos, que guayy" }
-			};
+		private ClaimsPrincipal? userClaim;
+		private PersonaDto user;
+		public List<ChatDto> LsChats = new List<ChatDto>();
 		protected override async Task OnInitializedAsync()
 		{
 			await base.OnInitializedAsync();
-			user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
-			correo = user.Identity.Name;
-			if (user.IsInRole("Paciente") || user.IsInRole("Psicologo") || user.IsInRole("Administrador"))
+			userClaim = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+			correo = userClaim.Identity.Name;
+			if (userClaim.IsInRole("Paciente") || userClaim.IsInRole("Psicologo") || userClaim.IsInRole("Administrador"))
 			{
 				isInRole = true;
-				await Task.Delay(500);
+				if(correo != null)
+				{
+					user = await UsuarioServices.getPersonaByUsername(correo);
+					LsChats = await ChatServices.GetMessages(user.Id.ToString());
+					await Task.Delay(500);
 				await jSRuntime.InvokeVoidAsync("BajarScroll");
+				}
 			}
 			
 		}
@@ -54,11 +50,17 @@ namespace GabinetePsicologia.Client.Pages
 			if (!String.IsNullOrWhiteSpace(NewChat.Message))
 			{
 				NewChat.Id = Guid.NewGuid();
-				NewChat.IdFrom = Guid.NewGuid().ToString();
-				NewChat.IdTo = Guid.NewGuid().ToString();
+				NewChat.IdFrom = user.Id.ToString();
+				NewChat.FromName = user.FullName;
+				NewChat.IdTo = Guid.Empty.ToString();
+				NewChat.ToName = "Antnio Garcia Lopez";
 				NewChat.Date = DateTime.Now;
+				NewChat.View = false;
+				
 				LsChats.Add(NewChat);
+				ChatServices.Send(NewChat);	
 				NewChat = new ChatDto();
+				
 			}
 		}
 	}

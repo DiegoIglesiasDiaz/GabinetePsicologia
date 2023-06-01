@@ -36,9 +36,23 @@ namespace GabinetePsicologia.Server.Controllers
 		[HttpGet("{id}")]
 		public List<ChatDto> GetMessages(string id)
 		{
-			return _context.Chat.Where(x=>x.IdFrom == id || x.IdTo == id).ToList() ;
+			return _context.Chat.Where(x=>x.IdFrom == id || x.IdTo == id).OrderBy(x => x.Date).ToList() ;
 		}
-
+		[HttpPost]
+		public void Send(ChatDto chat)
+		{
+			try
+			{
+				_context.Chat.Add(chat);
+				var a = _context.SaveChanges();
+			}
+			catch(Exception ex)
+			{
+				
+			}
+			
+			
+		}
 
 	}
 }

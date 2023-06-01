@@ -120,7 +120,7 @@
 }
 
 .chat .chat-history .message {
-    color: #444;
+    color: black;
     padding: 18px 20px;
     line-height: 26px;
     font-size: 16px;
@@ -130,7 +130,7 @@
 }
 
 .chat .chat-history .message:after {
-    bottom: 100%;
+    bottom: 96%;
     left: 7%;
     border: solid transparent;
     content: " ";
@@ -162,12 +162,12 @@
 }
 
 .chat .chat-history .other-message {
-    background: #e8f1f3;
+    background: var(--rz-primary-lighter);
     text-align: right
 }
 
 .chat .chat-history .other-message:after {
-    border-bottom-color: #e8f1f3;
+    border-bottom-color: var(--rz-primary-lighter);
     left: 93%
 }
 
