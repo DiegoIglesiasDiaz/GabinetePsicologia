@@ -37,6 +37,7 @@ namespace GabinetePsicologia.Server.Data
         public DbSet<Informe> Informes => Set<Informe>();
         public DbSet<InformeTrastorno> InformeTrastorno => Set<InformeTrastorno>();
         public DbSet<Mensaje> Mensajes => Set<Mensaje>();
+        public DbSet<ChatDto> Chat => Set<ChatDto>();
 
     }
 }

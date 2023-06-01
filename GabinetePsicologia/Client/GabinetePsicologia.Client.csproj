@@ -19,6 +19,7 @@
 	<ItemGroup>
 	  <None Include="compilerconfig.json" />
 	  <None Include="Pages\Loading.razor" />
+	  <None Include="wwwroot\js\chat.js" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -76,6 +76,7 @@ builder.Services.AddScoped<InformeController>();
 builder.Services.AddScoped<CitaController>();
 builder.Services.AddScoped<MensajeController>();
 builder.Services.AddScoped<TwoFactorController>();
+builder.Services.AddScoped<ChatController>();
 
 builder.Services.AddCors(options =>
 {
