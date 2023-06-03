@@ -1,6 +1,7 @@
 ﻿@page "/Chat"
 @using GabinetePsicologia.Shared
 @using GabinetePsicologia.Client.Shared
+@implements IAsyncDisposable
 <PageTitle>Chat</PageTitle>
 @if (isInRole && user != null)
 {
@@ -72,7 +73,7 @@
                                 </div>
                                 <div class="col-lg-6 hidden-sm text-right">
                                     @if(LsChats!= null && LsChats.Count>0){
-                                            <RadzenButton class="BotonDelete" Text="Borrar Chat" Click="Confirm" />
+                                            @*<RadzenButton class="BotonDelete" Text="Borrar Chat" Click="Confirm" />*@
                                     }
                                        
                                     @* <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
@@ -109,8 +110,12 @@
                                                 <div class="message my-message">@ch.Message</div>
                                             </li>
                                         }
-                                    }
+                                    } 
+                                      @messages
                                 </ul>
+                            }else{
+                                <RadzenText TextStyle="TextStyle.DisplayH3" Text="Seleccione un Chat" TextAlign="TextAlign.Center"/>
+                              
                             }
                         </div>
                         @if (LsChats != null)
@@ -138,7 +143,6 @@ else
 }
 
 @code{
-
     void Confirm(){
             DialogService.Open($"¿Deseas Eliminar el chat con definitivamente con {NombreChat}?", ds =>
     @<div>

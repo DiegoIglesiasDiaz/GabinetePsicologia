@@ -10,6 +10,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GabinetePsicologia.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,13 @@ builder.Services.AddScoped<CitaController>();
 builder.Services.AddScoped<MensajeController>();
 builder.Services.AddScoped<TwoFactorController>();
 builder.Services.AddScoped<ChatController>();
+builder.Services.AddSignalR();
+//SignalR no obligatorio
+builder.Services.AddResponseCompression(options =>
+                       options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
+                       {
+                           "application/octet-stream"
+                       }));
 
 builder.Services.AddCors(options =>
 {
@@ -113,6 +121,9 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.MapHub<ChatHub>("/chathub");
+//SignalR no obligatorio
+app.UseResponseCompression();
 app.UseIdentityServer();
 app.UseAuthentication();
 

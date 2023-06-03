@@ -29,6 +29,7 @@ builder.Services.AddScoped<MensajesServices>();
 builder.Services.AddScoped<TwoFactorServices>();
 builder.Services.AddScoped<ChatServices>();
 builder.Services.AddApiAuthorization();
+;
 
 
 await builder.Build().RunAsync();

@@ -1,6 +1,6 @@
 ﻿window.BajarScroll = function () {
-   // $('#chat-history').scrollTop($('#chat-history').prop('scrollHeight'));    
-    $('#chat-history').animate({ scrollTop: $('#chat-history').prop('scrollHeight') }, 1000);
+   // $('#Idchat-history').scrollTop($('#Idchat-history').prop('scrollHeight'));
+    $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
 }
 
 window.active = function (id) {

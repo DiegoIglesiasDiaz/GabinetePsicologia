@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
@@ -25,11 +26,13 @@ namespace GabinetePsicologia.Server.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+
 		public ChatController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, UrlEncoder urlEncoder, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
 			_signInManager = signInManager;
+		
 		}
 
 		
@@ -53,6 +56,7 @@ namespace GabinetePsicologia.Server.Controllers
 			{
 				_context.Chat.Add(chat);
 				var a = _context.SaveChanges();
+			
 			}
 			catch(Exception ex)
 			{
@@ -67,6 +71,33 @@ namespace GabinetePsicologia.Server.Controllers
 			var People = new List<KeyValue>();
 			var LsTo= _context.Chat.Where(x => x.IdFrom == id && x.IdTo != id).OrderByDescending(x => x.Date).ToList();
 			var Lsfrom = _context.Chat.Where(x => x.IdFrom != id && x.IdTo == id).OrderByDescending(x => x.Date).ToList();
+
+			if(Lsfrom == null || Lsfrom.Count == 0)
+			{
+
+				if (LsTo == null || LsTo.Count == 0)
+				{
+					return new List<KeyValue>();
+				}
+				else
+				{
+					foreach (var to in LsTo)
+					{
+						if (!People.Where(x => x.Value == to.IdTo).Any())
+							People.Add(new KeyValue { Key = to.ToName, Value = to.IdTo });
+					}
+					return People;
+				}
+			}
+			else if(LsTo == null || LsTo.Count == 0)
+			{
+				foreach (var from in Lsfrom)
+				{
+					if (!People.Where(x => x.Value == from.IdFrom).Any())
+						People.Add(new KeyValue { Key = from.FromName, Value = from.IdFrom });
+				}
+				return People;
+			}else
 			if(Lsfrom.First().Date>= LsTo.First().Date)
 			{
 				foreach (var from in Lsfrom)
@@ -79,6 +110,7 @@ namespace GabinetePsicologia.Server.Controllers
 					if (!People.Where(x => x.Value == to.IdTo).Any())
 						People.Add(new KeyValue { Key = to.ToName, Value = to.IdTo });
 				}
+
 			}
 			else
 			{
