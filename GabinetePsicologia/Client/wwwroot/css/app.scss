@@ -51,6 +51,7 @@ body {
     }
 
     .rz-button {
+      
     }
 
     .login {
@@ -234,6 +235,15 @@ body {
         border: 0 !important;
         padding: 0 !important;
         box-shadow: none !important;
+    }
+
+    .BotonSimple {
+        background: none !important;
+        height: fit-content !important;
+        border: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        color: black;
     }
 
     .BotonLapiz {

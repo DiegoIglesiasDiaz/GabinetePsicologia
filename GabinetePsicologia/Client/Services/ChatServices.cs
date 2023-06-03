@@ -28,14 +28,37 @@ namespace GabinetePsicologia.Client.Services
             
         }
 
-		public async Task<List<ChatDto>> GetMessages(string id)
+		public async Task<List<ChatDto>> GetMessages(string Userid,string ChatId)
 		{
-			var result = await _httpClient.GetFromJsonAsync<List<ChatDto>>($"/Chat/{id}");
+			var query = Userid + ";" + ChatId;
+			var result = await _httpClient.GetFromJsonAsync<List<ChatDto>>($"/Chat/{query}");
             return result;
 		}
 		public async void Send(ChatDto chat)
 		{
 			var result = await _httpClient.PostAsJsonAsync<ChatDto>($"/Chat",chat);
+			
+		}
+		public async Task<List<KeyValue>> GetChatedPeople(string id)
+		{			
+			var result = await _httpClient.GetFromJsonAsync<List<KeyValue>>($"/Chat/ChatedPeople/{id}");
+			return result;
+		}
+
+		public async Task<List<ChatDto>> GetAllMessages(string id)
+		{
+			var result = await _httpClient.GetFromJsonAsync<List<ChatDto>>($"/Chat/AllMessages/{id}");
+			return result;
+		}
+		public async Task<List<KeyValue>> GetAllPeople(string id)
+		{
+			var result = await _httpClient.GetFromJsonAsync<List<KeyValue>>($"/Chat/AllPeople/{id}");
+			return result;
+		}
+		public  void Remove(string id, string id2)
+		{
+			var query = id+ ";" + id2;	
+			_httpClient.GetAsync($"/Chat/remove/{query}");
 			
 		}
 	}

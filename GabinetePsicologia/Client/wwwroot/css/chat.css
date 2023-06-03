@@ -30,6 +30,11 @@
   transition: 0.5s;
 }
 
+.PeopleScroll {
+  overflow-y: auto;
+  height: 700px;
+}
+
 .people-list .chat-list li {
   padding: 10px 15px;
   list-style: none;
@@ -37,12 +42,12 @@
 }
 
 .people-list .chat-list li:hover {
-  background: #efefef;
+  background: #b9b8b8;
   cursor: pointer;
 }
 
 .people-list .chat-list li.active {
-  background: #efefef;
+  background: #b9ccfb;
 }
 
 .people-list .chat-list li .name {
@@ -89,7 +94,7 @@
   padding: 20px;
   border-bottom: 2px solid #fff;
   overflow-y: auto;
-  height: 600px;
+  height: 80%;
 }
 
 .chat .chat-history ul {
@@ -129,48 +134,47 @@
   position: relative;
 }
 
+/*
 .chat .chat-history .message:after {
-  bottom: 96%;
-  left: 7%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-bottom-color: #fff;
-  border-width: 10px;
-  margin-left: -10px;
-}
-
+    bottom: 96%;
+    left: 7%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #fff;
+    border-width: 10px;
+    margin-left: -10px
+}*/
 .chat .chat-history .my-message {
-  background: #efefef;
+  background: #b9b8b8;
 }
 
+/*
 .chat .chat-history .my-message:after {
-  bottom: 100%;
-  left: 30px;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-bottom-color: #efefef;
-  border-width: 10px;
-  margin-left: -10px;
-}
-
+    bottom: 100%;
+    left: 30px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #b9b8b8;
+    border-width: 10px;
+    margin-left: -10px
+}*/
 .chat .chat-history .other-message {
   background: var(--rz-primary-lighter);
   text-align: right;
 }
 
-.chat .chat-history .other-message:after {
-  border-bottom-color: var(--rz-primary-lighter);
-  left: 93%;
-}
-
+/*.chat .chat-history .other-message:after {
+    border-bottom-color: var(--rz-primary-lighter);
+    left: 93%
+}*/
 .chat .chat-message {
   padding: 20px;
 }
@@ -199,13 +203,16 @@
   float: right;
 }
 
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
+/*.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0
+}*/
+.activeButtonChat {
+  color: var(--rz-primary) !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -237,7 +244,6 @@
     overflow-x: auto;
   }
   .chat-app .chat-history {
-    height: 600px;
     overflow-x: auto;
   }
 }
