@@ -34,7 +34,7 @@ namespace GabinetePsicologia.Client.Pages
 		public bool isInRole = false;
 		public bool isFirstSend = false;
 		public bool isRemove = false;
-		public bool isUserModal = true;
+		public bool isUserModal = false;
 		public string correo = "";
 		public string NombreChat = "";
 		public string IdChat;
@@ -188,12 +188,13 @@ namespace GabinetePsicologia.Client.Pages
 				if (!LsPeople.Where(x => x.Value == id).Any())
 				{
 					jSRuntime.InvokeVoidAsync("AddPerson", Nombre);
-					jSRuntime.InvokeVoidAsync("BajarScroll");
-					jSRuntime.InvokeVoidAsync("FillPage");
+					
 				}
+				jSRuntime.InvokeVoidAsync("BajarScroll");
+				jSRuntime.InvokeVoidAsync("FillPage");
 				if (isUserModal)
 					DialogService.Close(true);
-					jSRuntime.InvokeVoidAsync("active", id);
+					
 			}
 		}
 		private void OrdenarPersonas()
