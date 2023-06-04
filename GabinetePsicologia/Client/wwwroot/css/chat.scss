@@ -242,7 +242,14 @@
         left: -400px;
         display: none
     }
-
+    .peopleMobile-list {
+        width: 100%;
+        overflow-x: auto;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
     .chat-app .people-list.open {
         left: 0
     }
