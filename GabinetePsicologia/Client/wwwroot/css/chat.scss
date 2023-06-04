@@ -34,12 +34,11 @@
     overflow-y: auto;
     height: 700px
 }
+
 .people-list .chat-list li {
     padding: 10px 15px;
     list-style: none;
     border-radius: 3px;
-
-    
 }
 
 .people-list .chat-list li:hover {
@@ -97,9 +96,8 @@
     overflow-y: auto;
     height: 80%;
 }
+
 .chat {
-   
-    
 }
 
 .chat .chat-history ul {
@@ -217,8 +215,22 @@
     clear: both;
     height: 0
 }*/
-.activeButtonChat{
+.activeButtonChat {
     color: var(--rz-primary) !important;
+}
+
+.UserModalBoton {
+    display: none;
+}
+
+
+@media (max-width: 767px) {
+    .UserModalBoton {
+        display: block;
+    }
+    .TextSeleccioneChat {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 767px) {
@@ -244,7 +256,7 @@
     }
 
     .chat-app .chat-history {
-        height: 300px;
+        
         overflow-x: auto
     }
 }
@@ -256,7 +268,6 @@
     }
 
     .chat-app .chat-history {
-      
         overflow-x: auto
     }
 }
@@ -268,7 +279,7 @@
     }
 
     .chat-app .chat-history {
-        height: calc(100vh - 350px);
+      /*  height: calc(100vh - 350px);*/
         overflow-x: auto
     }
 }
