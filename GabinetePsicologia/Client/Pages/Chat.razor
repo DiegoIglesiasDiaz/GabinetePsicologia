@@ -16,8 +16,8 @@
                         <div class="input-group">
                             @if (LsAllPeople != null && LsAllPeople.Count > 0)
                             {
-                                <RadzenDropDown TValue="KeyValue" class="AgendaFilter1" Data=@LsAllPeople FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
-                                        TextProperty="Key" ValueProperty="Value" AllowClear=true Placeholder="Nuevo Chat" Change="CreateChat" />
+                                <RadzenDropDown TValue="ChatPerson" class="AgendaFilter1" Data=@LsAllPeople FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
+                                        TextProperty="Name" ValueProperty="Id" AllowClear=true Placeholder="Nuevo Chat" Change="CreateChat" />
                             }
                         </div>
                         <div class="PeopleScroll">
@@ -25,13 +25,13 @@
                                 <!-- Personas Chat -->
                                 @foreach (var p in LsPeople)
                                 {
-                                    @if (p.Value == IdChat)
+                                    @if (p.Id == IdChat)
                                     {
                                         <li class="clearfix active">
                                             @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
-                                            <RadzenButton id=@p.Value class="BotonSimple activeButtonChat" Click="() => selectChat(p.Value,p.Key)" Style="color:black">
+                                            <RadzenButton id=@p.Id class="BotonSimple activeButtonChat" Click="() => selectChat(p.Id,p.Name)" Style="color:black">
                                                 <div class="about">
-                                                    <div class="name">@p.Key</div>
+                                                    <div class="name">@p.Name</div>
                                                     @*<div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>*@
                                                 </div>
                                             </RadzenButton>
@@ -41,19 +41,30 @@
                                     {
 
                                         <li class="clearfix d-flex justify-content-center align-items-center">
-                                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary-light)" style="width: 10px;height: 10px;margin-left: -10px;">
-                                                <circle cx="50" cy="50" r="50" />
-                                            </svg>
+                                            @if (p.hasNotViewMessage)
+                                            {
+                                                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary-light)" style="width: 10px;height: 10px;margin-left: -10px;">
+                                                    <circle cx="50" cy="50" r="50" />
+                                                </svg>
+                                            }
                                             @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
 
-                                            <RadzenButton id=@p.Value class="BotonSimple" Click="() => selectChat(p.Value,p.Key)" Style="color:black">
+                                            <RadzenButton id=@p.Id class="BotonSimple" Click="() => selectChat(p.Id,p.Name)" Style="color:black">
                                                 <div class="about">
 
                                                     <div class="name">
 
-                                                        @p.Key
+                                                        @p.Name
                                                     </div>
-                                                    @*<div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>*@
+                                                    @*@if (p.isOnline)
+                                                    {
+                                                        <div class="status"> <i class="fa fa-circle online"></i>Conectado</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="status"> <i class="fa fa-circle offline"></i>Desconectado</div>
+                                                    }*@
+
                                                 </div>
                                             </RadzenButton>
                                         </li>
@@ -67,14 +78,16 @@
                         <div class="chat-header clearfix">
                             <div class="row">
 
-                                @if (!String.IsNullOrWhiteSpace(NombreChat))
+                                @if (!String.IsNullOrWhiteSpace(NombreChat) && LsChats != null)
                                 {
                                     <div class="d-flex justify-content-between align-items-center">
                                         @*<a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                 </a>*@
                                         <div class="UserModalBoton">
-                                            <RadzenButton class="BotonPrincipal" Icon="account_circle" Click="() => LsChats = null" />
+                                            <RadzenButton class="BotonVolverChat" Click="Volver">
+                                                <img width="20" height="20" src="/img/volver.png" alt="arrow-pointing-left" />
+                                            </RadzenButton>
                                         </div>
                                         <div class="chat-about">
                                             <h6 class="m-b-0">@NombreChat</h6>
@@ -84,10 +97,7 @@
 
                                     </div>
                                     @*  <div class="col-lg-6 hidden-sm text-right">
-                            @if (LsChats != null && LsChats.Count > 0)
-                            {
-                            @*<RadzenButton class="BotonDelete" Text="Borrar Chat" Click="Confirm" />
-                            }
+
 
                             <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
                             <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
@@ -98,10 +108,10 @@
                             </div>
                         </div>
 
+                        <div id="Idchat-history" class="chat-history">
+                            @if (LsChats != null)
+                            {
 
-                        @if (LsChats != null)
-                        {
-                            <div id="Idchat-history" class="chat-history">
                                 <ul class="m-b-0">
                                     <!-- Mensajes Chat -->
                                     @foreach (var ch in LsChats)
@@ -128,58 +138,71 @@
                                     }
                                     @messages
                                 </ul>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                <RadzenText TextStyle="TextStyle.DisplayH3" Text="Seleccione un Chat" TextAlign="TextAlign.Center" class="TextSeleccioneChat" />
-                                <div class="peopleMobile-list UserModalBoton">
 
-                                    @if (LsAllPeople != null && LsAllPeople.Count > 0)
-                                    {
-                                        <RadzenDropDown TValue="KeyValue" class="AgendaFilter1" Data=@LsAllPeople FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
-                                            TextProperty="Key" ValueProperty="Value" AllowClear=true Placeholder="Nuevo Chat" Change="CreateChat" />
-                                    }
-                                    <div class="PeopleScroll">
-                                        <ul class="list-unstyled chat-list mt-2 mb-0">
-                                            <!-- Personas Chat -->
-                                            @foreach (var p in LsPeople)
-                                            {
-                                                @if (p.Value == IdChat)
-                                                {
-                                                    <li class="clearfix active">
-                                                        @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
-                                                        <RadzenButton id=@p.Value class="BotonSimple activeButtonChat" Click="() => selectChat(p.Value,p.Key)" Style="color:black">
-                                                            <div class="about">
-                                                                <div class="name">@p.Key</div>
-                                                                @*<div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>*@
-                                                            </div>
-                                                        </RadzenButton>
-                                                    </li>
-                                                }
-                                                else
-                                                {
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                    <RadzenText TextStyle="TextStyle.DisplayH3" Text="Seleccione un Chat" TextAlign="TextAlign.Center" class="TextSeleccioneChat" />
+                                    <div class="peopleMobile-list UserModalBoton">
 
-                                                    <li class="clearfix">
-                                                        @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
-                                                        <RadzenButton id=@p.Value class="BotonSimple" Click="() => selectChat(p.Value,p.Key)" Style="color:black">
-                                                            <div class="about">
-                                                                <div class="name">@p.Key</div>
-                                                                @*<div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>*@
-                                                            </div>
-                                                        </RadzenButton>
-                                                    </li>
+                                        @if (LsAllPeople != null && LsAllPeople.Count > 0)
+                                        {
+                                            <RadzenDropDown TValue="ChatPerson" class="AgendaFilter1" Data=@LsAllPeople FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true"
+                                                TextProperty="Name" ValueProperty="Id" AllowClear=true Placeholder="Nuevo Chat" Change="CreateChat" />
+                                        }
+                                        <div class="PeopleScroll">
+                                            <ul class="list-unstyled chat-list mt-2 mb-0">
+                                                <!-- Personas Chat -->
+                                                @foreach (var p in LsPeople)
+                                                {
+                                                    @if (p.Id == IdChat)
+                                                    {
+                                                        <li class="clearfix active">
+                                                            @if (p.hasNotViewMessage)
+                                                            {
+                                                                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary-light)" style="width: 10px;height: 10px;margin-left: -10px;">
+                                                                    <circle cx="50" cy="50" r="50" />
+                                                                </svg>
+                                                            }
+                                                            @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
+                                                            <RadzenButton id=@p.Id class="BotonSimple activeButtonChat" Click="() => selectChat(p.Id,p.Name)" Style="color:black">
+                                                                <div class="about">
+                                                                    <div class="name">@p.Name</div>
+                                                                    @*<div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>*@
+                                                                </div>
+                                                            </RadzenButton>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <li class="clearfix">
+                                                            @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
+                                                            <RadzenButton id=@p.Id class="BotonSimple" Click="() => selectChat(p.Id,p.Name)" Style="color:black">
+                                                                <div class="about">
+                                                                    <div class="name">@p.Name</div>
+                                                                    @*@if (p.isOnline)
+                                                                    {
+                                                                        <div class="status"> <i class="fa fa-circle online"></i>Conectado</div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="status"> <i class="fa fa-circle offline"></i>Desconectado</div>
+                                                                    }*@
+                                                                </div>
+                                                            </RadzenButton>
+                                                        </li>
+                                                    }
                                                 }
-                                            }
-                                        </ul>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
 
-                        }
-
+                            }
+                        </div>
                         @if (LsChats != null)
                         {
                             <div class="chat-message clearfix">

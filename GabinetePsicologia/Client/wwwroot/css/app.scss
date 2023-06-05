@@ -51,7 +51,6 @@ body {
     }
 
     .rz-button {
-      
     }
 
     .login {
@@ -265,6 +264,15 @@ body {
         border: 2px solid var(--rz-primary) !important;
         border-radius: 10px !important;
         height: fit-content !important;
+    }
+
+    .BotonVolverChat {
+        background-color: transparent !important;
+        color: var(--rz-primary) !important;
+        border: 2px solid var(--rz-primary) !important;
+        border-radius: 10px !important;
+        height: fit-content !important;
+        padding: 5px !important;
     }
 
     .BotonPrincipal:hover {

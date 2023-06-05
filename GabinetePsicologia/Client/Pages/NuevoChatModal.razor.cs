@@ -10,7 +10,7 @@ namespace GabinetePsicologia.Client.Pages
 		[Parameter]
 		public string id { get; set; }
 		[Inject] ChatServices ChatServices { get; set; }
-        public List<KeyValue> LsAllPeople;
+        public List<ChatPerson> LsAllPeople;
 		protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -28,7 +28,7 @@ namespace GabinetePsicologia.Client.Pages
             if (args != null)
             {
                 var id = args.ToString();
-                DialogService.Close(LsAllPeople.FirstOrDefault(x => x.Value == id));
+                DialogService.Close(LsAllPeople.FirstOrDefault(x => x.Id == id));
             }
         }
 

@@ -39,9 +39,9 @@ namespace GabinetePsicologia.Client.Services
 			var result = await _httpClient.PostAsJsonAsync<ChatDto>($"/Chat",chat);
 			
 		}
-		public async Task<List<KeyValue>> GetChatedPeople(string id)
+		public async Task<List<ChatPerson>> GetChatedPeople(string id)
 		{			
-			var result = await _httpClient.GetFromJsonAsync<List<KeyValue>>($"/Chat/ChatedPeople/{id}");
+			var result = await _httpClient.GetFromJsonAsync<List<ChatPerson>>($"/Chat/ChatedPeople/{id}");
 			return result;
 		}
 
@@ -50,9 +50,9 @@ namespace GabinetePsicologia.Client.Services
 			var result = await _httpClient.GetFromJsonAsync<List<ChatDto>>($"/Chat/AllMessages/{id}");
 			return result;
 		}
-		public async Task<List<KeyValue>> GetAllPeople(string id)
+		public async Task<List<ChatPerson>> GetAllPeople(string id)
 		{
-			var result = await _httpClient.GetFromJsonAsync<List<KeyValue>>($"/Chat/AllPeople/{id}");
+			var result = await _httpClient.GetFromJsonAsync<List<ChatPerson>>($"/Chat/AllPeople/{id}");
 			return result;
 		}
 		public  void Remove(string id, string id2)
@@ -60,6 +60,13 @@ namespace GabinetePsicologia.Client.Services
 			var query = id+ ";" + id2;	
 			_httpClient.GetAsync($"/Chat/remove/{query}");
 			
+		}
+		public void ViewMessage(string idFrom, string IdTo)
+		{
+			string query = idFrom + ";" + IdTo;
+			
+			_httpClient.GetAsync($"/Chat/View/{query}");
+
 		}
 	}
 }

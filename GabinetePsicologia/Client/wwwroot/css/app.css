@@ -200,6 +200,14 @@ body .BotonPrincipal {
   border-radius: 10px !important;
   height: fit-content !important;
 }
+body .BotonVolverChat {
+  background-color: transparent !important;
+  color: var(--rz-primary) !important;
+  border: 2px solid var(--rz-primary) !important;
+  border-radius: 10px !important;
+  height: fit-content !important;
+  padding: 5px !important;
+}
 body .BotonPrincipal:hover {
   background-color: var(--rz-primary) !important;
   color: var(--bs-body-bg) !important;

@@ -1,8 +1,18 @@
 ﻿window.BajarScroll = function () {
    // $('#Idchat-history').scrollTop($('#Idchat-history').prop('scrollHeight'));
-    $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
+        $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
+          
 }
+window.BajarScrollTime = function () {
+    setTimeout(function () {
+        $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
+    }, 100);
+}
+window.SubirScroll = function () {
+    $('#Idchat-history').stop();
+    $('#Idchat-history').scrollTop(0);
 
+}
 window.active = function (id) {
 
     $('button').removeClass('activeButtonChat');
