@@ -24,6 +24,7 @@ namespace GabinetePsicologia.Shared
 		{
 			//intentar hacer con Clients.User
 			await Clients.All.SendAsync("ReceiveMessage", fromTo, message);
+			await Clients.All.SendAsync("NotificationMessage", fromTo, message);
 		}
 	}
 }
