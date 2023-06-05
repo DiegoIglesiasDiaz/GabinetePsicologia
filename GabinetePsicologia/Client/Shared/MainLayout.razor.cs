@@ -55,8 +55,6 @@ namespace GabinetePsicologia.Client.Shared
                 //ERROR
                // await Connect();
             }
-
-
         }
 		private async Task Connect()
 		{
