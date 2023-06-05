@@ -31,7 +31,7 @@ namespace GabinetePsicologia.Client.Pages
         public async void Deshabilitar()
         {
 			var chckPasswd = await DialogService.OpenAsync<ContraseñaParaContinuar>("Introduce la Contraseña Para Continuar", new Dictionary<string, object> { { "email", Correo } });
-			if(chckPasswd == null && chckPasswd)
+			if(chckPasswd != null && chckPasswd)
 			{
 				var result = await DialogService.OpenAsync<ConfirmModal>("¿Desea desactivar la doble autenticación? ");
 				if (result == true)
