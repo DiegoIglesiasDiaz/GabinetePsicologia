@@ -65,7 +65,15 @@ namespace GabinetePsicologia.Client.Pages
 						LsAllChats = await ChatServices.GetAllMessages(user.Id.ToString());
 						if (LsPeople != null && LsAllPeople != null && LsChats != null)
 							OrdenarPersonas();
-						await Connect();
+						try
+						{
+							await Connect();
+						}
+						catch(Exception ex)
+						{
+							NavigationManager.NavigateTo("/Chat", true);
+						}
+						
 					}
 				}
 			}
@@ -85,7 +93,7 @@ namespace GabinetePsicologia.Client.Pages
 		{
 			if (hubConnection != null)
 			{
-				var FromTo = user.Id.ToString() + ";" + IdChat + ";"+NombreChat;
+				var FromTo = user.Id.ToString() + ";" + IdChat + ";"+user.FullName;
 				await hubConnection.SendAsync("SendMessage", FromTo, NewChat.Message);
 
 			}
@@ -109,9 +117,10 @@ namespace GabinetePsicologia.Client.Pages
 				
 				var msg = new ChatDto
 				{
+					Id = Guid.NewGuid(),
 					Message = message,
 					Date = DateTime.Now,
-					FromName = NombreChat,
+					FromName = FromName,
 					IdFrom = FromUser
 
 				};
