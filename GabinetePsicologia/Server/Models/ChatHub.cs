@@ -32,7 +32,7 @@ namespace GabinetePsicologia.Server.Models
 		{
 			//intentar hacer con Clients.User
 			await Clients.All.SendAsync("ReceiveMessage", fromTo, message);
-			//await Clients.All.SendAsync("NotificationMessage", fromTo, message);
+			await Clients.All.SendAsync("NotificationMessage", fromTo, message);
 		}
 		public async Task GetConnectedUsers()
 		{

@@ -28,7 +28,7 @@ namespace GabinetePsicologia.Client.Shared
         ClaimsPrincipal? user;
         public bool isAdmin = false;
         protected ErrorBoundary? ErrorBoundary;
-		private HubConnection? hubConnection;
+		private HubConnection? hubConnectionlayout;
 
 		protected override void OnParametersSet()
         {
@@ -37,7 +37,7 @@ namespace GabinetePsicologia.Client.Shared
         }
         protected override async Task OnInitializedAsync()
         {
-            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user != null && (user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
             {
                 PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
@@ -53,25 +53,34 @@ namespace GabinetePsicologia.Client.Shared
                         NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
                 }
                 //ERROR
-               // await Connect();
+                try
+				{
+					await Connect();
+
+				}
+				catch(Exception ex)
+                {
+
+                }
+              
             }
         }
 		private async Task Connect()
 		{
 
-			hubConnection = new HubConnectionBuilder()
+			hubConnectionlayout = new HubConnectionBuilder()
 							.WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
 							.Build();
 
-			hubConnection.On<string, string>("NotificationMessage", HandleReceivedMessage);
-			await hubConnection.StartAsync();
+			hubConnectionlayout.On<string, string>("NotificationMessage", HandleReceivedMessage);
+			await hubConnectionlayout.StartAsync();
 		}
 
 		public async ValueTask DisposeAsync()
 		{
-			if (hubConnection != null)
+			if (hubConnectionlayout != null)
 			{
-				await hubConnection.DisposeAsync();
+				await hubConnectionlayout.DisposeAsync();
 			}
 		}
 
