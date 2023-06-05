@@ -5,6 +5,8 @@ using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.JSInterop;
 using Radzen;
 using System;
 using System.Net;
@@ -23,10 +25,12 @@ namespace GabinetePsicologia.Client.Shared
         [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] protected UsuarioServices UsuarioServices { get; set; }
         string Name;
+        ClaimsPrincipal? user;
         public bool isAdmin = false;
         protected ErrorBoundary? ErrorBoundary;
+		private HubConnection? hubConnection;
 
-        protected override void OnParametersSet()
+		protected override void OnParametersSet()
         {
             ErrorBoundary?.Recover();
             
@@ -48,11 +52,49 @@ namespace GabinetePsicologia.Client.Shared
                     if (result)
                         NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
                 }
+                //ERROR
+               // await Connect();
             }
 
 
         }
-        protected void OnError(Exception e)
+		private async Task Connect()
+		{
+
+			hubConnection = new HubConnectionBuilder()
+							.WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+							.Build();
+
+			hubConnection.On<string, string>("NotificationMessage", HandleReceivedMessage);
+			await hubConnection.StartAsync();
+		}
+
+		public async ValueTask DisposeAsync()
+		{
+			if (hubConnection != null)
+			{
+				await hubConnection.DisposeAsync();
+			}
+		}
+
+		private async void HandleReceivedMessage(string usr, string message)
+		{
+			var split = usr.Split(";");
+			//var FromUser = split[0];
+			var ToUser = split[1];
+			var FromName = split[2];
+
+			var LogUser = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
+			if (ToUser == LogUser.Id.ToString() && !NavigationManager.Uri.EndsWith("/Chat"))
+			{
+                NotificationService.Notify(NotificationSeverity.Info, "", $"Nuevo Mensaje de {FromName}.");
+		
+				
+			}
+
+			StateHasChanged();
+		}
+		protected void OnError(Exception e)
         {
             if (e is HttpRequestException httpException)
             {
