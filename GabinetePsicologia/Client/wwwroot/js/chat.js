@@ -13,6 +13,7 @@ window.SubirScroll = function () {
     $('#Idchat-history').scrollTop(0);
 
 }
+
 window.active = function (id) {
 
     $('button').removeClass('activeButtonChat');
@@ -39,6 +40,14 @@ window.AddPerson = function (name) {
 
 window.RemoveNewChat = function () {
     $('#NewPersonaLi').remove();
+    $('li').removeClass('active');
+    $('button').removeClass('activeButtonChat');
+}
+window.MessageOnShow = function () {
+    $('#messageOn').show();
+}
+window.MessageOnHide = function () {
+    $('#messageOn').hide();
 }
 
 window.FillPage = function () {

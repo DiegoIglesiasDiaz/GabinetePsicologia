@@ -275,7 +275,20 @@ namespace GabinetePsicologia.Server.Controllers
 			_context.SaveChanges();
 
 		}
+		[HttpGet("NonViewMessage/{id}")]
+		public string NonViewMessage(string id)
+		{
+			if(_context.Chat.Where(x => x.IdTo == id && !x.View).Any())
+			{
+				return "True";
+			}
+			else
+			{
+				return "False";
+			}
+			
 
+		}
 	}
 }
 

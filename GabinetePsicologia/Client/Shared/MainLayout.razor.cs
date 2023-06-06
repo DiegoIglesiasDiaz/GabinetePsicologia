@@ -24,7 +24,9 @@ namespace GabinetePsicologia.Client.Shared
         [Inject] protected HttpClient _HttpClient { get; set; }
         [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] protected UsuarioServices UsuarioServices { get; set; }
-        string Name;
+        [Inject] protected ChatServices ChatServices { get; set; }
+		[Inject] private IJSRuntime jSRuntime { get; set; }
+		string Name;
         ClaimsPrincipal? user;
         public bool isAdmin = false;
         protected ErrorBoundary? ErrorBoundary;
@@ -52,8 +54,16 @@ namespace GabinetePsicologia.Client.Shared
                     if (result)
                         NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
                 }
-                //ERROR
-                try
+                var resultBool = await ChatServices.hasNonViewMessage(userDto.Id.ToString());
+                if (resultBool)
+                {
+					await jSRuntime.InvokeVoidAsync("MessageOnShow");
+				}
+                else{
+					await jSRuntime.InvokeVoidAsync("MessageOnHide");
+				}
+
+				try
 				{
 					await Connect();
 
@@ -62,6 +72,7 @@ namespace GabinetePsicologia.Client.Shared
                 {
 
                 }
+
               
             }
         }
@@ -92,11 +103,15 @@ namespace GabinetePsicologia.Client.Shared
 			var FromName = split[2];
 
 			var LogUser = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
-			if (ToUser == LogUser.Id.ToString() && !NavigationManager.Uri.EndsWith("/Chat"))
+			if (ToUser == LogUser.Id.ToString())
 			{
-                NotificationService.Notify(NotificationSeverity.Info, "", $"Nuevo Mensaje de {FromName}.");
-		
-				
+                if (!NavigationManager.Uri.EndsWith("/Chat"))
+                {
+					NotificationService.Notify(NotificationSeverity.Info, "", $"Nuevo Mensaje de {FromName}.");
+				}
+               
+				await jSRuntime.InvokeVoidAsync("MessageOnShow");
+
 			}
 
 			StateHasChanged();

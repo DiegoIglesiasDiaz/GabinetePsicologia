@@ -68,5 +68,18 @@ namespace GabinetePsicologia.Client.Services
 			_httpClient.GetAsync($"/Chat/View/{query}");
 
 		}
+		public async Task<bool> hasNonViewMessage(string id)
+		{
+
+			string result = await _httpClient.GetStringAsync($"/Chat/NonViewMessage/{id}");
+			if(result != null && result== "True") {
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+		}
 	}
 }

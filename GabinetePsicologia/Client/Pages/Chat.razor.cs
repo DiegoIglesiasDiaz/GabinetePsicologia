@@ -32,7 +32,7 @@ namespace GabinetePsicologia.Client.Pages
 		public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
 
 		public bool isInRole = false;
-		public bool isFirstSend = false;
+		
 		public bool isRemove = false;
 		public string correo = "";
 		public string NombreChat = "";
@@ -156,6 +156,11 @@ namespace GabinetePsicologia.Client.Pages
 					LsPeople.Add(new ChatPerson { Name = FromName, Id = FromUser, hasNotViewMessage = true, lastMessage = DateTime.Now , isOnline = true});
 
 				}
+				else
+				{
+					LsPeople.FirstOrDefault(x => x.Id == FromUser).hasNotViewMessage = true;
+					LsPeople.FirstOrDefault(x => x.Id == FromUser).lastMessage = DateTime.Now ;
+				}
 				OrdenarPersonas();
 				if (FromUser == IdChat)
 				{
@@ -163,6 +168,7 @@ namespace GabinetePsicologia.Client.Pages
 					ChatServices.ViewMessage(msg.IdFrom, msg.IdTo);
 					jSRuntime.InvokeVoidAsync("BajarScroll");
 				}
+				
 			}
 
 			StateHasChanged();
@@ -186,15 +192,19 @@ namespace GabinetePsicologia.Client.Pages
 				jSRuntime.InvokeVoidAsync("BajarScroll");
 				if (!LsPeople.Where(x => x.Id == IdChat).Any())
 				{
-					isFirstSend = true;
+					
 					LsPeople.Add(new ChatPerson { Name = NombreChat, Id = IdChat, lastMessage = DateTime.Now });
 
 				}
-				if (isFirstSend)
-					OrdenarPersonas();
+				else
+				{
+					LsPeople.FirstOrDefault(x => x.Id == IdChat).lastMessage = DateTime.Now;
+				}
+				
+				OrdenarPersonas();
 				ChatServices.Send(NewChat);
 				NewChat = new ChatDto();
-				//jSRuntime.InvokeVoidAsync("active", IdChat);
+				jSRuntime.InvokeVoidAsync("active", IdChat);
 
 			}
 
@@ -204,11 +214,11 @@ namespace GabinetePsicologia.Client.Pages
 			jSRuntime.InvokeVoidAsync("RemoveNewChat");
 			IdChat = id;
 			NombreChat = Nombre;
-			//jSRuntime.InvokeVoidAsync("active", id);
+		
 			LsChats = LsAllChats.Where(x => x.IdFrom == id || x.IdTo == id).OrderBy(x => x.Date).ToList();
 			jSRuntime.InvokeVoidAsync("FillPage");
-
-			isFirstSend = true;
+			//jSRuntime.InvokeVoidAsync("active", id);
+			
 			LsPeople.FirstOrDefault(x => x.Id == id).hasNotViewMessage = false;
 			LsAllPeople.FirstOrDefault(x => x.Id == id).hasNotViewMessage = false;
 			var chats = LsAllChats.Where(x => x.IdFrom == id).ToList();
@@ -218,6 +228,10 @@ namespace GabinetePsicologia.Client.Pages
 			}
 			ChatServices.ViewMessage(id, user.Id.ToString());
 			jSRuntime.InvokeVoidAsync("BajarScrollTime");
+
+			if(LsAllChats.Where(x=>  x.IdTo == user.Id.ToString() && x.IdFrom == id).Any())
+				jSRuntime.InvokeVoidAsync("MessageOnHide");
+			
 		}
 		public void CreateChat(object args)
 		{
@@ -237,6 +251,9 @@ namespace GabinetePsicologia.Client.Pages
 				{
 					LsPeople.FirstOrDefault(x => x.Id == id).hasNotViewMessage = false;
 					ChatServices.ViewMessage(id, user.Id.ToString());
+					if (LsAllChats.Where(x => x.View == false && x.IdTo == user.Id.ToString()).Any())
+						jSRuntime.InvokeVoidAsync("MessageOnHide");
+					
 				}
 				jSRuntime.InvokeVoidAsync("FillPage");
 				jSRuntime.InvokeVoidAsync("BajarScroll");

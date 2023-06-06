@@ -6,9 +6,7 @@
 <style>
     .afoot {
         padding-right: 25px;
-        
     }
-    
 </style>
 <RadzenLayout id="@(@NavigationManager.Uri.Equals(@NavigationManager.BaseUri) ? "Home" : Path.GetFileName(NavigationManager.Uri))">
 
@@ -83,9 +81,15 @@
                                     <span class="rz-navigation-item-text">INFORMES</span>
                                 </Template>
                             </RadzenMenuItem>
-                            <RadzenMenuItem Path="/Chat">
+                            <RadzenMenuItem Path="/Chat" class="messageOn">
                                 <Template>
-                                    <span class="rz-navigation-item-text">CHAT</span>
+                                    <span class="rz-navigation-item-text d-flex">
+                                        CHAT
+                                        <svg id="messageOn" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary)" style="width: 7px;height: 7px;margin-left: 4px;display:none;">
+                                            <circle cx="50" cy="50" r="50" />
+                                        </svg>
+                                    </span>
+
                                 </Template>
                             </RadzenMenuItem>
 
@@ -123,9 +127,15 @@
                                     </Template>
                                 </RadzenMenuItem>
                             }
-                             <RadzenMenuItem Path="/Chat">
+                            <RadzenMenuItem Path="/Chat" class="messageOn">
                                 <Template>
-                                    <span class="rz-navigation-item-text">CHAT</span>
+                                    <span class="rz-navigation-item-text d-flex">
+                                        CHAT
+                                        <svg id="messageOn" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary)" style="width: 7px;height: 7px;margin-left: 4px;display:none;">
+                                            <circle cx="50" cy="50" r="50" />
+                                        </svg>
+                                    </span>
+
                                 </Template>
                             </RadzenMenuItem>
                         }
