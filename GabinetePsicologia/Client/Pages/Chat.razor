@@ -159,12 +159,7 @@
                                                     @if (p.Id == IdChat)
                                                     {
                                                         <li class="clearfix active">
-                                                            @if (p.hasNotViewMessage)
-                                                            {
-                                                                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary-light)" style="width: 10px;height: 10px;margin-left: -10px;">
-                                                                    <circle cx="50" cy="50" r="50" />
-                                                                </svg>
-                                                            }
+                                                           
                                                             @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
                                                             <RadzenButton id=@p.Id class="BotonSimple activeButtonChat" Click="() => selectChat(p.Id,p.Name)" Style="color:black">
                                                                 <div class="about">
@@ -178,6 +173,12 @@
                                                     {
 
                                                         <li class="clearfix">
+                                                             @if (p.hasNotViewMessage)
+                                                            {
+                                                                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="var(--rz-primary-light)" style="width: 10px;height: 10px;">
+                                                                    <circle cx="50" cy="50" r="50" />
+                                                                </svg>
+                                                            }
                                                             @*<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">*@
                                                             <RadzenButton id=@p.Id class="BotonSimple" Click="() => selectChat(p.Id,p.Name)" Style="color:black">
                                                                 <div class="about">

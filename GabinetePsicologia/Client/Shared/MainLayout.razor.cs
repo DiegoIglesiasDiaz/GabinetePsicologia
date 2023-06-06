@@ -111,6 +111,7 @@ namespace GabinetePsicologia.Client.Shared
 				}
                
 				await jSRuntime.InvokeVoidAsync("MessageOnShow");
+				await jSRuntime.InvokeVoidAsync("sonidoMssg");
 
 			}
 

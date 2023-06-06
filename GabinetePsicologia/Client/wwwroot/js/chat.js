@@ -45,6 +45,12 @@ window.RemoveNewChat = function () {
 }
 window.MessageOnShow = function () {
     $('#messageOn').show();
+
+}
+window.sonidoMssg = function () {
+    var audio = new Audio('../sonido.mp3');
+    audio.play();
+
 }
 window.MessageOnHide = function () {
     $('#messageOn').hide();

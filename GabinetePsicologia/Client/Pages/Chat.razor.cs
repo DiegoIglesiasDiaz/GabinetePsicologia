@@ -107,6 +107,7 @@ namespace GabinetePsicologia.Client.Pages
 		}
 		private void HandleConnectedUsers(List<string> users)
 		{
+		
 			foreach(var user in users)
 			{
 				if(LsAllPeople.Where(x=> x.UserName == user).Any())
