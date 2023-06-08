@@ -2,6 +2,8 @@
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+use GabinetePsicologia
+go
 
 CREATE PROCEDURE [dbo].[GetPacienteByUserName]
 @username varchar(40)
@@ -52,4 +54,14 @@ BEGIN
     DELETE FROM Chat
     WHERE Date < @fecha_limite;
 END;
+GO
+Create PROCEDURE [dbo].[GetPacienteById]
+@id uniqueidentifier
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	SELECT * from Pacientes ps where ps.Id = @id
+END
 GO
