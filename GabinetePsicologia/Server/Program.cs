@@ -44,19 +44,19 @@ builder.Services.AddIdentityServer()
 
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-    var validIssuers = new string[] { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
+    List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = false,
-        ValidateActor = false,
-        ValidateTokenReplay = false,
-        ValidateAudience = false,
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = false,
-        //ValidIssuers = validIssuers,
-        //ValidIssuer = "https://centrodetecnicasnaturalesneo.com/",
-        //ValidAudience = "your_audience",
-        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+        ValidateIssuer = true,
+        ValidateActor = true,
+        ValidateTokenReplay = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuers = validIssuers,
+        ValidIssuer = "https://centrodetecnicasnaturalesneo.com/",
+        ValidAudience = "your_audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
     };
 }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
