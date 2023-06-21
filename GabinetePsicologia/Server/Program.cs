@@ -15,9 +15,17 @@ using GabinetePsicologia.Shared;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddScoped<TenantController>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<HostResolutionStrategy>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    var serviceProvider = builder.Services.BuildServiceProvider();
+    var tenantController = serviceProvider.GetRequiredService<HostResolutionStrategy>();
+    options.UseSqlServer(tenantController.GetConnectionString());
+}
+);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -78,7 +86,11 @@ builder.Services.AddScoped<CitaController>();
 builder.Services.AddScoped<MensajeController>();
 builder.Services.AddScoped<TwoFactorController>();
 builder.Services.AddScoped<ChatController>();
+
 builder.Services.AddSignalR();
+builder.Services.AddMultiTenancy()
+    .WithResolutionStrategy<HostResolutionStrategy>()
+    .WithStore<InMemoryTenantStore>();
 //SignalR no obligatorio
 builder.Services.AddResponseCompression(options =>
                        options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
