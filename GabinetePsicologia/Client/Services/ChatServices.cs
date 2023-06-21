@@ -73,7 +73,7 @@ namespace GabinetePsicologia.Client.Services
             var ipAddress = "217.160.115.84"; // Replace with the desired IP address
             var url = $"https://{ipAddress}/Chat/NonViewMessage/{id}";
 
-            string result = await _httpClient.GetStringAsync($"url");
+            string result = await _httpClient.GetStringAsync(url);
 			if(result != null && result== "True") {
 				return true;
 			}
