@@ -40,7 +40,7 @@ builder.Services.AddIdentityServer()
     });
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
-builder.Services.AddAuthentication().AddJwtBearer().AddIdentityServerJwt()
+builder.Services.AddAuthentication()
     .AddGoogle(googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
