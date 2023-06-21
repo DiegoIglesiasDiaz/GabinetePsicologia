@@ -34,14 +34,28 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
+    {
         options.IdentityResources["openid"].UserClaims.Add("role");
         options.ApiResources.Single().UserClaims.Add("role");
     });
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
-builder.Services.AddAuthentication().AddIdentityServerJwt()
-    .AddGoogle(googleOptions =>
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    var validIssuers = new string[] { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuers = validIssuers,
+        ValidAudience = "your_audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+    };
+}).AddGoogle(googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
         googleOptions.ClientSecret = builder.Configuration["GoogleSecretId"]!;
@@ -53,11 +67,11 @@ builder.Services.AddAuthentication().AddIdentityServerJwt()
 
     );
 
-    //.AddFacebook(facebook =>
-    //{
-    //    facebook.AppId = "966826294752064";
-    //    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
-    //});
+//.AddFacebook(facebook =>
+//{
+//    facebook.AppId = "966826294752064";
+//    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
+//});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

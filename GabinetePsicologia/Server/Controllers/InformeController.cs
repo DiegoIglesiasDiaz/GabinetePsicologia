@@ -20,7 +20,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace GabinetePsicologia.Server.Controllers
 {
 
-    
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
 
