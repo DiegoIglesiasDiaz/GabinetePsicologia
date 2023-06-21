@@ -44,11 +44,11 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     var validIssuers = new string[] { "https://app.diegoiglesiasdiaz.com", "https://app.centrodetecnicasnaturalesneo.com" };
     options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = true,
+		ValidateIssuer = false,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = string.Join(",", validIssuers),
+        ValidIssuers = validIssuers,
         ValidAudience = "your_audience",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
     };
