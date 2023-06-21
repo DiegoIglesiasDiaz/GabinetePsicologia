@@ -70,10 +70,8 @@ namespace GabinetePsicologia.Client.Services
 		}
 		public async Task<bool> hasNonViewMessage(string id)
 		{
-            var ipAddress = "localhost"; // Replace with the desired IP address
-            var url = $"https://{ipAddress}/Chat/NonViewMessage/{id}";
 
-            string result = await _httpClient.GetStringAsync(url);
+			string result = await _httpClient.GetStringAsync($"/Chat/NonViewMessage/{id}");
 			if(result != null && result== "True") {
 				return true;
 			}
