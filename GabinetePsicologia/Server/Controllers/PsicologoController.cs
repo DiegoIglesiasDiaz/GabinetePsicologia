@@ -15,7 +15,7 @@ using Paciente = GabinetePsicologia.Shared.Paciente;
 
 namespace GabinetePsicologia.Server.Controllers
 {
-    
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
   
