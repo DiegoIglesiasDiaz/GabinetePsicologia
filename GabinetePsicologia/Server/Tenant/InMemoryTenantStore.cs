@@ -12,7 +12,8 @@ namespace GabinetePsicologia.Server.Models
         public Tenant[] tenant { get; } = new[]
                 {
                 new Tenant{  Id = Guid.NewGuid(), Identifier = "localhost", NombreApp = "GabinetePsicologia", Database="GabinetePsicologia" },
-                new Tenant{ Id = Guid.NewGuid(), Identifier = "clinicaneo.localhost", NombreApp = "Centro de Técnicas Naturales Neo", Database="ClinicaNeo"  }
+                new Tenant{  Id = Guid.NewGuid(), Identifier = "diegoiglesiasdiaz.com", NombreApp = "GabinetePsicologia", Database="GabinetePsicologia" },
+                new Tenant{ Id = Guid.NewGuid(), Identifier = "centrodetecnicasnaturalesneo.com", NombreApp = "Centro de Técnicas Naturales Neo", Database="ClinicaNeo"  }
                 };
 /// <summary>
 /// Get a tenant for a given identifier
@@ -21,7 +22,7 @@ namespace GabinetePsicologia.Server.Models
 /// <returns></returns>
 public async Task<Tenant> GetTenantAsync(string identifier)
         {
-             return await Task.FromResult(tenant.SingleOrDefault(t => t.Identifier.ToLower() == identifier.ToLower()));
+             return await Task.FromResult(tenant.SingleOrDefault(t => t.Identifier.ToLower().Contains(identifier.ToLower())));
         }
 
     }
