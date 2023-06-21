@@ -17,12 +17,12 @@
                 var token = filterContext.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
                 // Validate the token's issuer
-                var issuer = TokenValidation.ValidateIssuer(token); // Implement your token validation logic here
+                //var issuer = TokenValidation.ValidateIssuer(token); // Implement your token validation logic here
 
-                if (validIssuers.Contains(issuer))
-                {
-                    context.Succeed(requirement);
-                }
+                //if (validIssuers.Contains(issuer))
+                //{
+                //    context.Succeed(requirement);
+                //}
             }
 
             return Task.CompletedTask;
