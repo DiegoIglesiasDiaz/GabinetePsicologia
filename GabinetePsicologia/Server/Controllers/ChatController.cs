@@ -17,8 +17,8 @@ using Cita = GabinetePsicologia.Shared.Cita;
 
 namespace GabinetePsicologia.Server.Controllers
 {
-	[Authorize]
-	[Route("[controller]")]
+    [Authorize(Roles = "AppUsers")]
+    [Route("[controller]")]
 	[ApiController]
 
 	public class ChatController : ControllerBase
