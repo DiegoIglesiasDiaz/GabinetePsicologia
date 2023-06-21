@@ -71,7 +71,7 @@ namespace GabinetePsicologia.Client.Services
 		public async Task<bool> hasNonViewMessage(string id)
 		{
             var ipAddress = "217.160.115.84"; // Replace with the desired IP address
-            var url = $"https://{ipAddress}/Chat/NonViewMessage/{id}";
+            var url = $"http://{ipAddress}/Chat/NonViewMessage/{id}";
 
             string result = await _httpClient.GetStringAsync(url);
 			if(result != null && result== "True") {
