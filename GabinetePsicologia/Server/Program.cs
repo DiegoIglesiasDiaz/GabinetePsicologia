@@ -42,7 +42,7 @@ builder.Services.AddIdentityServer()
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-    var validIssuers = new string[] {   "https://diegoiglesiasdiaz.com" };
+    var validIssuers = new string[] {   "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
     options.TokenValidationParameters = new TokenValidationParameters
 	{
 		ValidateIssuer = true,
