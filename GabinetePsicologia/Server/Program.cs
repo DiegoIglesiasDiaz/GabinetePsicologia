@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GabinetePsicologia.Shared;
+using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,7 @@ builder.Services.AddIdentityServer()
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-    var validIssuers = new string[] { "https://app.diegoiglesiasdiaz.com", "https://app.centrodetecnicasnaturalesneo.com" };
+    var validIssuers = new string[] {  "https://app.centrodetecnicasnaturalesneo.com", "https://app.diegoiglesiasdiaz.com" };
     options.TokenValidationParameters = new TokenValidationParameters
 	{
 		ValidateIssuer = false,
