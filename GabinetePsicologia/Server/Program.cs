@@ -41,16 +41,17 @@ builder.Services.AddIdentityServer()
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-	options.TokenValidationParameters = new TokenValidationParameters
+    var validIssuers = new string[] { "https://app.diegoiglesiasdiaz.com", "https://app.centrodetecnicasnaturalesneo.com" };
+    options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = false,
-		//ValidateAudience = true,
-		//ValidateLifetime = true,
-		//ValidateIssuerSigningKey = true,
-		//ValidIssuer = "https://app.diegoiglesiasdiaz.com",
-		//ValidAudience = "your_audience",
-		//IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
-	};
+		ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = string.Join(",", validIssuers),
+        ValidAudience = "your_audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+    };
 }).AddIdentityServerJwt()
     .AddGoogle(googleOptions =>
     {
