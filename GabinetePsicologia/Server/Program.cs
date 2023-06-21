@@ -45,7 +45,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     var validIssuers = new string[] {  "https://app.centrodetecnicasnaturalesneo.com", "https://app.diegoiglesiasdiaz.com" };
     options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = false,
+		ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
