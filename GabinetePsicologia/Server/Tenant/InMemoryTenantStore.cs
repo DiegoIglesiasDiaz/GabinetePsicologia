@@ -22,7 +22,7 @@ namespace GabinetePsicologia.Server.Models
 /// <returns></returns>
 public async Task<Tenant> GetTenantAsync(string identifier)
         {
-             return await Task.FromResult(tenant.SingleOrDefault(t => t.Identifier.ToLower().Contains(identifier.ToLower())));
+             return await Task.FromResult(tenant.SingleOrDefault(t => identifier.ToLower().Contains(t.Identifier.ToLower())));
         }
 
     }
