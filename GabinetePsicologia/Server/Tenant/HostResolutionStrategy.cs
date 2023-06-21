@@ -33,7 +33,7 @@ namespace GabinetePsicologia.Server.Models
 
             // Busca la información de conexión del inquilino basándote en el host
             InMemoryTenantStore memoryTenantStore = new InMemoryTenantStore();
-            Tenant tenant = memoryTenantStore.tenant.FirstOrDefault(t => t.Identifier == host);
+            Tenant tenant = memoryTenantStore.tenant.FirstOrDefault(t => host.Contains(t.Identifier));
             
             if (tenant == null)
             {
