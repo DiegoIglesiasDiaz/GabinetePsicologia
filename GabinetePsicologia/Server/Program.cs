@@ -12,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GabinetePsicologia.Shared;
 using static System.Net.WebRequestMethods;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,11 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<TenantController>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<HostResolutionStrategy>();
-
+var serviceProvider = builder.Services.BuildServiceProvider();
+var tenantController = serviceProvider.GetRequiredService<HostResolutionStrategy>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var serviceProvider = builder.Services.BuildServiceProvider();
-    var tenantController = serviceProvider.GetRequiredService<HostResolutionStrategy>();
+   
     options.UseSqlServer(tenantController.GetConnectionString());
 }
 );
@@ -45,8 +44,8 @@ builder.Services.AddIdentityServer()
 
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-    List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
-    List<SecurityKey> IssuersKeys = new List<SecurityKey>() { new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo")), new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjk9AP22pr6wLdEZAgqvcYo")) };
+    
+    //List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -55,10 +54,9 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuers = validIssuers,
-        ValidIssuer = "https://*.com/",
+        ValidIssuer = tenantController.GetIssuer(),
         ValidAudience = "your_audience",
-        IssuerSigningKeys = IssuersKeys 
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
     };
 }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
