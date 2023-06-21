@@ -11,9 +11,9 @@ namespace GabinetePsicologia.Server.Models
     {
         public Tenant[] tenant { get; } = new[]
                 {
-                new Tenant{  Id = Guid.NewGuid(), Identifier = "localhost", NombreApp = "GabinetePsicologia", Database="GabinetePsicologia", Issuer="https://app.diegoiglesiasdiaz.com" },
-                new Tenant{  Id = Guid.NewGuid(), Identifier = "diegoiglesiasdiaz.com", NombreApp = "GabinetePsicologia", Database="GabinetePsicologia", Issuer="https://app.diegoiglesiasdiaz.com" },
-                new Tenant{ Id = Guid.NewGuid(), Identifier = "centrodetecnicasnaturalesneo.com", NombreApp = "Centro de Técnicas Naturales Neo", Database="ClinicaNeo", Issuer = "https://app.centrodetecnicasnaturalesneo.com/"  }
+                new Tenant{  Id = Guid.NewGuid(), Identifier = "localhost", NombreApp = "GabinetePsicologia", Database="GabinetePsicologia" },
+                new Tenant{  Id = Guid.NewGuid(), Identifier = "diegoiglesiasdiaz.com", NombreApp = "GabinetePsicologia", Database="GabinetePsicologia" },
+                new Tenant{ Id = Guid.NewGuid(), Identifier = "centrodetecnicasnaturalesneo.com", NombreApp = "Centro de Técnicas Naturales Neo", Database="ClinicaNeo"  }
                 };
 /// <summary>
 /// Get a tenant for a given identifier

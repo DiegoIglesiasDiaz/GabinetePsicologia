@@ -26,10 +26,7 @@ namespace GabinetePsicologia.Shared
         /// Tenant Css
         /// </summary>
         public string Css { get; set; }
-        /// <summary>
-        /// Issuer
-        /// </summary>
-        public string Issuer { get; set; }
+   
 
         public Dictionary<string, object> Items { get; private set; } = new Dictionary<string, object>();
 
