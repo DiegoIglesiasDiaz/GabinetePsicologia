@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GabinetePsicologia.Shared;
 using static System.Net.WebRequestMethods;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
     List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
+    List<SecurityKey> IssuersKeys = new List<SecurityKey>() { new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo")), new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjk9AP22pr6wLdEZAgqvcYo")) };
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -56,7 +58,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidIssuers = validIssuers,
         ValidIssuer = "https://*.com/",
         ValidAudience = "your_audience",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+        IssuerSigningKeys = IssuersKeys 
     };
 }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
