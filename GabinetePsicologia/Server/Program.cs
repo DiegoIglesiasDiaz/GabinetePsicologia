@@ -142,8 +142,8 @@ app.UseIdentityServer();
 app.UseAuthentication();
 
 app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
+    //.AllowAnyMethod()
+    //.AllowAnyHeader()
     //.SetIsOriginAllowed(origin => true)
     //.AllowCredentials()
     );
