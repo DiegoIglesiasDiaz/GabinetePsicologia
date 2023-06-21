@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using GabinetePsicologia.Shared;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace GabinetePsicologia.Server.Models
 {
@@ -36,9 +37,9 @@ namespace GabinetePsicologia.Server.Models
             
             if (tenant == null)
             {
-                
+
                 // Maneja el caso en el que el host no se corresponda con ningún inquilino
-                throw new Exception("No se encontró ningún inquilino para el host proporcionado.");
+                throw new Exception("No se encontró ningún inquilino para el host "+ _httpContextAccessor.HttpContext.Request.Host.Host);
             }
 
           
