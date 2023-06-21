@@ -37,9 +37,10 @@ namespace GabinetePsicologia.Server.Models
             
             if (tenant == null)
             {
-
+                string a = _httpContextAccessor.HttpContext.Request.Host.Host;
                 // Maneja el caso en el que el host no se corresponda con ningún inquilino
-                throw new Exception("No se encontró ningún inquilino para el host "+ _httpContextAccessor.HttpContext.Request.Host.Host);
+                //throw new Exception("No se encontró ningún inquilino para el host proporcionado.");
+                throw new Exception(a);
             }
 
           
