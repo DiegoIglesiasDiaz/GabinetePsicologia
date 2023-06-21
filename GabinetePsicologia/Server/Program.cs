@@ -141,7 +141,7 @@ app.UseResponseCompression();
 app.UseIdentityServer();
 app.UseAuthentication();
 
-app.UseCors(x => x
+app.UseCors(//x => x
     //.AllowAnyMethod()
     //.AllowAnyHeader()
     //.SetIsOriginAllowed(origin => true)
