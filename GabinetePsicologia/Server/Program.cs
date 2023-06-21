@@ -141,11 +141,11 @@ app.UseResponseCompression();
 app.UseIdentityServer();
 app.UseAuthentication();
 
-app.UseCors(//x => x
-    //.AllowAnyMethod()
-    //.AllowAnyHeader()
-    //.SetIsOriginAllowed(origin => true)
-    //.AllowCredentials()
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials()
     );
 app.UseAuthorization();
 
