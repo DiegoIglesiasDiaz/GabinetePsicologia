@@ -52,6 +52,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuers = validIssuers,
+        ValidIssuer = "https://centrodetecnicasnaturalesneo.com/",
         ValidAudience = "your_audience",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
     };
