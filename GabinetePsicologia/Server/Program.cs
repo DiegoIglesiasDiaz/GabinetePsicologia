@@ -54,7 +54,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "https://diegoiglesiasdiaz.com",
+        ValidIssuer = "https://app.diegoiglesiasdiaz.com",
         ValidAudience = "your_audience",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
     };
