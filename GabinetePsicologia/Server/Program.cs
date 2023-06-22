@@ -91,8 +91,12 @@ builder.Services.AddResponseCompression(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy => { policy.AllowAnyOrigin(); });
+    options.AddPolicy("AllowSpecificOrigins", builder =>
+    {
+        builder.WithOrigins("https://app.diegoiglesiasdiaz.com/", "https://app.centrodetecnicasnaturalesneo.com/")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddLocalization();
@@ -114,7 +118,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseCors("AllowSpecificOrigins");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -130,12 +134,7 @@ app.UseResponseCompression();
 app.UseIdentityServer();
 app.UseAuthentication();
 
-app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    //.SetIsOriginAllowed(origin => true)
-    //.AllowCredentials()
-    );
+
 app.UseAuthorization();
 
 
