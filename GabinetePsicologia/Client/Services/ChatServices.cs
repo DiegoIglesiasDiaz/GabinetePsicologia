@@ -71,8 +71,8 @@ namespace GabinetePsicologia.Client.Services
 		}
 		public async Task<bool> hasNonViewMessage(string id)
 		{
-			//string result = await _httpClient.GetStringAsync($"/Chat/NonViewMessage/{id}");
-			string result = await _httpClient.GetStringAsync($"https://app.diegoiglesiadiaz.com/Chat/NonViewMessage/{id}");
+			string result = await _httpClient.GetStringAsync($"/Chat/NonViewMessage/{id}");
+
 			if (result != null && result== "True") {
 				return true;
 			}
