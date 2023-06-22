@@ -23,7 +23,7 @@ var serviceProvider = builder.Services.BuildServiceProvider();
 var tenantController = serviceProvider.GetRequiredService<HostResolutionStrategy>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-   
+
     options.UseSqlServer(tenantController.GetConnectionString());
 }
 );
@@ -41,19 +41,69 @@ builder.Services.AddIdentityServer()
     });
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
+if (tenantController.GetIssuer().Contains("centrodetecnicasnaturalesneo"))
+{
+    builder.Services.AddAuthentication().AddJwtBearer(options =>
+    {
 
-builder.Services.AddAuthentication().AddIdentityServerJwt()
+        //List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateActor = true,
+            ValidateTokenReplay = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "https://centrodetecnicasnaturalesneo.com/",
+            ValidAudience = "GabinetePsicologia",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+        };
+    }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
-    {
-        googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
-        googleOptions.ClientSecret = builder.Configuration["GoogleSecretId"]!;
-    }).AddMicrosoftAccount(microsoftOptions =>
-    {
-        microsoftOptions.ClientId = builder.Configuration["MicrosoftClientId"]!;
-        microsoftOptions.ClientSecret = builder.Configuration["MicrosoftSecretId"]!;
-    }
+{
+    googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
+    googleOptions.ClientSecret = builder.Configuration["GoogleSecretId"]!;
+}).AddMicrosoftAccount(microsoftOptions =>
+{
+    microsoftOptions.ClientId = builder.Configuration["MicrosoftClientId"]!;
+    microsoftOptions.ClientSecret = builder.Configuration["MicrosoftSecretId"]!;
+}
 
     );
+}
+else
+{
+    builder.Services.AddAuthentication().AddJwtBearer(options =>
+    {
+
+        //List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateActor = true,
+            ValidateTokenReplay = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "https://diegoiglesiasdiaz.com",
+            ValidAudience = "ClinicaNeo",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYj"))
+        };
+    }).AddIdentityServerJwt()
+.AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
+    googleOptions.ClientSecret = builder.Configuration["GoogleSecretId"]!;
+}).AddMicrosoftAccount(microsoftOptions =>
+{
+    microsoftOptions.ClientId = builder.Configuration["MicrosoftClientId"]!;
+    microsoftOptions.ClientSecret = builder.Configuration["MicrosoftSecretId"]!;
+}
+
+    );
+}
+
 
 //.AddFacebook(facebook =>
 //{
