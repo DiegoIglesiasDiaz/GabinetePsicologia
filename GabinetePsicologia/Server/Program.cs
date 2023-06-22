@@ -48,7 +48,7 @@ builder.Services.AddIdentityServer()
     {
 
         //List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
-        options.Authority = "https://app.diegoiglesiasdiaz.com";
+        options.Authority = tenantController.GetIssuer();
        // options.TokenValidationParameters = new TokenValidationParameters { ValidateIssuer = false };
         options.TokenValidationParameters.ValidIssuers = new[] {  "https://app.diegoiglesiasdiaz.com", "https://app.centrodetecnicasnaturalesneo.com/" };
         options.SecurityTokenValidators.Clear();
