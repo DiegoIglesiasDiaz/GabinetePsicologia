@@ -22,10 +22,7 @@ namespace GabinetePsicologia.Shared
         /// The tenant Database
         /// </summary>
         public string Database { get; set; }
-        /// <summary>
-        /// Tenant Css
-        /// </summary>
-        public string Css { get; set; }
+
    
 
         public Dictionary<string, object> Items { get; private set; } = new Dictionary<string, object>();

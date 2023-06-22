@@ -37,10 +37,10 @@ namespace GabinetePsicologia.Server.Models
             
             if (tenant == null)
             {
-                string a = _httpContextAccessor.HttpContext.Request.Host.Host;
+               
                 // Maneja el caso en el que el host no se corresponda con ningún inquilino
                 //throw new Exception("No se encontró ningún inquilino para el host proporcionado.");
-                throw new Exception(a);
+                throw new Exception("No se ha encontrado esta página");
             }
 
           
@@ -48,6 +48,28 @@ namespace GabinetePsicologia.Server.Models
             return $"Server=217.160.115.84;Database={tenant.Database};User ID=sa;Password=Abrete01;Encrypt=false;";
 
         }
-        
+        public string GetIssuer()
+        {
+            if (_httpContextAccessor.HttpContext == null) return "ERROR: Ninguna Cadena";
+            string host = _httpContextAccessor.HttpContext.Request.Host.Host;
+
+            // Busca la información de conexión del inquilino basándote en el host
+            InMemoryTenantStore memoryTenantStore = new InMemoryTenantStore();
+            Tenant tenant = memoryTenantStore.tenant.FirstOrDefault(t => host.Contains(t.Identifier));
+
+            if (tenant == null)
+            {
+
+                // Maneja el caso en el que el host no se corresponda con ningún inquilino
+                //throw new Exception("No se encontró ningún inquilino para el host proporcionado.");
+                throw new Exception("No se ha encontrado este inquilino"); ;
+            }
+
+
+            // Construye la cadena de conexión
+            return "https://app."+ tenant.Identifier;
+
+        }
+
     }
 }

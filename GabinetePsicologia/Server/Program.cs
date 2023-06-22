@@ -12,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GabinetePsicologia.Shared;
 using static System.Net.WebRequestMethods;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,12 +42,22 @@ builder.Services.AddIdentityServer()
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-    options.Authority = builder.Configuration["AuthServer:Authority"];
-    options.RequireHttpsMetadata = Convert.ToBoolean(builder.Configuration["AuthServer:RequireHttpsMetadata"]);
-    options.Audience = "GabinetePsicologia";
-    options.TokenValidationParameters.ValidIssuers = builder.Configuration.GetSection("AuthServer:ValidIssuers").Get<string[]>();
+    
+    //List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateActor = true,
+        ValidateTokenReplay = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = tenantController.GetIssuer(),
+        ValidAudience = "your_audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+    };
 }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
     {
