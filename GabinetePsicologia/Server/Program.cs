@@ -58,6 +58,7 @@ builder.Services.AddIdentityServer()
         });
         options.TokenValidationParameters.NameClaimType = "name";
         options.TokenValidationParameters.RoleClaimType = "role";
+        options.IncludeErrorDetails = true;
     }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
 {
