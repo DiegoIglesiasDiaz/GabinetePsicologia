@@ -55,8 +55,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = tenantController.GetIssuer(),
-        ValidAudience = "your_audience",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
+        ValidAudience = "GabintePsicolgoia",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tenantController.GetIssuer()))
     };
 }).AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
