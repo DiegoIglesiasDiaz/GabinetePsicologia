@@ -10,6 +10,7 @@ using System.Text.Encodings.Web;
 using System.Text;
 using System.Xml.Linq;
 using Radzen;
+using System.Net;
 
 namespace GabinetePsicologia.Client.Services
 {
@@ -70,9 +71,9 @@ namespace GabinetePsicologia.Client.Services
 		}
 		public async Task<bool> hasNonViewMessage(string id)
 		{
-
-			string result = await _httpClient.GetStringAsync($"/Chat/NonViewMessage/{id}");
-			if(result != null && result== "True") {
+			//string result = await _httpClient.GetStringAsync($"/Chat/NonViewMessage/{id}");
+			string result = await _httpClient.GetStringAsync($"http://app.diegoiglesiadiaz.com/Chat/NonViewMessage/{id}");
+			if (result != null && result== "True") {
 				return true;
 			}
 			else
