@@ -42,23 +42,7 @@ builder.Services.AddIdentityServer()
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
 
-builder.Services.AddAuthentication().AddJwtBearer(options =>
-{
-    
-    //List<string> validIssuers = new List<string>() { "https://diegoiglesiasdiaz.com", "https://centrodetecnicasnaturalesneo.com/" };
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateActor = true,
-        ValidateTokenReplay = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = tenantController.GetIssuer(),
-        ValidAudience = tenantController.GetIssuer(),
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tenantController.GetIssuer()))
-    };
-}).AddIdentityServerJwt()
+builder.Services.AddAuthentication().AddIdentityServerJwt()
 .AddGoogle(googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
