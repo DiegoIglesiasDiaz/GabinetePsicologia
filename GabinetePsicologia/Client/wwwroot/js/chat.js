@@ -1,6 +1,17 @@
 ﻿window.BajarScroll = function () {
    // $('#Idchat-history').scrollTop($('#Idchat-history').prop('scrollHeight'));
-    $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
+        $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
+          
+}
+window.BajarScrollTime = function () {
+    setTimeout(function () {
+        $('#Idchat-history').animate({ scrollTop: $('#Idchat-history').prop('scrollHeight') }, 1000);
+    }, 100);
+}
+window.SubirScroll = function () {
+    $('#Idchat-history').stop();
+    $('#Idchat-history').scrollTop(0);
+
 }
 
 window.active = function (id) {
@@ -29,6 +40,20 @@ window.AddPerson = function (name) {
 
 window.RemoveNewChat = function () {
     $('#NewPersonaLi').remove();
+    $('li').removeClass('active');
+    $('button').removeClass('activeButtonChat');
+}
+window.MessageOnShow = function () {
+    $('#messageOn').show();
+
+}
+window.sonidoMssg = function () {
+    var audio = new Audio('../sonido.mp3');
+    audio.play();
+
+}
+window.MessageOnHide = function () {
+    $('#messageOn').hide();
 }
 
 window.FillPage = function () {

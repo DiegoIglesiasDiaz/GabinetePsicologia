@@ -7,6 +7,7 @@
   position: relative;
   width: 100%;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  min-height: 600px;
 }
 
 .chat-app .people-list {
@@ -231,7 +232,6 @@
   .chat-app .people-list {
     height: 465px;
     width: 100%;
-    overflow-x: auto;
     background: #fff;
     left: -400px;
     display: none;

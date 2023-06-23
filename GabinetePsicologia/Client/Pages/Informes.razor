@@ -35,7 +35,10 @@
                     <RadzenDataGridColumn TItem="InformeDto" Property="UltimaFechaString2" Title="Última Fecha de Modificación" />
                     <RadzenDataGridColumn TItem="InformeDto" Width="60px" Sortable="false" Filterable="false" Visible=@(isPsicologo || isPaciente)>
                         <Template Context="data">
-                            <RadzenButton Icon="edit" Click=@(args => { AbrirModal(data,false); }) class="BotonLapiz" />
+                            <RadzenButton Click=@(args => { AbrirModal(data,false); }) class="BotonLapiz">
+                                <RadzenImage Path="/img/eye.png" class="ojo" Style="opacity:1"></RadzenImage>
+                            </RadzenButton>
+
                         </Template>
                     </RadzenDataGridColumn>
 

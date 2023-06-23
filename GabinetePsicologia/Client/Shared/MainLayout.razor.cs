@@ -24,11 +24,13 @@ namespace GabinetePsicologia.Client.Shared
         [Inject] protected HttpClient _HttpClient { get; set; }
         [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] protected UsuarioServices UsuarioServices { get; set; }
-        string Name;
+        [Inject] protected ChatServices ChatServices { get; set; }
+		[Inject] private IJSRuntime jSRuntime { get; set; }
+		string Name;
         ClaimsPrincipal? user;
         public bool isAdmin = false;
         protected ErrorBoundary? ErrorBoundary;
-		private HubConnection? hubConnection;
+		private HubConnection? hubConnectionlayout;
 
 		protected override void OnParametersSet()
         {
@@ -37,7 +39,7 @@ namespace GabinetePsicologia.Client.Shared
         }
         protected override async Task OnInitializedAsync()
         {
-            var user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
+            user = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User;
             if (user != null && (user.IsInRole("Administrador") || user.IsInRole("Psicologo") || user.IsInRole("Paciente")))
             {
                 PersonaDto userDto = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
@@ -52,26 +54,44 @@ namespace GabinetePsicologia.Client.Shared
                     if (result)
                         NotificationService.Notify(NotificationSeverity.Success, "Ok", "Datos Guardado Correctamente");
                 }
-                //ERROR
-               // await Connect();
+                var resultBool = await ChatServices.hasNonViewMessage(userDto.Id.ToString());
+                if (resultBool)
+                {
+					await jSRuntime.InvokeVoidAsync("MessageOnShow");
+				}
+                else{
+					await jSRuntime.InvokeVoidAsync("MessageOnHide");
+				}
+
+				try
+				{
+					await Connect();
+
+				}
+				catch(Exception ex)
+                {
+
+                }
+
+              
             }
         }
 		private async Task Connect()
 		{
 
-			hubConnection = new HubConnectionBuilder()
+			hubConnectionlayout = new HubConnectionBuilder()
 							.WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
 							.Build();
 
-			hubConnection.On<string, string>("NotificationMessage", HandleReceivedMessage);
-			await hubConnection.StartAsync();
+			hubConnectionlayout.On<string, string>("NotificationMessage", HandleReceivedMessage);
+			await hubConnectionlayout.StartAsync();
 		}
 
 		public async ValueTask DisposeAsync()
 		{
-			if (hubConnection != null)
+			if (hubConnectionlayout != null)
 			{
-				await hubConnection.DisposeAsync();
+				await hubConnectionlayout.DisposeAsync();
 			}
 		}
 
@@ -83,11 +103,16 @@ namespace GabinetePsicologia.Client.Shared
 			var FromName = split[2];
 
 			var LogUser = await UsuarioServices.getPersonaByUsername(user.Identity.Name);
-			if (ToUser == LogUser.Id.ToString() && !NavigationManager.Uri.EndsWith("/Chat"))
+			if (ToUser == LogUser.Id.ToString())
 			{
-                NotificationService.Notify(NotificationSeverity.Info, "", $"Nuevo Mensaje de {FromName}.");
-		
-				
+                if (!NavigationManager.Uri.EndsWith("/Chat"))
+                {
+					NotificationService.Notify(NotificationSeverity.Info, "", $"Nuevo Mensaje de {FromName}.");
+				}
+               
+				await jSRuntime.InvokeVoidAsync("MessageOnShow");
+				await jSRuntime.InvokeVoidAsync("sonidoMssg");
+
 			}
 
 			StateHasChanged();

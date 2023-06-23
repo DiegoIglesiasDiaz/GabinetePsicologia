@@ -11,14 +11,24 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GabinetePsicologia.Shared;
+using static System.Net.WebRequestMethods;
+using System.IdentityModel.Tokens.Jwt;
 using IdentityServer4.AccessTokenValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddScoped<TenantController>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<HostResolutionStrategy>();
+var serviceProvider = builder.Services.BuildServiceProvider();
+var tenantController = serviceProvider.GetRequiredService<HostResolutionStrategy>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+
+    options.UseSqlServer(tenantController.GetConnectionString());
+}
+);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -26,7 +36,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
+    {
         options.IdentityResources["openid"].UserClaims.Add("role");
         options.ApiResources.Single().UserClaims.Add("role");
     });
@@ -68,11 +79,12 @@ builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.Authenti
 
     );
 
-    //.AddFacebook(facebook =>
-    //{
-    //    facebook.AppId = "966826294752064";
-    //    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
-    //});
+
+//.AddFacebook(facebook =>
+//{
+//    facebook.AppId = "966826294752064";
+//    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
+//});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -90,7 +102,11 @@ builder.Services.AddScoped<CitaController>();
 builder.Services.AddScoped<MensajeController>();
 builder.Services.AddScoped<TwoFactorController>();
 builder.Services.AddScoped<ChatController>();
+
 builder.Services.AddSignalR();
+builder.Services.AddMultiTenancy()
+    .WithResolutionStrategy<HostResolutionStrategy>()
+    .WithStore<InMemoryTenantStore>();
 //SignalR no obligatorio
 builder.Services.AddResponseCompression(options =>
                        options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
@@ -100,8 +116,12 @@ builder.Services.AddResponseCompression(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy => { policy.AllowAnyOrigin(); });
+    options.AddPolicy("AllowSpecificOrigins", builder =>
+    {
+        builder.WithOrigins("https://app.diegoiglesiasdiaz.com/", "https://app.centrodetecnicasnaturalesneo.com/")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddLocalization();
@@ -123,7 +143,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseCors("AllowSpecificOrigins");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -139,12 +159,7 @@ app.UseResponseCompression();
 app.UseIdentityServer();
 app.UseAuthentication();
 
-app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    //.SetIsOriginAllowed(origin => true)
-    //.AllowCredentials()
-    );
+
 app.UseAuthorization();
 
 
