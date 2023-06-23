@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GabinetePsicologia.Shared;
+using IdentityServer4.AccessTokenValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,19 +32,30 @@ builder.Services.AddIdentityServer()
     });
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
-builder.Services.AddAuthentication().AddJwtBearer(options =>
-{
-	options.TokenValidationParameters = new TokenValidationParameters
-	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidateLifetime = true,
-		ValidateIssuerSigningKey = true,
-		ValidIssuer = "https://app.diegoiglesiasdiaz.com",
-		ValidAudience = "your_audience",
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("7DMmGbe11rjZWvmY2pr6wLdEZAgqvcYo"))
-	};
-}).AddIdentityServerJwt()
+builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+           .AddIdentityServerAuthentication(
+               IdentityServerAuthenticationDefaults.AuthenticationScheme,
+               jwtOptions =>
+               {
+                   jwtOptions.Authority = "http://localhost:7112";
+                   jwtOptions.RequireHttpsMetadata = false;
+
+                   // This previously was: options.ApiName = scopeName;
+                   jwtOptions.Audience = "GabunetePsicologia";
+
+                   // Option 1: if you want to turn off issuer validation
+                   //jwtOptions.TokenValidationParameters.ValidateIssuer = false;
+
+                   // Option 2: if you want to support multiple issuers
+                   jwtOptions.TokenValidationParameters.ValidIssuers = new[]
+                   {
+                        "http://localhost:7112",
+                        "https://app.centrodetecnicasnaturalesneo.com/",
+                        "https://app.diegoiglesiasdiaz.com/"
+                   };
+               },
+               null
+           ).AddIdentityServerJwt()
     .AddGoogle(googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
