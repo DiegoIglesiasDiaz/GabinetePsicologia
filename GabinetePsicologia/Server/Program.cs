@@ -55,7 +55,7 @@ builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.Authenti
                    jwtOptions.Audience = "GabunetePsicologia";
 
                    // Option 1: if you want to turn off issuer validation
-                   //jwtOptions.TokenValidationParameters.ValidateIssuer = false;
+                   jwtOptions.TokenValidationParameters.ValidateIssuer = false;
 
                    // Option 2: if you want to support multiple issuers
                    jwtOptions.TokenValidationParameters.ValidIssuers = new[]
