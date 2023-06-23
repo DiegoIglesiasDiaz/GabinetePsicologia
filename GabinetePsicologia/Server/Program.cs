@@ -43,30 +43,7 @@ builder.Services.AddIdentityServer()
     });
 
 //sigue dando 401 al llamar la api intentar poner ValidateIssuer false;
-builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-           .AddIdentityServerAuthentication(
-               IdentityServerAuthenticationDefaults.AuthenticationScheme,
-               jwtOptions =>
-               {
-                   jwtOptions.Authority = "http://localhost:7112";
-                   jwtOptions.RequireHttpsMetadata = false;
-
-                   // This previously was: options.ApiName = scopeName;
-                   jwtOptions.Audience = "GabunetePsicologia";
-
-                   // Option 1: if you want to turn off issuer validation
-                   jwtOptions.TokenValidationParameters.ValidateIssuer = false;
-
-                   // Option 2: if you want to support multiple issuers
-                   jwtOptions.TokenValidationParameters.ValidIssuers = new[]
-                   {
-                        "http://localhost:7112",
-                        "https://app.centrodetecnicasnaturalesneo.com/",
-                        "https://app.diegoiglesiasdiaz.com/"
-                   };
-               },
-               null
-           ).AddIdentityServerJwt()
+builder.Services.AddAuthentication()
     .AddGoogle(googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["GoogleClientId"]!;
