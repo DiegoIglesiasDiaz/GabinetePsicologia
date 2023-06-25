@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Duende.IdentityServer.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
@@ -13,7 +14,11 @@ namespace GabinetePsicologia.Server.Models
         {
             if (context != null)
             {
+                if (!context.HttpContext.User.IsAuthenticated())
+                {
+                    context.Result = new ForbidResult();
 
+                }
 
             }
             else
