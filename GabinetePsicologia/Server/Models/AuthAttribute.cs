@@ -9,23 +9,24 @@ using System.Web.Http.Filters;
 namespace GabinetePsicologia.Server.Models
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
-    public sealed class AuthAttribute :  AuthorizationFilterAttribute
+    public sealed class AuthAttribute : AuthorizationFilterAttribute
     {
         public override void OnAuthorization(HttpActionContext context)
         {
-            if (context != null)
-            {
-                if (!context.RequestContext.Principal.Identity.IsAuthenticated)
-                {
-                    context.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+            context.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+            //if (context != null)
+            //{
+            //    if (!context.RequestContext.Principal.Identity.IsAuthenticated)
+            //    {
+            //        context.Result = new ForbidResult();
 
-                }
+            //    }
 
-            }
-            else
-            {
-                context.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
-            }
+            //}
+            //else
+            //{
+            //    context.Result = new ForbidResult();
+            //}
         }
     }
 }
