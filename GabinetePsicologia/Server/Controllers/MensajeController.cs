@@ -1,4 +1,5 @@
 ﻿using GabinetePsicologia.Server.Data;
+using GabinetePsicologia.Server.Models;
 using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
