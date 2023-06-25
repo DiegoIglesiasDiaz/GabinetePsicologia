@@ -17,7 +17,7 @@ using Cita = GabinetePsicologia.Shared.Cita;
 
 namespace GabinetePsicologia.Server.Controllers
 {
-	 [Auth]
+	[Auth]
     [Route("[controller]")]
 	[ApiController]
    
