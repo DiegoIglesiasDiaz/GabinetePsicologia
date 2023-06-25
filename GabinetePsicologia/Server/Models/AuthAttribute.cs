@@ -14,11 +14,11 @@ namespace GabinetePsicologia.Server.Models
             if (context != null)
             {
 
-                var hasClaim = context.HttpContext.User.Claims.Any();
-                if (!hasClaim)
-                {
-                    context.Result = new ForbidResult();
-                }
+
+            }
+            else
+            {
+                context.Result = new ForbidResult();
             }
         }
     }
