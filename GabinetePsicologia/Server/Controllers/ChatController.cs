@@ -17,7 +17,7 @@ using Cita = GabinetePsicologia.Shared.Cita;
 
 namespace GabinetePsicologia.Server.Controllers
 {
-	[Authorize]
+	
     [Route("[controller]")]
 	[ApiController]
 
@@ -275,8 +275,10 @@ namespace GabinetePsicologia.Server.Controllers
 			_context.SaveChanges();
 
 		}
+		
 		[HttpGet("NonViewMessage/{id}")]
-		public string NonViewMessage(string id)
+        [Auth]
+        public string NonViewMessage(string id)
 		{
 			if(_context.Chat.Where(x => x.IdTo == id && !x.View).Any())
 			{
