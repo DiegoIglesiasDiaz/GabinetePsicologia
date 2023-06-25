@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GabinetePsicologia.Server.Controllers
 {
-    [Authorize]
+    [Auth]
     [Route("[controller]")]
 	[ApiController]
 	
