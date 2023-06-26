@@ -14,17 +14,18 @@ namespace GabinetePsicologia.Server.Models
         {
             if (context != null)
             {
-                if (!context.HttpContext.User.IsAuthenticated())
+                if (!context.HttpContext.Response.Headers.Authorization.Any())
                 {
                     context.Result = new ForbidResult();
 
                 }
+                else
+                {
+                  
+                }
 
             }
-            else
-            {
-                context.Result = new ForbidResult();
-            }
+            
         }
     }
 }
