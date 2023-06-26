@@ -61,7 +61,9 @@ namespace GabinetePsicologia.Server.Controllers
             await _signInManager.SignOutAsync();
             return Ok("Logout Succesful");
         }
+       
         [HttpDelete("{id:guid}")]
+        [Auth]
         public async Task<IActionResult> BorrarCuenta(Guid id)
         {
             ApplicationUser? user = _context.Users.FirstOrDefault(x => x.Id == id.ToString());
@@ -71,6 +73,7 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok();
         }
         [HttpGet("Persona")]
+        [Auth]
         public async Task<IActionResult> getPersonas()
         {
             List<PersonaDto> LsPersonas = new List<PersonaDto>();
@@ -156,6 +159,7 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok(LsPersonas);
         }
         [HttpGet("Persona/{Username}")]
+        [Auth]
         public async Task<IActionResult> getApplicationUserByUsername(string UserName)
         {
             ApplicationUser? user = _context.Users.FirstOrDefault(x => x.UserName.ToLower().Equals(UserName.ToLower()));
@@ -258,6 +262,7 @@ namespace GabinetePsicologia.Server.Controllers
         }
 
         [HttpPost("Borrar")]
+        [Auth]
         public async Task<IActionResult> Borrar([FromBody] IList<PersonaDto> data)
         {
             foreach (var user in data)
@@ -279,6 +284,7 @@ namespace GabinetePsicologia.Server.Controllers
         }
 
         [HttpPost("Editar")]
+        [Auth]
         public async Task<IActionResult> Editar([FromBody] PersonaDto data)
         {
             var User = _context.Users.FirstOrDefault(x => x.UserName == data.Email);
@@ -368,6 +374,7 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok("Usuarios Editados Correctamente");
         }
         [HttpPost("CambiarCorreo")]
+        [Auth]
         public async Task<IActionResult> CambiarCorreo([FromBody] string[] correos)
         {
             if (_context.Users.Where(x => x.UserName == correos[1]).Any()) return BadRequest("Este Email ya existe");
@@ -413,6 +420,7 @@ namespace GabinetePsicologia.Server.Controllers
             return "Error";
         }
         [HttpPost("CambiarContraseña")]
+        [Auth]
         public async Task<IActionResult> CambiarContraseña([FromBody] string[] data)
         {
             string passwd = data[0];
@@ -424,6 +432,7 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok("Contraseña Cambiada");
         }
         [HttpPost("CambiarTelefono")]
+        [Auth]
         public async Task<IActionResult> CambiarTelefono([FromBody] string[] data)
         {
             string telefono = data[0];
@@ -437,6 +446,7 @@ namespace GabinetePsicologia.Server.Controllers
 	
 		[AllowAnonymous]
         [HttpPost("ExternalLogin/{provider}")]
+
         public IActionResult ExternalLogin(string provider)
         {
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, "/Usuario/ExternalLogin/Success");
@@ -529,6 +539,7 @@ namespace GabinetePsicologia.Server.Controllers
             return result;
         }
         [HttpPost("CheckPasswd")]
+        [Auth]
         public async Task<IActionResult> CheckPasswd([FromBody] string[] data)
         {
             var user = _context.Users.FirstOrDefault(x => x.UserName == data[0]);

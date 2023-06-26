@@ -16,7 +16,7 @@ namespace GabinetePsicologia.Server.Models
             {
                 if (!context.HttpContext.Request.Headers.Authorization.Any())
                 {
-                    context.Result = new ForbidResult();
+                    context.Result = new BadRequestResult();
 
                 }
                 else
