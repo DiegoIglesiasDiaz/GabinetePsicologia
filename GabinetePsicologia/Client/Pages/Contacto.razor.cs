@@ -27,14 +27,13 @@ namespace GabinetePsicologia.Client.Pages
 		}
 		public void Enviado()
 		{
-			UsuarioServices.EnviarCorreo();
-                NotificationService.Notify(NotificationSeverity.Success, "Error", "Error al enviar el correo.");
-            //mensaje.Visto = false;
-            //MensajesServices.Enviar(mensaje);
-            //NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
-            //mensaje = new Mensaje();
-            //if (isInRole)
-            //	mensaje.Correo = user.Identity.Name;
-        }
+			//UsuarioServices.EnviarCorreo();
+			mensaje.Visto = false;
+			MensajesServices.Enviar(mensaje);
+			NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
+			mensaje = new Mensaje();
+			if (isInRole)
+				mensaje.Correo = user.Identity.Name;
+		}
 	}
 }
