@@ -104,6 +104,13 @@ namespace GabinetePsicologia.Client.Services
             return result.IsSuccessStatusCode;
         }
 
+        public async void EnviarCorreo()
+        {
+           
+            var result = await _httpClient.GetAsync("/Usuario/EnviarCorreo");
+           
+        }
+
         public async Task<string> Login(LoginDto usuario)
         {
 

@@ -27,14 +27,5 @@ namespace GabinetePsicologia.Client.Pages
             }
            
         }
-
-        void OnParentClicked(MenuItemEventArgs args)
-        {
-        }
-
-        void OnChildClicked(MenuItemEventArgs args)
-        {
-            
-        }
     }
 }

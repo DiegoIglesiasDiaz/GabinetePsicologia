@@ -1,4 +1,5 @@
-﻿using GabinetePsicologia.Shared;
+﻿using GabinetePsicologia.Client.Services;
+using GabinetePsicologia.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Radzen;
@@ -9,6 +10,7 @@ namespace GabinetePsicologia.Client.Pages
 	public partial class Contacto
 	{
 		[Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+		[Inject] private UsuarioServices UsuarioServices { get; set; }
 		ClaimsPrincipal? user;
 		Mensaje mensaje = new Mensaje();
 		public bool isInRole = false;
@@ -25,12 +27,14 @@ namespace GabinetePsicologia.Client.Pages
 		}
 		public void Enviado()
 		{
-			mensaje.Visto = false;
-			MensajesServices.Enviar(mensaje);
-			NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
-			mensaje = new Mensaje();
-			if (isInRole)
-				mensaje.Correo = user.Identity.Name;
-		}
+			UsuarioServices.EnviarCorreo();
+                NotificationService.Notify(NotificationSeverity.Success, "Error", "Error al enviar el correo.");
+            //mensaje.Visto = false;
+            //MensajesServices.Enviar(mensaje);
+            //NotificationService.Notify(NotificationSeverity.Success, "Ok", "Mensaje enviado correctamente");
+            //mensaje = new Mensaje();
+            //if (isInRole)
+            //	mensaje.Correo = user.Identity.Name;
+        }
 	}
 }

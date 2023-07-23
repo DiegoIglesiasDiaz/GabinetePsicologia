@@ -11,5 +11,6 @@ namespace GabinetePsicologia.Server.Models
     {
         // Aquí puedes declarar tus constantes
         public const string HttpContextTenantKey = "";
+
     }
 }

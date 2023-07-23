@@ -14,6 +14,7 @@ using GabinetePsicologia.Shared;
 using static System.Net.WebRequestMethods;
 using System.IdentityModel.Tokens.Jwt;
 using IdentityServer4.AccessTokenValidation;
+using GabinetePsicologia.Client.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

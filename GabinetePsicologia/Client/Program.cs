@@ -18,6 +18,7 @@ builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().Cre
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<PsicologoServices>();
 builder.Services.AddScoped<TrastornosServices>();

@@ -21,10 +21,7 @@ namespace GabinetePsicologia.Server.Models
                 }
 
             }
-            else
-            {
-                context.Result = new ForbidResult();
-            }
+
         }
     }
 }

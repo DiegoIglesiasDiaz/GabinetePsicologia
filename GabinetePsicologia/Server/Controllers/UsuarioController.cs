@@ -19,6 +19,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Drawing;
 using System.Linq.Dynamic.Core;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Paciente = GabinetePsicologia.Shared.Paciente;
@@ -390,13 +392,13 @@ namespace GabinetePsicologia.Server.Controllers
                 var result = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                   
+
                     return "Ok";
                 }
                 if (result.RequiresTwoFactor)
                 {
-					return "2FA";
-				}
+                    return "2FA";
+                }
                 //if (result.IsLockedOut)
                 //{
                 //    _logger.LogWarning("Cuenta de usuario bloqueada.");
@@ -434,8 +436,8 @@ namespace GabinetePsicologia.Server.Controllers
             return Ok("Contraseña Cambiada");
         }
 
-	
-		[AllowAnonymous]
+
+        [AllowAnonymous]
         [HttpPost("ExternalLogin/{provider}")]
         public IActionResult ExternalLogin(string provider)
         {
@@ -465,7 +467,7 @@ namespace GabinetePsicologia.Server.Controllers
             Name = Name.Substring(0, 1).ToUpper() + Name.Substring(1).ToLower();
             Apellido1 = Apellido1.Substring(0, 1).ToUpper() + Apellido1.Substring(1).ToLower();
             Apellido2 = Apellido2.Substring(0, 1).ToUpper() + Apellido2.Substring(1).ToLower();
-			var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
             if (!result.Succeeded)
             {
@@ -542,6 +544,43 @@ namespace GabinetePsicologia.Server.Controllers
             {
                 return BadRequest("Contraseña Incorrecta");
             }
+        }
+        [AllowAnonymous]
+        [HttpGet("EnviarCorreo")]
+        public void EnviarCorreo()
+        {
+            try
+            {
+                var fromAddress = new MailAddress("admin@diegoiglesiasdiaz.com");
+                var toAddress = new MailAddress("contacto@diegoiglesiasdiaz.com");
+                const string fromPassword = "Guardamar11";
+                const string subject = "Prueba Correo Autimatico";
+                const string body = "Hola Mundo!!";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "mail.diegoiglesiasdiaz.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+               
+            }
+            catch (Exception ex)
+            {
+            
+            }
+
         }
     }
 }
