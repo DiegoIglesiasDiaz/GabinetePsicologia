@@ -61,3 +61,6 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+GabinetePsicologia/Server/appsettings.json filter=git-crypt diff=git-crypt
+Server/Data/client_secret_488885295151-2uif611ukrii2nlsd8spd5vconu09gl4.apps.googleusercontent.com.json filter=git-crypt diff=git-crypt
+GabinetePsicologia/Server/tempkey.jwk filter=git-crypt diff=git-crypt
