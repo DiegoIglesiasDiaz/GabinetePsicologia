@@ -58,12 +58,6 @@ builder.Services.AddAuthentication().AddIdentityServerJwt()
     );
 
 
-//.AddFacebook(facebook =>
-//{
-//    facebook.AppId = "966826294752064";
-//    facebook.AppSecret = "e3cacde7d0293d3a5d926968ea15f347";
-//});
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<DialogService>();
